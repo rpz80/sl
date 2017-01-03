@@ -78,6 +78,7 @@ private:
   };
 
   using SinkMap = std::unordered_map<int, Sink>;
+  using SinkMapConstIterator = SinkMap::const_iterator;
   using SinkMapIterator = SinkMap::iterator;
 
 public:
@@ -119,13 +120,14 @@ protected:
                bool duplicateToStdout);
 
 private:
+  SinkMapConstIterator getSinkById(int sinkId) const;
   SinkMapIterator getSinkById(int sinkId);
 
 private:
   Sink m_defaultSink;
   std::unordered_map<int, Sink> m_sinks;
-  sm::shared_mutex m_defaultSinkMutex;
-  sm::shared_mutex m_sinksMutex;
+  mutable sm::shared_mutex m_defaultSinkMutex;
+  mutable sm::shared_mutex m_sinksMutex;
 };
 
 }

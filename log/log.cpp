@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <cassert>
+#include <shared_mutex>
 #include "log.h"
 
 namespace sl {
@@ -7,7 +8,7 @@ namespace sl {
 namespace aux {
 template<typename Exception>
 void assertThrow(bool expr, const std::string& message) {
-  assert(expr);
+  //assert(expr);
   if (!expr) {
     throw Exception(message);
   }
@@ -24,6 +25,10 @@ void assertThrowDomain(bool expr, const std::string& message) {
 }
 
 Logger::Logger() {}
+
+Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
+  return const_cast<Logger&>(*this).getSinkById(sinkId);
+}
 
 Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
   auto sinkIt = m_sinks.find(sinkId);
@@ -88,19 +93,35 @@ void Logger::setLevel(int sinkId, Level level) {
 
 void Logger::setDefaultLevel(Level level) {
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
+  aux::assertThrowRuntime(static_cast<bool>(m_defaultSink.out), 
+                          "Default sink not set");
   m_defaultSink.level = level;
 }
 
 Level Logger::getLevel(int sinkId) const {
+  std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+  auto sinkIt = getSinkById(sinkId);
+  return sinkIt->second.level;
 }
 
 Level Logger::getDefaultLevel() const {
+  std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+  aux::assertThrowRuntime(static_cast<bool>(m_defaultSink.out), 
+                          "Default sink not set");
+  return m_defaultSink.level;
 }
 
 std::string Logger::getFileName(int sinkId) const {
+  std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+  auto sinkIt = getSinkById(sinkId);
+  return sinkIt->second.fileName;
 }
 
 std::string Logger::getDefaultFileName() const {
+  std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+  aux::assertThrowRuntime(static_cast<bool>(m_defaultSink.out), 
+                          "Default sink not set");
+  return m_defaultSink.fileName;
 }
 
 void Logger::addSink(int sinkId, 

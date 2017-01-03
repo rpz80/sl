@@ -46,8 +46,8 @@ TEST_CASE("Logger") {
     REQUIRE_THROWS(logger.setDefaultLevel(sl::Level::debug));
     REQUIRE_THROWS(logger.setLevel(1, sl::Level::warning));
     REQUIRE_THROWS(logger.getLevel(1));
-    REQUIRE_THROWS(logger.removeDefaultSink());
-    REQUIRE_THROWS(logger.removeSink(1));
+    REQUIRE_NOTHROW(logger.removeDefaultSink());
+    REQUIRE_NOTHROW(logger.removeSink(1));
     REQUIRE_THROWS(logger.getFileName(1));
     REQUIRE(logger.hasSink(1) == false);
     REQUIRE(logger.hasDefaultSink() == false);
