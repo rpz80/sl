@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project("log_root")
 
-set(INCLUDES "${CMAKE_SOURCE_DIR}")
+set(SM_INCLUDE_PATH "../sm")
+set(INCLUDES "${CMAKE_SOURCE_DIR}" "${SM_INCLUDE_PATH}")
 
 include_directories(${INCLUDES})
 

@@ -25,6 +25,13 @@ void assertThrowDomain(bool expr, const std::string& message) {
 
 Logger::Logger() {}
 
+Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
+  auto sinkIt = m_sinks.find(sinkId);
+  aux::assertThrowRuntime(sinkIt != m_sinks.cend(), 
+                          fmt("sinkId % not found", sinkId));
+  return sinkIt;
+}
+
 void Logger::setDefaultSink(Level level, 
                             const std::string& fileName, 
                             OstreamPtr sinkStream, 
@@ -34,7 +41,7 @@ void Logger::setDefaultSink(Level level,
       fmt("% sink stream is null. fileName = %", 
           __FUNCTION__,
           fileName));
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
   m_defaultSink = Sink(level, 
                        fileName,
                        std::move(sinkStream), 
@@ -52,7 +59,7 @@ void Logger::addSink(int sinkId,
         __FUNCTION__,
         fileName, 
         sinkId));
-  std::lock_guard<std::mutex> lock(m_mutex);
+  std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
   if (m_sinks.find(sinkId) != m_sinks.cend()) {
     throw std::runtime_error(
         fmt("% sink with this id (%) already exists", 
@@ -71,6 +78,52 @@ void Logger::addSink(int sinkId,
         __FUNCTION__,
         fileName, 
         sinkId));
+}
+
+void Logger::setLevel(int sinkId, Level level) {
+  std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
+  auto sinkIt = getSinkById(sinkId);
+  sinkIt->second.level = level;
+}
+
+void Logger::setDefaultLevel(Level level) {
+  std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
+  m_defaultSink.level = level;
+}
+
+Level Logger::getLevel(int sinkId) const {
+}
+
+Level Logger::getDefaultLevel() const {
+}
+
+std::string Logger::getFileName(int sinkId) const {
+}
+
+std::string Logger::getDefaultFileName() const {
+}
+
+void Logger::addSink(int sinkId, 
+                     const std::string& fileName,
+                     Level level, 
+                     bool duplicateToStdout) {
+}
+
+void Logger::removeSink(int sinkId) {
+}
+
+bool Logger::hasSink(int sinkId) const {
+}
+
+void Logger::setDefaultSink(const std::string& fileName, 
+                            Level level,
+                            bool duplicateToStdout) {
+}
+
+void Logger::removeDefaultSink() {
+}
+
+bool Logger::hasDefaultSink() const {
 }
 
 namespace detail {

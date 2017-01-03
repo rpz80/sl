@@ -2,10 +2,10 @@
 
 #include <sstream>
 #include <string>
-#include <mutex>
 #include <unordered_map>
 #include <memory>
 #include <fstream>
+#include <sm/shared_mutex.h>
 
 namespace sl {
 
@@ -77,6 +77,9 @@ private:
       duplicateToStdout(duplicateToStdout) {}
   };
 
+  using SinkMap = std::unordered_map<int, Sink>;
+  using SinkMapIterator = SinkMap::iterator;
+
 public:
   Logger();
   void setLevel(int sinkId, Level level);
@@ -116,9 +119,13 @@ protected:
                bool duplicateToStdout);
 
 private:
+  SinkMapIterator getSinkById(int sinkId);
+
+private:
   Sink m_defaultSink;
   std::unordered_map<int, Sink> m_sinks;
-  std::mutex m_mutex;
+  sm::shared_mutex m_defaultSinkMutex;
+  sm::shared_mutex m_sinksMutex;
 };
 
 }
