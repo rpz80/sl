@@ -63,6 +63,7 @@ private:
     std::string fileName;
     OstreamPtr out;
     bool duplicateToStdout;
+    std::unique_ptr<std::mutex> mutex;
 
     Sink() : level(Level::error), 
              duplicateToStdout(false) {}
@@ -74,7 +75,8 @@ private:
       level(level),
       fileName(fileName),
       out(std::move(out)),
-      duplicateToStdout(duplicateToStdout) {}
+      duplicateToStdout(duplicateToStdout),
+      mutex(new std::mutex) {}
   };
 
   using SinkMap = std::unordered_map<int, Sink>;

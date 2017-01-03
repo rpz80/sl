@@ -6,20 +6,30 @@
 namespace sl {
 
 namespace aux {
-template<typename Exception>
+class LoggerException : public std::exception {
+public:
+  LoggerException(const std::string& message) : m_message(message) {}
+  virtual const char* what() const noexcept override {
+    return m_message.c_str();
+  }
+private:
+  std::string m_message;
+};
+
 void assertThrow(bool expr, const std::string& message) {
   //assert(expr);
   if (!expr) {
-    throw Exception(message);
+    throw LoggerException(message);
   }
 }
 
-void assertThrowRuntime(bool expr, const std::string& message) {
-  assertThrow<std::runtime_error>(expr, message);
-}
-
-void assertThrowDomain(bool expr, const std::string& message) {
-  assertThrow<std::domain_error>(expr, message);
+std::unique_ptr<std::ofstream> tryOpenFile(const std::string& fileName) {
+  auto out = std::make_unique<std::ofstream>(fileName);
+  aux::assertThrow(static_cast<bool>(out), 
+                   fmt("% Failed to open file %", 
+                       __FUNCTION__,
+                       fileName));
+  return out;
 }
 
 }
@@ -32,7 +42,7 @@ Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
 
 Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
   auto sinkIt = m_sinks.find(sinkId);
-  aux::assertThrowRuntime(sinkIt != m_sinks.cend(), 
+  aux::assertThrow(sinkIt != m_sinks.cend(), 
                           fmt("sinkId % not found", sinkId));
   return sinkIt;
 }
@@ -41,7 +51,7 @@ void Logger::setDefaultSink(Level level,
                             const std::string& fileName, 
                             OstreamPtr sinkStream, 
                             bool duplicateToStdout) {
-  aux::assertThrowRuntime(
+  aux::assertThrow(
       static_cast<bool>(sinkStream), 
       fmt("% sink stream is null. fileName = %", 
           __FUNCTION__,
@@ -58,12 +68,12 @@ void Logger::addSink(int sinkId,
                      const std::string& fileName, 
                      OstreamPtr sinkStream, 
                      bool duplicateToStdout) {
-  aux::assertThrowRuntime(
-    static_cast<bool>(sinkStream), 
-    fmt("% sink stream is null. fileName = %. sinkId = %",
-        __FUNCTION__,
-        fileName, 
-        sinkId));
+  aux::assertThrow(
+      static_cast<bool>(sinkStream), 
+      fmt("% sink stream is null. fileName = %. sinkId = %",
+          __FUNCTION__,
+          fileName, 
+          sinkId));
   std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
   if (m_sinks.find(sinkId) != m_sinks.cend()) {
     throw std::runtime_error(
@@ -77,12 +87,12 @@ void Logger::addSink(int sinkId,
                            fileName, 
                            std::move(sinkStream), 
                            duplicateToStdout)).second;
-  aux::assertThrowRuntime(
-    emplaceResult, 
-    fmt("% Emplace failed. fileName = %. sinkId = %",
-        __FUNCTION__,
-        fileName, 
-        sinkId));
+  aux::assertThrow(
+      emplaceResult, 
+      fmt("% Emplace failed. fileName = %. sinkId = %",
+          __FUNCTION__,
+          fileName, 
+          sinkId));
 }
 
 void Logger::setLevel(int sinkId, Level level) {
@@ -93,8 +103,8 @@ void Logger::setLevel(int sinkId, Level level) {
 
 void Logger::setDefaultLevel(Level level) {
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
-  aux::assertThrowRuntime(static_cast<bool>(m_defaultSink.out), 
-                          "Default sink not set");
+  aux::assertThrow(static_cast<bool>(m_defaultSink.out), 
+                   "Default sink not set");
   m_defaultSink.level = level;
 }
 
@@ -106,8 +116,8 @@ Level Logger::getLevel(int sinkId) const {
 
 Level Logger::getDefaultLevel() const {
   std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  aux::assertThrowRuntime(static_cast<bool>(m_defaultSink.out), 
-                          "Default sink not set");
+  aux::assertThrow(static_cast<bool>(m_defaultSink.out), 
+                   "Default sink not set");
   return m_defaultSink.level;
 }
 
@@ -119,8 +129,8 @@ std::string Logger::getFileName(int sinkId) const {
 
 std::string Logger::getDefaultFileName() const {
   std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  aux::assertThrowRuntime(static_cast<bool>(m_defaultSink.out), 
-                          "Default sink not set");
+  aux::assertThrow(static_cast<bool>(m_defaultSink.out), 
+                   "Default sink not set");
   return m_defaultSink.fileName;
 }
 
@@ -128,23 +138,37 @@ void Logger::addSink(int sinkId,
                      const std::string& fileName,
                      Level level, 
                      bool duplicateToStdout) {
+  addSink(sinkId, level, fileName, 
+          aux::tryOpenFile(fileName),
+          duplicateToStdout);
 }
 
 void Logger::removeSink(int sinkId) {
+  std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
+  m_sinks.erase(sinkId);
 }
 
 bool Logger::hasSink(int sinkId) const {
+  std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+  return m_sinks.find(sinkId) != m_sinks.cend();
 }
 
 void Logger::setDefaultSink(const std::string& fileName, 
                             Level level,
                             bool duplicateToStdout) {
+  setDefaultSink(level, fileName, 
+                 aux::tryOpenFile(fileName),
+                 duplicateToStdout);
 }
 
 void Logger::removeDefaultSink() {
+  std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
+  m_defaultSink.out.reset();
 }
 
 bool Logger::hasDefaultSink() const {
+  std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+  return static_cast<bool>(m_defaultSink.out);
 }
 
 namespace detail {
