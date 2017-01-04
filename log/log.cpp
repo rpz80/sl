@@ -23,8 +23,8 @@ void assertThrow(bool expr, const std::string& message) {
   }
 }
 
-std::unique_ptr<std::ofstream> tryOpenFile(const std::string& fileName) {
-  auto out = std::make_unique<std::ofstream>(fileName);
+Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
+  auto out = std::make_shared<std::ofstream>(fileName);
   aux::assertThrow(static_cast<bool>(out), 
                    fmt("% Failed to open file %", 
                        __FUNCTION__,
@@ -43,13 +43,13 @@ Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
 Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
   auto sinkIt = m_sinks.find(sinkId);
   aux::assertThrow(sinkIt != m_sinks.cend(), 
-                          fmt("sinkId % not found", sinkId));
+                   fmt("sinkId % not found", sinkId));
   return sinkIt;
 }
 
 void Logger::setDefaultSink(Level level, 
                             const std::string& fileName, 
-                            OstreamPtr sinkStream, 
+                            const OstreamPtr& sinkStream, 
                             bool duplicateToStdout) {
   aux::assertThrow(
       static_cast<bool>(sinkStream), 
@@ -59,14 +59,14 @@ void Logger::setDefaultSink(Level level,
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
   m_defaultSink = Sink(level, 
                        fileName,
-                       std::move(sinkStream), 
+                       sinkStream, 
                        duplicateToStdout);
 }
 
 void Logger::addSink(int sinkId, 
                      Level level, 
                      const std::string& fileName, 
-                     OstreamPtr sinkStream, 
+                     const OstreamPtr& sinkStream, 
                      bool duplicateToStdout) {
   aux::assertThrow(
       static_cast<bool>(sinkStream), 
@@ -85,7 +85,7 @@ void Logger::addSink(int sinkId,
       m_sinks.emplace(sinkId, 
                       Sink(level, 
                            fileName, 
-                           std::move(sinkStream), 
+                           sinkStream, 
                            duplicateToStdout)).second;
   aux::assertThrow(
       emplaceResult, 

@@ -54,6 +54,16 @@ TEST_CASE("Logger") {
   }
 
   SECTION("Default sink") {
+    const std::string kFileName("someFileName");
+    sl::Logger::OstreamPtr streamPtr(new std::stringstream);
+    logger.setDefaultSink(sl::Level::debug,
+                          kFileName,
+                          streamPtr,
+                          true);
+    REQUIRE(logger.hasDefaultSink() == true);
+    REQUIRE(logger.getDefaultFileName() == kFileName);
+    REQUIRE(logger.getDefaultLevel() == sl::Level::debug);
   }
+
 }
 

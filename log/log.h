@@ -55,7 +55,7 @@ std::string fmt(const char* formatString, Args&&... args) {
 
 class Logger {
 public:
-  using OstreamPtr = std::unique_ptr<std::ostream>;
+  using OstreamPtr = std::shared_ptr<std::ostream>;
 
 private:
   struct Sink {
@@ -112,13 +112,13 @@ public:
 protected:
   void setDefaultSink(Level level,
                       const std::string& fileName,
-                      OstreamPtr sinkStream,
+                      const OstreamPtr& sinkStream,
                       bool duplicateToStdout);
 
   void addSink(int sinkId, 
                Level level,
                const std::string& fileName,
-               OstreamPtr sinkStream,
+               const OstreamPtr& sinkStream,
                bool duplicateToStdout);
 
 private:
