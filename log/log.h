@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <shared_mutex>
 #include <fstream>
 #include <sm/shared_mutex.h>
 
@@ -44,6 +45,20 @@ std::string fmt(std::stringstream& out,
     return out.str();
   }
 }
+
+void writeLogData(std::stringstream& messageStream, Level level);
+
+class LoggerException : public std::exception {
+public:
+  LoggerException(const std::string& message) : m_message(message) {}
+  virtual const char* what() const noexcept override {
+    return m_message.c_str();
+  }
+private:
+  std::string m_message;
+};
+
+void assertThrow(bool expr, const std::string& message); 
 
 }
 
@@ -109,6 +124,32 @@ public:
   void removeDefaultSink();
   bool hasDefaultSink() const;
 
+  template<typename... Args>
+  void log(int sinkId, Level level, 
+           const char* formatString, 
+           Args&&... args) {
+    std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+    auto sinkIt = getSinkById(sinkId);
+    writeToSink(sinkIt->second, 
+                level, 
+                formatString, 
+                std::forward<Args>(args)...);
+  }
+
+
+  template<typename... Args>
+  void log(Level level, 
+           const char* formatString, 
+           Args&&... args) {
+    std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+    detail::assertThrow(static_cast<bool>(m_defaultSink.out),
+                        fmt("% No default sink", __FUNCTION__));
+    writeToSink(m_defaultSink, 
+                level, 
+                formatString,
+                std::forward<Args>(args)...);
+  }
+
 protected:
   void setDefaultSink(Level level,
                       const std::string& fileName,
@@ -125,11 +166,30 @@ private:
   SinkMapConstIterator getSinkById(int sinkId) const;
   SinkMapIterator getSinkById(int sinkId);
 
+  template<typename... Args>
+  void writeToSink(Sink& sink, 
+                   Level level,
+                   const char* formatString, 
+                   Args&&... args) {
+    std::stringstream messageStream;
+    detail::writeLogData(messageStream, level);
+    detail::fmt(messageStream, 
+                formatString, 
+                std::forward<Args>(args)...);
+    messageStream << std::endl;
+    std::lock_guard<std::mutex>(*sink.mutex);
+    *sink.out << messageStream.str();
+  }
+
 private:
   Sink m_defaultSink;
   std::unordered_map<int, Sink> m_sinks;
   mutable sm::shared_mutex m_defaultSinkMutex;
   mutable sm::shared_mutex m_sinksMutex;
 };
+
+namespace detail {
+Logger::OstreamPtr tryOpenFile(const std::string& fileName); 
+}
 
 }

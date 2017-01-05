@@ -1,38 +1,15 @@
 #include <stdexcept>
 #include <cassert>
-#include <shared_mutex>
+#include <thread>
+#include <iomanip>
+
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+#include <sys/time.h>
+#endif
+
 #include "log.h"
 
 namespace sl {
-
-namespace aux {
-class LoggerException : public std::exception {
-public:
-  LoggerException(const std::string& message) : m_message(message) {}
-  virtual const char* what() const noexcept override {
-    return m_message.c_str();
-  }
-private:
-  std::string m_message;
-};
-
-void assertThrow(bool expr, const std::string& message) {
-  //assert(expr);
-  if (!expr) {
-    throw LoggerException(message);
-  }
-}
-
-Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
-  auto out = std::make_shared<std::ofstream>(fileName);
-  aux::assertThrow(static_cast<bool>(out), 
-                   fmt("% Failed to open file %", 
-                       __FUNCTION__,
-                       fileName));
-  return out;
-}
-
-}
 
 Logger::Logger() {}
 
@@ -42,8 +19,8 @@ Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
 
 Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
   auto sinkIt = m_sinks.find(sinkId);
-  aux::assertThrow(sinkIt != m_sinks.cend(), 
-                   fmt("sinkId % not found", sinkId));
+  detail::assertThrow(sinkIt != m_sinks.cend(), 
+                      fmt("sinkId % not found", sinkId));
   return sinkIt;
 }
 
@@ -51,7 +28,7 @@ void Logger::setDefaultSink(Level level,
                             const std::string& fileName, 
                             const OstreamPtr& sinkStream, 
                             bool duplicateToStdout) {
-  aux::assertThrow(
+  detail::assertThrow(
       static_cast<bool>(sinkStream), 
       fmt("% sink stream is null. fileName = %", 
           __FUNCTION__,
@@ -68,7 +45,7 @@ void Logger::addSink(int sinkId,
                      const std::string& fileName, 
                      const OstreamPtr& sinkStream, 
                      bool duplicateToStdout) {
-  aux::assertThrow(
+  detail::assertThrow(
       static_cast<bool>(sinkStream), 
       fmt("% sink stream is null. fileName = %. sinkId = %",
           __FUNCTION__,
@@ -87,7 +64,7 @@ void Logger::addSink(int sinkId,
                            fileName, 
                            sinkStream, 
                            duplicateToStdout)).second;
-  aux::assertThrow(
+  detail::assertThrow(
       emplaceResult, 
       fmt("% Emplace failed. fileName = %. sinkId = %",
           __FUNCTION__,
@@ -103,8 +80,8 @@ void Logger::setLevel(int sinkId, Level level) {
 
 void Logger::setDefaultLevel(Level level) {
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
-  aux::assertThrow(static_cast<bool>(m_defaultSink.out), 
-                   "Default sink not set");
+  detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
+                      "Default sink not set");
   m_defaultSink.level = level;
 }
 
@@ -116,8 +93,8 @@ Level Logger::getLevel(int sinkId) const {
 
 Level Logger::getDefaultLevel() const {
   std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  aux::assertThrow(static_cast<bool>(m_defaultSink.out), 
-                   "Default sink not set");
+  detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
+                      "Default sink not set");
   return m_defaultSink.level;
 }
 
@@ -129,8 +106,8 @@ std::string Logger::getFileName(int sinkId) const {
 
 std::string Logger::getDefaultFileName() const {
   std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  aux::assertThrow(static_cast<bool>(m_defaultSink.out), 
-                   "Default sink not set");
+  detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
+                      "Default sink not set");
   return m_defaultSink.fileName;
 }
 
@@ -139,7 +116,7 @@ void Logger::addSink(int sinkId,
                      Level level, 
                      bool duplicateToStdout) {
   addSink(sinkId, level, fileName, 
-          aux::tryOpenFile(fileName),
+          detail::tryOpenFile(fileName),
           duplicateToStdout);
 }
 
@@ -157,7 +134,7 @@ void Logger::setDefaultSink(const std::string& fileName,
                             Level level,
                             bool duplicateToStdout) {
   setDefaultSink(level, fileName, 
-                 aux::tryOpenFile(fileName),
+                 detail::tryOpenFile(fileName),
                  duplicateToStdout);
 }
 
@@ -172,6 +149,62 @@ bool Logger::hasDefaultSink() const {
 }
 
 namespace detail {
+
+Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
+  auto out = std::make_shared<std::ofstream>(fileName);
+  detail::assertThrow(static_cast<bool>(out), 
+                      sl::fmt("% Failed to open file %", 
+                              __FUNCTION__,
+                              fileName));
+  return out;
+}
+
+void assertThrow(bool expr, const std::string& message) {
+  //assert(expr);
+  if (!expr) {
+    throw LoggerException(message);
+  }
+}
+
+void writeThreadId(std::stringstream& messageStream) {
+  messageStream << std::hex << std::this_thread::get_id() << "  ";
+}
+
+void writeLevel(std::stringstream& messageStream, Level level) {
+  switch (level) {
+    case Level::debug:    messageStream << "DEBUG";     break;
+    case Level::info:     messageStream << "INFO";      break;
+    case Level::warning:  messageStream << "WARNING";   break;
+    case Level::error:    messageStream << "ERROR";     break;
+    case Level::critical: messageStream << "CRITICAL";  break;
+    default: detail::assertThrow(false, sl::fmt("% Unknown level: %",
+                                                __FUNCTION__,
+                                                (int)level));
+  }
+}
+
+void writeTime(std::stringstream& messageStream) {
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+  struct timeval tv;
+  time_t timeNowSec;
+  struct tm *timeLocal;
+  char buf[64];
+
+  gettimeofday(&tv, NULL);
+  timeNowSec = tv.tv_sec;
+  timeLocal = localtime(&timeNowSec);
+  strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", timeLocal);
+  messageStream << buf << "." << std::setw(3) 
+                << (tv.tv_usec / 1000) << "  ";
+#elif defined (_WIN32)
+#endif
+}
+
+void writeLogData(std::stringstream& messageStream, Level level) {
+  writeTime(messageStream);
+  writeLevel(messageStream, level);
+  writeThreadId(messageStream);
+}
 
 void printTillSpecial(std::stringstream& out, 
                       const char** formatString) {

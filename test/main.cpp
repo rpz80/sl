@@ -19,7 +19,7 @@ public:
                       bool duplicateToStdout) {
     sl::Logger::setDefaultSink(level, 
                                fileName, 
-                               std::move(sinkStream), 
+                               sinkStream, 
                                duplicateToStdout);
   }
 
@@ -31,7 +31,7 @@ public:
     sl::Logger::addSink(sinkId,
                         level,
                         fileName,
-                        std::move(sinkStream),
+                        sinkStream,
                         duplicateToStdout);
   }
 };
@@ -63,7 +63,55 @@ TEST_CASE("Logger") {
     REQUIRE(logger.hasDefaultSink() == true);
     REQUIRE(logger.getDefaultFileName() == kFileName);
     REQUIRE(logger.getDefaultLevel() == sl::Level::debug);
+    logger.removeDefaultSink();
+    REQUIRE(logger.hasDefaultSink() == false);
+    REQUIRE_THROWS(logger.getDefaultFileName());
+    REQUIRE_THROWS(logger.getDefaultLevel());
   }
 
+  SECTION("Sinks with Id") {
+    const size_t kSinksCount = 50;
+    for (size_t i = 0; i < kSinksCount; ++i) {
+      logger.addSink(i, sl::Level::debug, "fileName" + std::to_string(i),
+                     sl::Logger::OstreamPtr(new std::stringstream), false);
+    }
+    for (size_t i = 0; i < kSinksCount; ++i) {
+      REQUIRE(logger.hasSink(i));
+      REQUIRE(logger.getFileName(i) == "fileName" + std::to_string(i));
+      REQUIRE(logger.getLevel(i) == sl::Level::debug);
+    }
+    for (size_t i = 0; i < kSinksCount; ++i) {
+      REQUIRE_THROWS(logger.addSink(i, sl::Level::debug, 
+                                    "fileName" + std::to_string(i),
+                                    sl::Logger::OstreamPtr(new std::stringstream), 
+                                    false));
+    }
+    for (size_t i = 0; i < kSinksCount; ++i) {
+      logger.removeSink(i);
+      REQUIRE_NOTHROW(logger.removeSink(i));
+    }
+    for (size_t i = 0; i < kSinksCount; ++i) {
+      REQUIRE(logger.hasSink(i) == false);
+      REQUIRE_THROWS(logger.getFileName(i));
+      REQUIRE_THROWS(logger.getLevel(i));
+    }
+  }
+
+  SECTION("logging") {
+    REQUIRE_THROWS(logger.log(sl::Level::debug, "% %!", "hello", "world"));
+    REQUIRE_THROWS(logger.log(1, sl::Level::warning, "% %!", "hello", "world"));
+
+    const std::string kFileName("someFileName");
+    sl::Logger::OstreamPtr defaultStream(new std::stringstream);
+    logger.setDefaultSink(sl::Level::debug,
+                          kFileName,
+                          defaultStream,
+                          true);
+    const size_t kSinksCount = 50;
+    for (size_t i = 0; i < kSinksCount; ++i) {
+      logger.addSink(i, sl::Level::debug, "fileName" + std::to_string(i),
+                     sl::Logger::OstreamPtr(new std::stringstream), false);
+    }
+  }
 }
 
