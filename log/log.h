@@ -6,6 +6,7 @@
 #include <memory>
 #include <shared_mutex>
 #include <fstream>
+#include <iostream>
 #include <sm/shared_mutex.h>
 
 namespace sl {
@@ -176,9 +177,12 @@ private:
     detail::fmt(messageStream, 
                 formatString, 
                 std::forward<Args>(args)...);
-    messageStream << std::endl;
+    messageStream << std::endl << std::endl;
     std::lock_guard<std::mutex>(*sink.mutex);
     *sink.out << messageStream.str();
+    if (sink.duplicateToStdout) {
+      std::cout << messageStream.str();
+    }
   }
 
 private:

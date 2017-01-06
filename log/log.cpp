@@ -167,16 +167,16 @@ void assertThrow(bool expr, const std::string& message) {
 }
 
 void writeThreadId(std::stringstream& messageStream) {
-  messageStream << std::hex << std::this_thread::get_id() << "  ";
+  messageStream << std::hex << std::this_thread::get_id() << " ";
 }
 
 void writeLevel(std::stringstream& messageStream, Level level) {
   switch (level) {
-    case Level::debug:    messageStream << "DEBUG";     break;
-    case Level::info:     messageStream << "INFO";      break;
-    case Level::warning:  messageStream << "WARNING";   break;
-    case Level::error:    messageStream << "ERROR";     break;
-    case Level::critical: messageStream << "CRITICAL";  break;
+    case Level::debug:    messageStream << "   DEBUG ";  break;
+    case Level::info:     messageStream << "    INFO ";  break;
+    case Level::warning:  messageStream << " WARNING ";  break;
+    case Level::error:    messageStream << "   ERROR ";  break;
+    case Level::critical: messageStream << "CRITICAL ";  break;
     default: detail::assertThrow(false, sl::fmt("% Unknown level: %",
                                                 __FUNCTION__,
                                                 (int)level));
@@ -194,8 +194,8 @@ void writeTime(std::stringstream& messageStream) {
   timeNowSec = tv.tv_sec;
   timeLocal = localtime(&timeNowSec);
   strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", timeLocal);
-  messageStream << buf << "." << std::setw(3) 
-                << (tv.tv_usec / 1000) << "  ";
+  messageStream << buf << "." << std::setw(3) << std::setfill('0')
+                << (tv.tv_usec / 1000) << " ";
 #elif defined (_WIN32)
 #endif
 }

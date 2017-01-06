@@ -36,6 +36,57 @@ public:
   }
 };
 
+std::vector<std::string> splitBy(const std::string& source, char delim) {
+  std::vector<std::string> result;
+  std::string tmp;
+
+  for (size_t i = 0; i < source.size(); ++i) {
+    if (source[i] == delim) {
+      if (!tmp.empty()) { 
+        result.push_back(tmp);
+        tmp.clear();
+      }
+    } else {
+      tmp.push_back(source[i]);
+    }
+  }
+
+  return result;
+}
+
+void checkLogLevel(sl::Level level, const std::string& levelLine) {
+  switch (level) {
+    case sl::Level::debug:
+      REQUIRE(levelLine.find("DEBUG") != std::string::npos);
+      break;
+    case sl::Level::info:
+      REQUIRE(levelLine.find("INFO") != std::string::npos);
+      break;
+    case sl::Level::warning:
+      REQUIRE(levelLine.find("WARNING") != std::string::npos);
+      break;
+    case sl::Level::error:
+      REQUIRE(levelLine.find("ERROR") != std::string::npos);
+      break;
+    case sl::Level::critical:
+      REQUIRE(levelLine.find("CRITICAL") != std::string::npos);
+      break;
+  }
+}
+
+void checkMessage(const std::vector<std::string>& logParts, const std::string& message) {
+  for (size_t i = 4; i < logParts.size(); ++i) {
+    REQUIRE(message.find(logParts[i]) != std::string::npos);
+  }
+}
+
+void checkLogOutput(const std::string& logLine, sl::Level level, const std::string& message) {
+  auto logLineParts = splitBy(logLine, ' ');
+  REQUIRE(logLineParts.size() >= 5);
+  checkLogLevel(level, logLineParts[2]);
+  checkMessage(logLineParts, message);
+}
+
 TEST_CASE("Logger") {
   TestLogger logger;
   std::stringstream out;
@@ -98,20 +149,40 @@ TEST_CASE("Logger") {
   }
 
   SECTION("logging") {
+    using SstreamPtr = std::shared_ptr<std::stringstream>;
+
     REQUIRE_THROWS(logger.log(sl::Level::debug, "% %!", "hello", "world"));
     REQUIRE_THROWS(logger.log(1, sl::Level::warning, "% %!", "hello", "world"));
 
     const std::string kFileName("someFileName");
-    sl::Logger::OstreamPtr defaultStream(new std::stringstream);
+    SstreamPtr defaultStream(new std::stringstream);
     logger.setDefaultSink(sl::Level::debug,
                           kFileName,
                           defaultStream,
                           true);
+
     const size_t kSinksCount = 50;
+    std::vector<SstreamPtr> streams;
+    streams.reserve(kSinksCount);
+
     for (size_t i = 0; i < kSinksCount; ++i) {
+      streams.emplace_back(new std::stringstream);
       logger.addSink(i, sl::Level::debug, "fileName" + std::to_string(i),
-                     sl::Logger::OstreamPtr(new std::stringstream), false);
+                     streams[i], true);
     }
+
+    const std::string kLogMessage("hello world!");
+
+    REQUIRE_NOTHROW(logger.log(sl::Level::debug, "% %!", "hello", "world"));
+    checkLogOutput(defaultStream->str(), sl::Level::debug, kLogMessage);
+    defaultStream->str("");
+
+    REQUIRE_NOTHROW(logger.log(sl::Level::warning, "% %!", "hello", "world"));
+    checkLogOutput(defaultStream->str(), sl::Level::warning, kLogMessage);
+    defaultStream->str("");
+
+    REQUIRE_NOTHROW(logger.log(sl::Level::critical, "% %!", "hello", "world"));
+    checkLogOutput(defaultStream->str(), sl::Level::critical, kLogMessage);
   }
 }
 
