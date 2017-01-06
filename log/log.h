@@ -47,7 +47,9 @@ std::string fmt(std::stringstream& out,
   }
 }
 
-void writeLogData(std::stringstream& messageStream, Level level);
+void writeLogData(std::stringstream& messageStream, 
+                  Level level,
+                  const std::string& timeFormat);
 
 class LoggerException : public std::exception {
 public:
@@ -76,7 +78,7 @@ public:
 private:
   struct Sink {
     Level level;
-    std::string fileName;
+    std::string fileNamePattern;
     OstreamPtr out;
     bool duplicateToStdout;
     std::unique_ptr<std::mutex> mutex;
@@ -85,11 +87,11 @@ private:
              duplicateToStdout(false) {}
 
     Sink(Level level, 
-         const std::string& fileName,
+         const std::string& fileNamePattern,
          OstreamPtr out, 
          bool duplicateToStdout) :
       level(level),
-      fileName(fileName),
+      fileNamePattern(fileNamePattern),
       out(std::move(out)),
       duplicateToStdout(duplicateToStdout),
       mutex(new std::mutex) {}
@@ -107,18 +109,18 @@ public:
   Level getLevel(int sinkId) const;
   Level getDefaultLevel() const;
 
-  std::string getFileName(int sinkId) const;
-  std::string getDefaultFileName() const;
+  std::string getFileNamePattern(int sinkId) const;
+  std::string getDefaultFileNamePattern() const;
 
   void addSink(int sinkId, 
-               const std::string& fileName,
+               const std::string& fileNamePattern,
                Level level,
                bool duplicateToStdout = false);
 
   void removeSink(int sinkId);
   bool hasSink(int sinkId) const;
 
-  void setDefaultSink(const std::string& fileName,
+  void setDefaultSink(const std::string& fileNamePattern,
                       Level level,
                       bool duplicateToStdout = false);
 
@@ -151,6 +153,11 @@ public:
                 std::forward<Args>(args)...);
   }
 
+  void setTimeFormat(const std::string& timeFormatStr);
+  std::string getTimeFormat() const;
+
+  static Logger& getLogger();
+
 protected:
   void setDefaultSink(Level level,
                       const std::string& fileName,
@@ -173,7 +180,7 @@ private:
                    const char* formatString, 
                    Args&&... args) {
     std::stringstream messageStream;
-    detail::writeLogData(messageStream, level);
+    detail::writeLogData(messageStream, level, m_timeFormat);
     detail::fmt(messageStream, 
                 formatString, 
                 std::forward<Args>(args)...);
@@ -190,6 +197,7 @@ private:
   std::unordered_map<int, Sink> m_sinks;
   mutable sm::shared_mutex m_defaultSinkMutex;
   mutable sm::shared_mutex m_sinksMutex;
+  std::string m_timeFormat;
 };
 
 namespace detail {
@@ -197,3 +205,26 @@ Logger::OstreamPtr tryOpenFile(const std::string& fileName);
 }
 
 }
+
+#define ___LOG_EXPAND(...) __VA_ARGS__
+
+#define LOG_S(___sinkId, ___level, ___formatStr, ...) \
+  do { \
+    if (sl::Logger::getLogger().getLevel(___sinkId) <= ___level) { \
+      sl::Logger::getLogger().log(___sinkId,  \
+                                  ___level,  \
+                                  ___formatStr, \
+                                  ___LOG_EXPAND(__VA_ARGS__)); \
+    } \
+  } while(0)
+  
+
+#define LOG(___level, ___formatStr, ...) \
+  do { \
+    if (sl::Logger::getLogger().getDefaultLevel() <= ___level) { \
+      sl::Logger::getLogger().log(___level,  \
+                                  ___formatStr, \
+                                  ___LOG_EXPAND(__VA_ARGS__)); \
+    } \
+  } while(0)
+

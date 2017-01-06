@@ -11,7 +11,8 @@
 
 namespace sl {
 
-Logger::Logger() {}
+Logger::Logger() :
+  m_timeFormat("%Y-%m-%d %H:%M:%S") {}
 
 Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
   return const_cast<Logger&>(*this).getSinkById(sinkId);
@@ -148,6 +149,26 @@ bool Logger::hasDefaultSink() const {
   return static_cast<bool>(m_defaultSink.out);
 }
 
+void Logger::setTimeFormat(const std::string& timeFormatStr) {
+  std::unique_lock<sm::shared_mutex> defaultLock(m_defaultSinkMutex, 
+                                                 std::adopt_lock);
+  std::unique_lock<sm::shared_mutex> sinksLock(m_sinksMutex, 
+                                               std::adopt_lock);
+  std::lock(defaultLock, sinksLock);
+  m_timeFormat = timeFormatStr;
+}
+
+std::string Logger::getTimeFormat() const {
+  std::shared_lock<sm::shared_mutex> defaultLock(m_defaultSinkMutex);
+  std::shared_lock<sm::shared_mutex> sinksLock(m_sinksMutex);
+  return m_timeFormat;
+}
+
+Logger& Logger::getLogger() {
+  static Logger logger;
+  return logger;
+}
+
 namespace detail {
 
 Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
@@ -183,7 +204,8 @@ void writeLevel(std::stringstream& messageStream, Level level) {
   }
 }
 
-void writeTime(std::stringstream& messageStream) {
+void writeTime(std::stringstream& messageStream, 
+               const std::string& timeFormat) {
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   struct timeval tv;
   time_t timeNowSec;
@@ -193,15 +215,17 @@ void writeTime(std::stringstream& messageStream) {
   gettimeofday(&tv, NULL);
   timeNowSec = tv.tv_sec;
   timeLocal = localtime(&timeNowSec);
-  strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", timeLocal);
+  strftime(buf, sizeof(buf), timeFormat.c_str(), timeLocal);
   messageStream << buf << "." << std::setw(3) << std::setfill('0')
                 << (tv.tv_usec / 1000) << " ";
 #elif defined (_WIN32)
 #endif
 }
 
-void writeLogData(std::stringstream& messageStream, Level level) {
-  writeTime(messageStream);
+void writeLogData(std::stringstream& messageStream, 
+                  Level level,
+                  const std::string& timeFormat) {
+  writeTime(messageStream, timeFormat);
   writeLevel(messageStream, level);
   writeThreadId(messageStream);
 }

@@ -87,56 +87,80 @@ void checkLogOutput(const std::string& logLine, sl::Level level, const std::stri
   checkMessage(logLineParts, message);
 }
 
+void assertUninitializedState(sl::Logger& logger) {
+  REQUIRE_THROWS(logger.getDefaultLevel());
+  REQUIRE_THROWS(logger.getDefaultFileName());
+  REQUIRE_THROWS(logger.setDefaultLevel(sl::Level::debug));
+  REQUIRE_THROWS(logger.setLevel(1, sl::Level::warning));
+  REQUIRE_THROWS(logger.getLevel(1));
+  REQUIRE_NOTHROW(logger.removeDefaultSink());
+  REQUIRE_NOTHROW(logger.removeSink(1));
+  REQUIRE_THROWS(logger.getFileName(1));
+  REQUIRE(logger.hasSink(1) == false);
+  REQUIRE(logger.hasDefaultSink() == false);
+}
+
+void assertDefaultSinkState(TestLogger& logger, 
+                            const std::string& fileName, 
+                            sl::Level level) {
+  REQUIRE(logger.hasDefaultSink() == true);
+  REQUIRE(logger.getDefaultFileName() == fileName);
+  REQUIRE(logger.getDefaultLevel() == level);
+}
+
+void assertSinksState(TestLogger& logger,
+                      size_t sinkCount,
+                      const std::string& fileNamePattern,
+                      sl::Level level) {
+  for (size_t i = 0; i < sinkCount; ++i) {
+    REQUIRE(logger.hasSink(i));
+    REQUIRE(logger.getFileName(i) == fileNamePattern + std::to_string(i));
+    REQUIRE(logger.getLevel(i) == level);
+  }
+  for (size_t i = 0; i < sinkCount; ++i) {
+    REQUIRE_THROWS(logger.addSink(i, sl::Level::debug, 
+                                  fileNamePattern + std::to_string(i),
+                                  sl::Logger::OstreamPtr(new std::stringstream), 
+                                  false));
+  }
+}
+
 TEST_CASE("Logger") {
   TestLogger logger;
-  std::stringstream out;
 
   SECTION("Uninitialized test") {
-    REQUIRE_THROWS(logger.getDefaultLevel());
-    REQUIRE_THROWS(logger.getDefaultFileName());
-    REQUIRE_THROWS(logger.setDefaultLevel(sl::Level::debug));
-    REQUIRE_THROWS(logger.setLevel(1, sl::Level::warning));
-    REQUIRE_THROWS(logger.getLevel(1));
-    REQUIRE_NOTHROW(logger.removeDefaultSink());
-    REQUIRE_NOTHROW(logger.removeSink(1));
-    REQUIRE_THROWS(logger.getFileName(1));
-    REQUIRE(logger.hasSink(1) == false);
-    REQUIRE(logger.hasDefaultSink() == false);
+    assertUninitializedState(logger);
   }
 
   SECTION("Default sink") {
+    assertUninitializedState(logger);
+
     const std::string kFileName("someFileName");
     sl::Logger::OstreamPtr streamPtr(new std::stringstream);
     logger.setDefaultSink(sl::Level::debug,
                           kFileName,
                           streamPtr,
                           true);
-    REQUIRE(logger.hasDefaultSink() == true);
-    REQUIRE(logger.getDefaultFileName() == kFileName);
-    REQUIRE(logger.getDefaultLevel() == sl::Level::debug);
+
+    assertDefaultSinkState(logger, kFileName, sl::Level::debug);
     logger.removeDefaultSink();
-    REQUIRE(logger.hasDefaultSink() == false);
-    REQUIRE_THROWS(logger.getDefaultFileName());
-    REQUIRE_THROWS(logger.getDefaultLevel());
+    assertUninitializedState(logger);
   }
 
   SECTION("Sinks with Id") {
+    assertUninitializedState(logger);
+
     const size_t kSinksCount = 50;
+    const std::string kFileNamePattern = "fileName";
+    const sl::Level kSinkLevel = sl::Level::debug;
+
     for (size_t i = 0; i < kSinksCount; ++i) {
-      logger.addSink(i, sl::Level::debug, "fileName" + std::to_string(i),
+      logger.addSink(i, kSinkLevel, kFileNamePattern + std::to_string(i),
                      sl::Logger::OstreamPtr(new std::stringstream), false);
     }
-    for (size_t i = 0; i < kSinksCount; ++i) {
-      REQUIRE(logger.hasSink(i));
-      REQUIRE(logger.getFileName(i) == "fileName" + std::to_string(i));
-      REQUIRE(logger.getLevel(i) == sl::Level::debug);
-    }
-    for (size_t i = 0; i < kSinksCount; ++i) {
-      REQUIRE_THROWS(logger.addSink(i, sl::Level::debug, 
-                                    "fileName" + std::to_string(i),
-                                    sl::Logger::OstreamPtr(new std::stringstream), 
-                                    false));
-    }
+
+    assertSinksState(logger, kSinksCount, kFileNamePattern, kSinkLevel);
+
     for (size_t i = 0; i < kSinksCount; ++i) {
       logger.removeSink(i);
       REQUIRE_NOTHROW(logger.removeSink(i));
@@ -173,16 +197,22 @@ TEST_CASE("Logger") {
 
     const std::string kLogMessage("hello world!");
 
-    REQUIRE_NOTHROW(logger.log(sl::Level::debug, "% %!", "hello", "world"));
-    checkLogOutput(defaultStream->str(), sl::Level::debug, kLogMessage);
-    defaultStream->str("");
+    SECTION("messages") {
+      REQUIRE_NOTHROW(logger.log(sl::Level::debug, "% %!", "hello", "world"));
+      checkLogOutput(defaultStream->str(), sl::Level::debug, kLogMessage);
+      defaultStream->str("");
 
-    REQUIRE_NOTHROW(logger.log(sl::Level::warning, "% %!", "hello", "world"));
-    checkLogOutput(defaultStream->str(), sl::Level::warning, kLogMessage);
-    defaultStream->str("");
+      REQUIRE_NOTHROW(logger.log(sl::Level::warning, "% %!", "hello", "world"));
+      checkLogOutput(defaultStream->str(), sl::Level::warning, kLogMessage);
+      defaultStream->str("");
 
-    REQUIRE_NOTHROW(logger.log(sl::Level::critical, "% %!", "hello", "world"));
-    checkLogOutput(defaultStream->str(), sl::Level::critical, kLogMessage);
+      REQUIRE_NOTHROW(logger.log(sl::Level::critical, "% %!", "hello", "world"));
+      checkLogOutput(defaultStream->str(), sl::Level::critical, kLogMessage);
+    }
   }
 }
+
+TEST_CASE("Logging macros") {
+}
+
 
