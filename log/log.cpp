@@ -26,31 +26,31 @@ Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
 }
 
 void Logger::setDefaultSink(Level level, 
-                            const std::string& fileName, 
+                            const std::string& fileNamePattern, 
                             const OstreamPtr& sinkStream, 
                             bool duplicateToStdout) {
   detail::assertThrow(
       static_cast<bool>(sinkStream), 
-      fmt("% sink stream is null. fileName = %", 
+      fmt("% sink stream is null. fileName pattern = %", 
           __FUNCTION__,
           fileName));
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
   m_defaultSink = Sink(level, 
-                       fileName,
+                       fileNamePattern,
                        sinkStream, 
                        duplicateToStdout);
 }
 
 void Logger::addSink(int sinkId, 
                      Level level, 
-                     const std::string& fileName, 
+                     const std::string& fileNamePattern, 
                      const OstreamPtr& sinkStream, 
                      bool duplicateToStdout) {
   detail::assertThrow(
       static_cast<bool>(sinkStream), 
-      fmt("% sink stream is null. fileName = %. sinkId = %",
+      fmt("% sink stream is null. fileName pattern = %. sinkId = %",
           __FUNCTION__,
-          fileName, 
+          fileNamePattern, 
           sinkId));
   std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
   if (m_sinks.find(sinkId) != m_sinks.cend()) {
@@ -62,14 +62,14 @@ void Logger::addSink(int sinkId,
   bool emplaceResult = 
       m_sinks.emplace(sinkId, 
                       Sink(level, 
-                           fileName, 
+                           fileNamePattern, 
                            sinkStream, 
                            duplicateToStdout)).second;
   detail::assertThrow(
       emplaceResult, 
-      fmt("% Emplace failed. fileName = %. sinkId = %",
+      fmt("% Emplace failed. fileName pattern = %. sinkId = %",
           __FUNCTION__,
-          fileName, 
+          fileNamePattern, 
           sinkId));
 }
 
@@ -99,24 +99,24 @@ Level Logger::getDefaultLevel() const {
   return m_defaultSink.level;
 }
 
-std::string Logger::getFileName(int sinkId) const {
+std::string Logger::getFileNamePattern(int sinkId) const {
   std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
   auto sinkIt = getSinkById(sinkId);
-  return sinkIt->second.fileName;
+  return sinkIt->second.fileNamePattern;
 }
 
-std::string Logger::getDefaultFileName() const {
+std::string Logger::getDefaultFileNamePattern() const {
   std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
   detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
                       "Default sink not set");
-  return m_defaultSink.fileName;
+  return m_defaultSink.fileNamePattern;
 }
 
 void Logger::addSink(int sinkId, 
-                     const std::string& fileName,
+                     const std::string& fileNamePattern,
                      Level level, 
                      bool duplicateToStdout) {
-  addSink(sinkId, level, fileName, 
+  addSink(sinkId, level, fileNamePattern, 
           detail::tryOpenFile(fileName),
           duplicateToStdout);
 }
@@ -170,6 +170,65 @@ Logger& Logger::getLogger() {
 }
 
 namespace detail {
+RotationLimitWatcher::RotationLimitWatcher(
+    int64_t totalLimit, 
+    int64_t fileLimit,
+    RotationWatcherHandler* watcherHandler) :
+  m_totalLimit(totalLimit),
+  m_fileLimit(fileLimit),
+  m_size(0),
+  m_watcherHandler(watcherHandler) {}
+
+bool RotationLimitWatcher::processTotalLimitOverflow(int64_t bytesWritten) {
+  if (m_size > m_totalLimit) {
+    auto clearedSize = 
+        m_watcherHandler->clearNeeded(m_size - m_totalLimit);
+    if (clearedSize != -1) {
+      m_size -= clearedSize;
+    }
+    return true;
+  }
+  return false;
+}
+
+void RotationLimitWatcher::processFileLimitOverflow(int64_t oldSize) {
+  if (oldSize / m_fileLimit != m_size / m_fileLimit) {
+    m_watcherHandler->nextFile();
+  }
+}
+
+void RotationLimitWatcher::addWritten(int64_t bytesWritten) {
+  auto oldSize = m_size;
+  m_size += bytesWritten;
+  if (!processTotalLimitOverflow(bytesWritten)) {
+    processFileLimitOverflow(oldSize);
+  }
+}
+
+const std::string LogFileRotator::kLogFileExtension = ".log";
+
+LogFileRotator::LogFileRotator(const std::string& path, 
+                               const std::string& fileNamePattern) :
+  : m_path(path),
+    m_fileNamePattern(fileNamePattern) {
+  combineFullPath();
+  openLogFile();
+}
+
+std::ostream& LogFileRotator::getCurrentFileStream() {
+}
+
+std::string LogFileRotator::getFullPath() const {
+}
+
+void LogFileRotator::combineFullPath();
+void LogFileRotator::openLogFile();
+
+int64_t LogFileRotator::clearNeeded(int64_t spaceToClear) {
+}
+
+bool LogFileRotator::nextFile() {
+}
 
 Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
   auto out = std::make_shared<std::ofstream>(fileName);

@@ -7,6 +7,7 @@
 #include <shared_mutex>
 #include <fstream>
 #include <iostream>
+#include <cstdint>
 #include <sm/shared_mutex.h>
 
 namespace sl {
@@ -20,6 +21,67 @@ enum class Level {
 };
 
 namespace detail {
+
+using OstreamPtr = std::shared_ptr<std::ostream>;
+
+class RotationWatcherHandler {
+public:
+  virtual int64_t clearNeeded(int64_t spaceToClear) = 0;
+  virtual bool nextFile() = 0;
+};
+
+class RotationLimitWatcher {
+public:
+  RotationLimitWatcher(
+    int64_t totalLimit, 
+    int64_t fileLimit,
+    RotationWatcherHandler* watcherHandler);
+
+  void addWritten(int64_t bytesWritten);
+
+private:
+  bool processTotalLimitOverflow(int64_t bytesWritten);
+  void processFileLimitOverflow(int64_t oldSize);
+
+private:
+  int64_t m_totalLimit;
+  int64_t m_fileLimit;
+  int64_t m_size;
+  RotationWatcherHandler* m_watcherHandler;
+};
+
+class LogFileRotator : public RotationWatcherHandler {
+  struct FileInfo {
+    std::string name;
+    int64_t size;
+  };
+  using FileInfoVector = std::vector<FileInfo>;
+
+  static const std::string kLogFileExtension;
+public:
+  LogFileRotator(const std::string& path, 
+                 const std::string& fileNamePattern);
+
+  std::ostream& getCurrentFileStream();
+
+protected:
+  std::string getFullPath() const;
+
+private:
+  void combineFullPath();
+  void openLogFile();
+
+  virtual int64_t clearNeeded(int64_t spaceToClear) override;
+  virtual bool nextFile() override;
+
+private:
+  RotationLimitWatcher m_limitWatcher;
+  std::string m_path;
+  std::string m_fileNamePattern;
+  std::string m_fullPath;
+  OstreamPtr m_currentFile;
+  FileInfoVector m_fileInfos;
+};
 
 void printTillSpecial(std::stringstream& out, 
                       const char** formatString);
@@ -62,6 +124,7 @@ private:
 };
 
 void assertThrow(bool expr, const std::string& message); 
+std::string 
 
 }
 
@@ -72,12 +135,9 @@ std::string fmt(const char* formatString, Args&&... args) {
 }
 
 class Logger {
-public:
-  using OstreamPtr = std::shared_ptr<std::ostream>;
-
-private:
   struct Sink {
     Level level;
+    std::string path;
     std::string fileNamePattern;
     OstreamPtr out;
     bool duplicateToStdout;
@@ -87,10 +147,12 @@ private:
              duplicateToStdout(false) {}
 
     Sink(Level level, 
+         const std::string& path,
          const std::string& fileNamePattern,
          OstreamPtr out, 
          bool duplicateToStdout) :
       level(level),
+      path(path),
       fileNamePattern(fileNamePattern),
       out(std::move(out)),
       duplicateToStdout(duplicateToStdout),
@@ -108,9 +170,6 @@ public:
 
   Level getLevel(int sinkId) const;
   Level getDefaultLevel() const;
-
-  std::string getFileNamePattern(int sinkId) const;
-  std::string getDefaultFileNamePattern() const;
 
   void addSink(int sinkId, 
                const std::string& fileNamePattern,
@@ -169,6 +228,10 @@ protected:
                const std::string& fileName,
                const OstreamPtr& sinkStream,
                bool duplicateToStdout);
+
+  std::string getFileNamePattern(int sinkId) const;
+  std::string getDefaultFileNamePattern() const;
+
 
 private:
   SinkMapConstIterator getSinkById(int sinkId) const;
