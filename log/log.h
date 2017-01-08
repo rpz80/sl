@@ -24,32 +24,6 @@ namespace detail {
 
 using OstreamPtr = std::shared_ptr<std::ostream>;
 
-class RotationWatcherHandler {
-public:
-  virtual int64_t clearNeeded(int64_t spaceToClear) = 0;
-  virtual bool nextFile() = 0;
-};
-
-class RotationLimitWatcher {
-public:
-  RotationLimitWatcher(
-    int64_t totalLimit, 
-    int64_t fileLimit,
-    RotationWatcherHandler* watcherHandler);
-
-  void addWritten(int64_t bytesWritten);
-
-private:
-  bool processTotalLimitOverflow(int64_t bytesWritten);
-  void processFileLimitOverflow(int64_t oldSize);
-
-private:
-  int64_t m_totalLimit;
-  int64_t m_fileLimit;
-  int64_t m_size;
-  RotationWatcherHandler* m_watcherHandler;
-};
-
 class LogFileRotator : public RotationWatcherHandler {
   struct FileInfo {
     std::string name;
