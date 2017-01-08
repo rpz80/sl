@@ -1,4 +1,4 @@
-#include <log/file_limit_watcher.h>
+#include <log/rotation_limit_watcher.h>
 
 namespace sl {
 namespace detail {

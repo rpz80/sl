@@ -22,90 +22,13 @@ enum class Level {
 
 namespace detail {
 
-using OstreamPtr = std::shared_ptr<std::ostream>;
-
-class LogFileRotator : public RotationWatcherHandler {
-  struct FileInfo {
-    std::string name;
-    int64_t size;
-  };
-  using FileInfoVector = std::vector<FileInfo>;
-
-  static const std::string kLogFileExtension;
-public:
-  LogFileRotator(const std::string& path, 
-                 const std::string& fileNamePattern);
-
-  std::ostream& getCurrentFileStream();
-
-protected:
-  std::string getFullPath() const;
-
-private:
-  void combineFullPath();
-  void openLogFile();
-
-  virtual int64_t clearNeeded(int64_t spaceToClear) override;
-  virtual bool nextFile() override;
-
-private:
-  RotationLimitWatcher m_limitWatcher;
-  std::string m_path;
-  std::string m_fileNamePattern;
-  std::string m_fullPath;
-  OstreamPtr m_currentFile;
-  FileInfoVector m_fileInfos;
-};
-
-void printTillSpecial(std::stringstream& out, 
-                      const char** formatString);
-
-template<typename... Args>
-std::string fmt(std::stringstream& out,
-                const char* formatString,
-                Args&&... args); 
-
-std::string fmt(std::stringstream& out,
-                const char* formatString); 
-
-template<typename Head, typename... Tail>
-std::string fmt(std::stringstream& out,
-                const char* formatString,
-                Head&& head,
-                Tail&&... tail) {
-  printTillSpecial(out, &formatString);
-  if (*formatString) {
-    out << std::forward<Head>(head);
-    ++formatString;
-    return fmt(out, formatString, std::forward<Tail>(tail)...);
-  } else {
-    return out.str();
-  }
-}
-
 void writeLogData(std::stringstream& messageStream, 
                   Level level,
                   const std::string& timeFormat);
 
-class LoggerException : public std::exception {
-public:
-  LoggerException(const std::string& message) : m_message(message) {}
-  virtual const char* what() const noexcept override {
-    return m_message.c_str();
-  }
-private:
-  std::string m_message;
-};
-
 void assertThrow(bool expr, const std::string& message); 
 std::string 
 
-}
-
-template<typename... Args>
-std::string fmt(const char* formatString, Args&&... args) {
-  std::stringstream out;
-  return detail::fmt(out, formatString, std::forward<Args>(args)...);
 }
 
 class Logger {

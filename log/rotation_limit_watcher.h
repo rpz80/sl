@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <log/abstract_types.h>
+#include <log/common_types.h>
 
 namespace sl {
 namespace detail {

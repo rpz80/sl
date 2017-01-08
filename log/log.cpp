@@ -171,31 +171,6 @@ Logger& Logger::getLogger() {
 
 namespace detail {
 
-const std::string LogFileRotator::kLogFileExtension = ".log";
-
-LogFileRotator::LogFileRotator(const std::string& path, 
-                               const std::string& fileNamePattern) :
-  : m_path(path),
-    m_fileNamePattern(fileNamePattern) {
-  combineFullPath();
-  openLogFile();
-}
-
-std::ostream& LogFileRotator::getCurrentFileStream() {
-}
-
-std::string LogFileRotator::getFullPath() const {
-}
-
-void LogFileRotator::combineFullPath();
-void LogFileRotator::openLogFile();
-
-int64_t LogFileRotator::clearNeeded(int64_t spaceToClear) {
-}
-
-bool LogFileRotator::nextFile() {
-}
-
 Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
   auto out = std::make_shared<std::ofstream>(fileName);
   detail::assertThrow(static_cast<bool>(out), 
@@ -253,32 +228,6 @@ void writeLogData(std::stringstream& messageStream,
   writeTime(messageStream, timeFormat);
   writeLevel(messageStream, level);
   writeThreadId(messageStream);
-}
-
-void printTillSpecial(std::stringstream& out, 
-                      const char** formatString) {
-  for (; **formatString; ++*formatString) {
-    if (**formatString == '\\') {
-      if (*(*formatString + 1) && *(*formatString + 1) == '%') {
-        ++*formatString;
-        out << '%';
-      } else {
-        out << **formatString;
-      }
-    } else if (**formatString == '%') {
-      break;
-    } else {
-      out << **formatString;
-    }
-  }
-}
-
-std::string fmt(std::stringstream& out,
-                const char* formatString) {
-  for (; *formatString; ++formatString) {
-    out << *formatString;
-  }
-  return out.str();
 }
 
 }
