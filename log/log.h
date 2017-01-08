@@ -12,23 +12,11 @@
 
 namespace sl {
 
-enum class Level {
-  debug,
-  info,
-  warning,
-  error,
-  critical
-};
-
 namespace detail {
 
 void writeLogData(std::stringstream& messageStream, 
                   Level level,
                   const std::string& timeFormat);
-
-void assertThrow(bool expr, const std::string& message); 
-std::string 
-
 }
 
 class Logger {
@@ -110,8 +98,6 @@ public:
   }
 
   void setTimeFormat(const std::string& timeFormatStr);
-  std::string getTimeFormat() const;
-
   static Logger& getLogger();
 
 protected:
@@ -128,7 +114,7 @@ protected:
 
   std::string getFileNamePattern(int sinkId) const;
   std::string getDefaultFileNamePattern() const;
-
+  std::string getTimeFormat() const;
 
 private:
   SinkMapConstIterator getSinkById(int sinkId) const;
@@ -159,10 +145,6 @@ private:
   mutable sm::shared_mutex m_sinksMutex;
   std::string m_timeFormat;
 };
-
-namespace detail {
-Logger::OstreamPtr tryOpenFile(const std::string& fileName); 
-}
 
 }
 

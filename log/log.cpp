@@ -171,22 +171,6 @@ Logger& Logger::getLogger() {
 
 namespace detail {
 
-Logger::OstreamPtr tryOpenFile(const std::string& fileName) {
-  auto out = std::make_shared<std::ofstream>(fileName);
-  detail::assertThrow(static_cast<bool>(out), 
-                      sl::fmt("% Failed to open file %", 
-                              __FUNCTION__,
-                              fileName));
-  return out;
-}
-
-void assertThrow(bool expr, const std::string& message) {
-  //assert(expr);
-  if (!expr) {
-    throw LoggerException(message);
-  }
-}
-
 void writeThreadId(std::stringstream& messageStream) {
   messageStream << std::hex << std::this_thread::get_id() << " ";
 }

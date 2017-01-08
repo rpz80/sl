@@ -5,6 +5,15 @@
 #include <stdexcept>
 
 namespace sl {
+
+enum class Level {
+  debug,
+  info,
+  warning,
+  error,
+  critical
+};
+
 namespace detail {
 
 class LoggerException : public std::exception {
