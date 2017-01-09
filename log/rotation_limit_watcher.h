@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <log/common_types.h>
+#include <rotation_limit_watcher_handler.h>
 
 namespace sl {
 namespace detail {
@@ -11,7 +11,7 @@ public:
   RotationLimitWatcher(
     int64_t totalLimit, 
     int64_t fileLimit,
-    RotationWatcherHandler* watcherHandler);
+    RotationLimitWatcherHandler* watcherHandler);
 
   void addWritten(int64_t bytesWritten);
 
@@ -23,7 +23,7 @@ private:
   int64_t m_totalLimit;
   int64_t m_fileLimit;
   int64_t m_size;
-  RotationWatcherHandler* m_watcherHandler;
+  RotationLimitWatcherHandler* m_watcherHandler;
 };
 
 }

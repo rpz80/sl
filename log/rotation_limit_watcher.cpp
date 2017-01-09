@@ -6,7 +6,7 @@ namespace detail {
 RotationLimitWatcher::RotationLimitWatcher(
     int64_t totalLimit, 
     int64_t fileLimit,
-    RotationWatcherHandler* watcherHandler) :
+    RotationLimitWatcherHandler* watcherHandler) :
   m_totalLimit(totalLimit),
   m_fileLimit(fileLimit),
   m_size(0),
