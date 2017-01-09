@@ -12,6 +12,14 @@
 
 namespace sl {
 
+enum class Level {
+  debug,
+  info,
+  warning,
+  error,
+  critical
+};
+
 namespace detail {
 
 void writeLogData(std::stringstream& messageStream, 

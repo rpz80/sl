@@ -4,12 +4,6 @@ namespace sl {
 namespace detail {
 
 class LogFileRotator : public RotationWatcherHandler {
-  struct FileInfo {
-    std::string name;
-    int64_t size;
-  };
-  using FileInfoVector = std::vector<FileInfo>;
-
   static const std::string kLogFileExtension;
 public:
   LogFileRotator(const std::string& path, 
