@@ -7,21 +7,22 @@
 namespace sl {
 namespace detail {
 
-class FileHelper {
+class FileEntry {
 public:
   virtual void remove() = 0;
   virtual void rename(const std::string& newName) = 0;
   virtual int64_t size() const = 0;
 };
 
-using FileHelperPtr = std::unique_ptr<FileHelper>;
-using FileHelperVector = std::vector<FileHelperPtr>;
+using FileEntryPtr = std::unique_ptr<FileEntry>;
+using FileEntryVector = std::vector<FileEntryPtr>;
 
-FileHelperVector getFileHelpers(const std::string& path, const std::string& mask);
+FileEntryVector getFileEntries(const std::string& path, 
+                               const std::string& mask);
 
-class LogFileHelper : public FileHelper {
+class LogFileEntry : public FileEntry {
 public:
-  LogFileHelper(const std::string& path);
+  LogFileEntry(const std::string& path);
 
   virtual void remove() override;
   virtual void rename(const std::string& newName) override;
