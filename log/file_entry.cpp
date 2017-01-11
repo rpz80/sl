@@ -1,4 +1,5 @@
 #include <log/file_info.h>
+#include <log/utils.h>
 
 
 namespace sl {
@@ -17,8 +18,10 @@ FileEntryVector getFileEntriesUnix(const std::string& path,
   
   FileEntryVector result;
   while ((auto entry = readdir(d)) != nulltpr) {
-    std::string fullFileName = 
-    result.emplace_back(new LogFileEntry());
+    if (fs::maskFits(entry.d_name, mask)) {
+      std::string fullFileName = fs::join(path, entry.d_name);
+      result.emplace_back(new LogFileEntry(fullFileName));
+    }
   }
 
 }

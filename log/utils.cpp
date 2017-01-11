@@ -35,6 +35,9 @@ std::string join(const std::string& subPath1,
   return detail::str::join(subPath1, "/", subPath2); 
 }
 
+bool maskFits(const std::string& fileName, const std::string& mask) {
+}
+
 }
 
 }
