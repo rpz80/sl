@@ -41,15 +41,13 @@ class MaskFit {
     any,
     group,
     notGroup,
-    or_,
     symbol,
     error
   };
 
 public:
   MaskFit(const std::string& fileName, const std::string& mask) : 
-      m_fileName(fileName),
-      m_mask(mask) {
+      m_fileName(fileName) {
     if (mask.empty()) {
       return;
     }
@@ -58,8 +56,15 @@ public:
       m_yes = true;
       return;
     }
-      
-    applyMask();
+
+    getOrStrings(mask);
+    for (const auto& orString : m_orStrings) {
+      m_mask = orString;
+      applyMask();
+      if (m_yes) {
+        break;
+      }
+    }
   }
 
   explicit operator bool() {
@@ -76,7 +81,6 @@ private:
       case ParseState::any: processAny(); break;
       case ParseState::group: processGroup(); break;
       case ParseState::notGroup: processNotGroup(); break;
-      case ParseState::or_: processOr(); break;
       case ParseState::symbol: processSymbol() break;
     }
   }
@@ -118,39 +122,11 @@ private:
     m_state = ParseState::error;
   }
 
-  void parseOr() {
-    ++m_maskPos;
-    m_orStrings.clear();
-
-    if (m_maskPos == m_mask.size()) {
-      m_state = ParseState::error;
-      return;
-    }
-
-    m_orStrings.emplace_back();
-
-    for (; m_maskPos < m_mask.size(); ++ m_maskPos) {
-      if (m_mask[m_maskPos] == '}') {
-        m_state = ParseState::or_;
-        ++m_maskPos;
-        return;
-      } 
-      if (m_mask[m_maskPos] == ',') {
-        m_orStrings.emplace_back();
-      } else {
-        m_orStrings[m_orStrings.size() - 1].emplace_back(m_mask[m_maskPos]);
-      }
-    }
-
-    m_state = ParseState::error;
-  }
-
   void setState() {
     switch (mask[m_maskPos]) {
       case '*': m_state = ParseState::asteriks; break;
       case '?': m_state = ParseState::any; break;
       case '[': parseGroup(); break;
-      case '{': parseOr(); break;
       case '\\': parseEscape(); break;
       default: m_state = ParseState::symbol; break;
     }
@@ -165,7 +141,7 @@ private:
   std::string m_group;
   std::vector<std::string> m_orStrings;
   const std::string& m_fileName;
-  const std::string& m_mask;
+  std::string m_mask;
 };
 
 bool maskFits(const std::string& fileName, const std::string& mask) {
