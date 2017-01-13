@@ -15,6 +15,12 @@ bool maskFits(const std::string& fileName, const std::string& mask);
 }
 
 namespace str {
+
+class StringRef {
+public:
+private:
+};
+
 namespace detail {
 template<typename... Args>
 size_t calcSize(const Args&... args);

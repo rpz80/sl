@@ -14,5 +14,10 @@ private:
   std::string m_message;
 };
 
+class UtilsException : public std::runtime_exception {
+public:
+  using std::runtime_exception::runtime_exception;
+};
+
 }
 }

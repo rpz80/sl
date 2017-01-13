@@ -1,4 +1,6 @@
 #include <log/utils.h>
+#include <log/exception.h>
+#include <log/format.h>
 
 namespace sl {
 namespace detail {
@@ -35,6 +37,58 @@ std::string join(const std::string& subPath1,
   return detail::str::join(subPath1, "/", subPath2); 
 }
 
+class OrCombiner {
+  using OrGroup = std::vector<std::string>;
+  using OrGroups = std::vector<OrGroup>;
+
+public:
+  OrCombiner(const std::string& mask): m_mask(mask) {
+    if (m_mask.empty())
+      throw detail::UtilsException(sl::fmt("% Mask is empty"));
+
+    parseMask();
+  }
+
+  template<typename F>
+  void forEachMask(F f) {
+    getNext(0, f);
+  }
+
+private:
+  void parseMask() {
+    while (m_index < m_mask.size()) {
+      if (m_mask[m_index] == '{')
+        addOrGroup();
+      } else {
+        addTrivialGroup();
+      }
+    }
+  }
+
+  void addOrGroup() {
+  }
+
+  void addTrivialGroup() {
+    std::string groupString;
+    for (; m_index < m_mask.size(); ++m_index) {
+      if (m_mask[m_index] == '{') {
+        break;
+      }
+      groupString.push_back(m_mask[m_index]);
+    }
+  }
+
+  template<typename F>
+  void getNext(size_t groupIndex, F f) {
+  }
+
+private:
+  OrGroups m_groups;
+  bool m_parseFailed = false;
+  size_t m_index = 0;
+  std::string& m_mask;
+};
+
 class MaskFit {
   enum class ParseState {
     asteriks,
@@ -57,14 +111,10 @@ public:
       return;
     }
 
-    getOrStrings(mask);
-    for (const auto& orString : m_orStrings) {
-      m_mask = orString;
+    forEachOrString(mask, [this] (const std::string& orMask) {
+      m_mask = orMask;
       applyMask();
-      if (m_yes) {
-        break;
-      }
-    }
+    });
   }
 
   explicit operator bool() {
@@ -83,6 +133,10 @@ private:
       case ParseState::notGroup: processNotGroup(); break;
       case ParseState::symbol: processSymbol() break;
     }
+  }
+
+  template<typename F>
+  void forEachOrString(const std::string& originalMask, F f) {
   }
 
   void parseEscape() {
