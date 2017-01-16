@@ -15,6 +15,43 @@ void assertThrow(bool expr, const std::string& message) {
 
 }
 
+namespace str {
+StringRef::StringRef(const std::string& str) :
+    m_size(str.size()) {
+  if (m_size == 0) {
+    m_data = nullptr;
+  }
+}
+
+StringRef::StringRef(const std::string& str, size_t startPos, size_t size) :
+    m_size(size) {
+  if (startPos + size > str.size()) {
+    throw std::runtime_error(
+          sl::fmt("% Invalid startPos and/or size argumets for string %",
+                  __FUNCTION__,
+                  str));
+  }
+  m_data = &*str.cbegin() + startPos;
+}
+
+StringRef::StringRef(const char* data, size_t startPos, size_t size) :
+    m_size(size),
+    m_data(data + startPos) {
+}
+
+size_t StringRef::size() const { return m_size; }
+bool StringRef::empty() const { return m_size == 0; }
+
+char& StringRef::operator[](size_t index) {
+  return m_data[index];
+}
+
+const char& StringRef::operator[](size_t index) const {
+  return m_data[index];
+}
+
+}
+
 namespace fs {
 
 std::string join(const std::string& subPath1, 
@@ -57,7 +94,7 @@ public:
 private:
   void parseMask() {
     while (m_index < m_mask.size()) {
-      if (m_mask[m_index] == '{')
+      if (m_mask[m_index] == '{') {
         addOrGroup();
       } else {
         addTrivialGroup();
@@ -131,7 +168,7 @@ private:
       case ParseState::any: processAny(); break;
       case ParseState::group: processGroup(); break;
       case ParseState::notGroup: processNotGroup(); break;
-      case ParseState::symbol: processSymbol() break;
+      case ParseState::symbol: processSymbol(); break;
     }
   }
 

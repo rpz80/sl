@@ -18,7 +18,19 @@ namespace str {
 
 class StringRef {
 public:
+  StringRef(const std::string& str);
+  StringRef(const std::string& str, size_t startPos, size_t size);
+  StringRef(const char* data, size_t startPos, size_t size);
+
+  size_t size() const;
+  bool empty() const;
+
+  char& operator[](size_t index);
+  const char& operator[](size_t index) const;
+
 private:
+  const char* m_data;
+  const size_t m_size;
 };
 
 namespace detail {
@@ -30,7 +42,7 @@ size_t calcSize(const std::string& head) {
 }
 
 template<size_t N>
-size_t calcSize(const char const(&) [N]) {
+size_t calcSize(char const(&) [N]) {
   return N - 1; 
 }
 
@@ -40,7 +52,7 @@ size_t calcSize(const std::string& head, const Tail&... tail) {
 }
 
 template<size_t N, typename... Tail>
-size_t calcSize(const char const(&) [N], const Tail&... tail) {
+size_t calcSize(char const(&) [N], const Tail&... tail) {
   return N - 1 + calcSize(tail...);
 }
 
@@ -63,7 +75,7 @@ void fillResult(std::string& result,
 template<size_t N>
 void fillResult(std::string& result,
                 size_t startIndex,
-                const char const(&head) [N]) {
+                char const(&head) [N]) {
   for (size_t i = 0; i < N; ++i) {
     if (head[i] == '\0') {
       break;
@@ -89,7 +101,7 @@ void fillResult(std::string& result,
 template<size_t N, typename... Tail>
 void fillResult(std::string& result,
                 size_t startIndex,
-                const char const(&head) [N],
+                char const(&head) [N],
                 const Tail&... tail) {
   for (size_t i = 0; i < N; ++i) {
     if (head[i] == '\0') {
