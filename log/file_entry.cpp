@@ -1,4 +1,4 @@
-#include <log/file_info.h>
+#include <log/file_entry.h>
 #include <log/utils.h>
 
 

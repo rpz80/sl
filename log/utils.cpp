@@ -1,3 +1,4 @@
+#include <vector>
 #include <log/utils.h>
 #include <log/exception.h>
 #include <log/format.h>
@@ -34,9 +35,9 @@ StringRef::StringRef(const std::string& str, size_t startPos, size_t size) :
   m_data = &*str.cbegin() + startPos;
 }
 
-StringRef::StringRef(const char* data, size_t startPos, size_t size) :
+StringRef::StringRef(const char* data, size_t size) :
     m_size(size),
-    m_data(data + startPos) {
+    m_data(data) {
 }
 
 size_t StringRef::size() const { return m_size; }
@@ -48,6 +49,10 @@ char& StringRef::operator[](size_t index) {
 
 const char& StringRef::operator[](size_t index) const {
   return m_data[index];
+}
+
+std::string StringRef::toString() const {
+  return std::string(m_data, m_size);
 }
 
 }
@@ -75,7 +80,7 @@ std::string join(const std::string& subPath1,
 }
 
 class OrCombiner {
-  using OrGroup = std::vector<std::string>;
+  using OrGroup = std::vector<str::StringRef>;
   using OrGroups = std::vector<OrGroup>;
 
 public:
@@ -88,7 +93,10 @@ public:
 
   template<typename F>
   void forEachMask(F f) {
-    getNext(0, f);
+    if (m_groups.empty()) {
+      return;
+    }
+    getNext(0, f, "");
   }
 
 private:
@@ -103,20 +111,48 @@ private:
   }
 
   void addOrGroup() {
+    ++m_index;
+    size_t startIndex = m_index;
+    OrGroup newGroup;
+    for (; m_index < m_mask.size(); ++m_index) {
+      if (m_mask[m_index] == '}' && !newGroup.empty()) {
+        m_groups.emplace_back(newGroup);
+        return;
+      } else if (m_mask[m_index] == ',') {
+        if (m_index != startIndex) {
+          newGroup.emplace_back(&m_mask[startIndex], m_index - startIndex);
+          startIndex = m_index + 1;
+        }
+      }
+    }
+    throw std::runtime_error(sl::fmt("% Can't parse group for mask %",
+                                     __FUNCTION__,
+                                     m_mask));
   }
 
   void addTrivialGroup() {
-    std::string groupString;
+    size_t startIndex = m_index;
     for (; m_index < m_mask.size(); ++m_index) {
       if (m_mask[m_index] == '{') {
         break;
       }
-      groupString.push_back(m_mask[m_index]);
+    }
+    if (m_index != startIndex) {
+      OrGroup newGroup;
+      newGroup.emplace_back(&m_mask[startIndex], m_index - startIndex);
+      m_groups.emplace_back(newGroup);
     }
   }
 
   template<typename F>
-  void getNext(size_t groupIndex, F f) {
+  void getNext(size_t groupIndex, F f, const std::string& prevMaskPart) {
+    if (groupIndex >= m_groups.size()) {
+      f(prevMaskPart);
+      return;
+    }
+    for (size_t i = 0; i < m_groups[groupIndex]; ++i) {
+      getNext(groupIndex + 1, f, prevMaskPart + m_groups[groupIndex][i].toString());
+    }
   }
 
 private:
@@ -174,6 +210,8 @@ private:
 
   template<typename F>
   void forEachOrString(const std::string& originalMask, F f) {
+    OrCombiner orCombiner(originalMask);
+    orCombiner.forEachMask(f);
   }
 
   void parseEscape() {
@@ -230,7 +268,6 @@ private:
   bool m_yes = false;
   ParseState m_state; 
   std::string m_group;
-  std::vector<std::string> m_orStrings;
   const std::string& m_fileName;
   std::string m_mask;
 };

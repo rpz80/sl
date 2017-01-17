@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace sl {
 namespace detail {
 
@@ -20,13 +22,14 @@ class StringRef {
 public:
   StringRef(const std::string& str);
   StringRef(const std::string& str, size_t startPos, size_t size);
-  StringRef(const char* data, size_t startPos, size_t size);
+  StringRef(const char* data, size_t size);
 
   size_t size() const;
   bool empty() const;
 
   char& operator[](size_t index);
   const char& operator[](size_t index) const;
+  std::string toString() const;
 
 private:
   const char* m_data;

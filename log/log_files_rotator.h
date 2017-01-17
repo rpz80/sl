@@ -1,9 +1,15 @@
 #pragma once
 
+#include <string>
+#include <log/common_types.h>
+#include <log/rotation_limit_watcher_handler.h>
+#include <log/rotation_limit_watcher.h>
+#include <log/file_entry.h>
+
 namespace sl {
 namespace detail {
 
-class LogFileRotator : public RotationWatcherHandler {
+class LogFileRotator : public RotationLimitWatcherHandler {
   static const std::string kLogFileExtension;
 public:
   LogFileRotator(const std::string& path, 

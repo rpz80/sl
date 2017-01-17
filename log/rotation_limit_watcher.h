@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <rotation_limit_watcher_handler.h>
+#include <log/rotation_limit_watcher_handler.h>
 
 namespace sl {
 namespace detail {
