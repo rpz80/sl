@@ -14,9 +14,9 @@ private:
   std::string m_message;
 };
 
-class UtilsException : public std::runtime_exception {
+class UtilsException : public std::runtime_error {
 public:
-  using std::runtime_exception::runtime_exception;
+  using std::runtime_error::runtime_error;
 };
 
 }

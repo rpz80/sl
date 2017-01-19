@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sstream>
+
 namespace sl {
 namespace detail {
 
