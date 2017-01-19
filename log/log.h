@@ -4,11 +4,12 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include <shared_mutex>
 #include <fstream>
 #include <iostream>
 #include <cstdint>
+
 #include <sm/shared_mutex.h>
+#include <log/common_types.h>
 
 namespace sl {
 
@@ -32,7 +33,7 @@ class Logger {
     Level level;
     std::string path;
     std::string fileNamePattern;
-    OstreamPtr out;
+    detail::OstreamPtr out;
     bool duplicateToStdout;
     std::unique_ptr<std::mutex> mutex;
 
@@ -42,7 +43,7 @@ class Logger {
     Sink(Level level, 
          const std::string& path,
          const std::string& fileNamePattern,
-         OstreamPtr out, 
+         detail::OstreamPtr out,
          bool duplicateToStdout) :
       level(level),
       path(path),
@@ -83,7 +84,7 @@ public:
   void log(int sinkId, Level level, 
            const char* formatString, 
            Args&&... args) {
-    std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+    sm::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
     auto sinkIt = getSinkById(sinkId);
     writeToSink(sinkIt->second, 
                 level, 
@@ -96,7 +97,7 @@ public:
   void log(Level level, 
            const char* formatString, 
            Args&&... args) {
-    std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+    sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
     detail::assertThrow(static_cast<bool>(m_defaultSink.out),
                         fmt("% No default sink", __FUNCTION__));
     writeToSink(m_defaultSink, 
@@ -111,13 +112,13 @@ public:
 protected:
   void setDefaultSink(Level level,
                       const std::string& fileName,
-                      const OstreamPtr& sinkStream,
+                      const detail::OstreamPtr& sinkStream,
                       bool duplicateToStdout);
 
   void addSink(int sinkId, 
                Level level,
                const std::string& fileName,
-               const OstreamPtr& sinkStream,
+               const detail::OstreamPtr& sinkStream,
                bool duplicateToStdout);
 
   std::string getFileNamePattern(int sinkId) const;

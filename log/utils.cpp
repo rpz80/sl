@@ -9,10 +9,10 @@ namespace sl {
 namespace detail {
 namespace errh {
 
-void assertThrow(bool expr, const std::string& message) {
-  //assert(expr);
+template<typename Exception>
+void throwIfNot(bool expr, const std::string& message) {
   if (!expr) {
-    throw LoggerException(message);
+    throw Exception(message);
   }
 }
 

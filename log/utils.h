@@ -6,7 +6,8 @@ namespace sl {
 namespace detail {
 
 namespace errh {
-void assertThrow(bool expr, const std::string& message); 
+template<typename Exception>
+void throwIfNot(bool expr, const std::string& message);
 }
 
 namespace fs {

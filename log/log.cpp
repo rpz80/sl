@@ -87,26 +87,26 @@ void Logger::setDefaultLevel(Level level) {
 }
 
 Level Logger::getLevel(int sinkId) const {
-  std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+  sm::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
   auto sinkIt = getSinkById(sinkId);
   return sinkIt->second.level;
 }
 
 Level Logger::getDefaultLevel() const {
-  std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+  sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
   detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
                       "Default sink not set");
   return m_defaultSink.level;
 }
 
 std::string Logger::getFileNamePattern(int sinkId) const {
-  std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+  sm::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
   auto sinkIt = getSinkById(sinkId);
   return sinkIt->second.fileNamePattern;
 }
 
 std::string Logger::getDefaultFileNamePattern() const {
-  std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+  sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
   detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
                       "Default sink not set");
   return m_defaultSink.fileNamePattern;
@@ -127,7 +127,7 @@ void Logger::removeSink(int sinkId) {
 }
 
 bool Logger::hasSink(int sinkId) const {
-  std::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
+  sm::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
   return m_sinks.find(sinkId) != m_sinks.cend();
 }
 
@@ -145,7 +145,7 @@ void Logger::removeDefaultSink() {
 }
 
 bool Logger::hasDefaultSink() const {
-  std::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
+  sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
   return static_cast<bool>(m_defaultSink.out);
 }
 
@@ -159,8 +159,8 @@ void Logger::setTimeFormat(const std::string& timeFormatStr) {
 }
 
 std::string Logger::getTimeFormat() const {
-  std::shared_lock<sm::shared_mutex> defaultLock(m_defaultSinkMutex);
-  std::shared_lock<sm::shared_mutex> sinksLock(m_sinksMutex);
+  sm::shared_lock<sm::shared_mutex> defaultLock(m_defaultSinkMutex);
+  sm::shared_lock<sm::shared_mutex> sinksLock(m_sinksMutex);
   return m_timeFormat;
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 #include <log/common_types.h>
 #include <log/rotation_limit_watcher_handler.h>
 #include <log/rotation_limit_watcher.h>
@@ -13,7 +14,9 @@ class LogFileRotator : public RotationLimitWatcherHandler {
   static const std::string kLogFileExtension;
 public:
   LogFileRotator(const std::string& path, 
-                 const std::string& fileNamePattern);
+                 const std::string& fileNamePattern,
+                 int64_t totalLimit,
+                 int64_t fileLimit);
 
   std::ostream& getCurrentFileStream();
 
@@ -33,7 +36,7 @@ private:
   std::string m_fileNamePattern;
   std::string m_fullPath;
   OstreamPtr m_currentFile;
-  FileInfoVector m_fileInfos;
+  FileEntryVector m_fileInfos;
 };
 
 }
