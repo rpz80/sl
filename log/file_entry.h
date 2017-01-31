@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory>
 #include <vector>
+#include <string>
 
 namespace sl {
 namespace detail {
@@ -15,10 +16,11 @@ public:
 };
 
 using FileEntryPtr = std::unique_ptr<FileEntry>;
-using FileEntryVector = std::vector<FileEntryPtr>;
 
-FileEntryVector getFileEntries(const std::string& path, 
-                               const std::string& mask);
+class FileEntryList {
+public:
+private:
+};
 
 class LogFileEntry : public FileEntry {
 public:

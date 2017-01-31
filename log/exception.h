@@ -5,13 +5,9 @@
 namespace sl {
 namespace detail {
 
-class LoggerException : public std::exception {
+class LoggerException : public std::runtime_error {
 public:
-  LoggerException(const std::string& message);
-  virtual const char* what() const noexcept override; 
-
-private:
-  std::string m_message;
+  using std::runtime_error::runtime_error;
 };
 
 class UtilsException : public std::runtime_error {
