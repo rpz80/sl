@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 namespace sl {
 namespace detail {
@@ -48,7 +49,7 @@ void fillResult(std::string& result,
                 size_t startIndex, 
                 const Args&... args); 
 
-void fillResult(std::string& result, 
+inline void fillResult(std::string& result, 
                 size_t startIndex,
                 const std::string& head) {
   for (size_t i = 0; i < head.size(); ++i) {
@@ -104,7 +105,7 @@ void fillResult(std::string& result,
 template<typename... Args>
 std::string join(const Args&... tail) {
   std::string result;
-  result.reserve(detail::calcSize(tail...));
+  result.resize(detail::calcSize(tail...));
   str::detail::fillResult(result, 0, tail...);
   return result;
 }
