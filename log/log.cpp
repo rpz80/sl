@@ -20,23 +20,23 @@ Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
 
 Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
   auto sinkIt = m_sinks.find(sinkId);
-  detail::assertThrow(sinkIt != m_sinks.cend(), 
+  detail::throwLoggerExceptionIfNot(sinkIt != m_sinks.cend(),
                       fmt("sinkId % not found", sinkId));
   return sinkIt;
 }
 
 void Logger::setDefaultSink(Level level, 
-                            const std::string& fileNamePattern, 
-                            const OstreamPtr& sinkStream, 
+                            const std::string& fileName,
+                            const detail::OstreamPtr& sinkStream,
                             bool duplicateToStdout) {
-  detail::assertThrow(
+  detail::throwLoggerExceptionIfNot(
       static_cast<bool>(sinkStream), 
-      fmt("% sink stream is null. fileName pattern = %", 
+      fmt("% sink stream is null. fileName = %",
           __FUNCTION__,
           fileName));
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
   m_defaultSink = Sink(level, 
-                       fileNamePattern,
+                       fileName,
                        sinkStream, 
                        duplicateToStdout);
 }
@@ -46,7 +46,7 @@ void Logger::addSink(int sinkId,
                      const std::string& fileNamePattern, 
                      const OstreamPtr& sinkStream, 
                      bool duplicateToStdout) {
-  detail::assertThrow(
+  detail::throwLoggerExceptionIfNot(
       static_cast<bool>(sinkStream), 
       fmt("% sink stream is null. fileName pattern = %. sinkId = %",
           __FUNCTION__,
@@ -65,7 +65,7 @@ void Logger::addSink(int sinkId,
                            fileNamePattern, 
                            sinkStream, 
                            duplicateToStdout)).second;
-  detail::assertThrow(
+  detail::throwLoggerExceptionIfNot(
       emplaceResult, 
       fmt("% Emplace failed. fileName pattern = %. sinkId = %",
           __FUNCTION__,
@@ -81,7 +81,7 @@ void Logger::setLevel(int sinkId, Level level) {
 
 void Logger::setDefaultLevel(Level level) {
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
-  detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
+  detail::throwLoggerExceptionIfNot(static_cast<bool>(m_defaultSink.out),
                       "Default sink not set");
   m_defaultSink.level = level;
 }
@@ -94,7 +94,7 @@ Level Logger::getLevel(int sinkId) const {
 
 Level Logger::getDefaultLevel() const {
   sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
+  detail::throwLoggerExceptionIfNot(static_cast<bool>(m_defaultSink.out),
                       "Default sink not set");
   return m_defaultSink.level;
 }
@@ -107,7 +107,7 @@ std::string Logger::getFileNamePattern(int sinkId) const {
 
 std::string Logger::getDefaultFileNamePattern() const {
   sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  detail::assertThrow(static_cast<bool>(m_defaultSink.out), 
+  detail::throwLoggerExceptionIfNot(static_cast<bool>(m_defaultSink.out),
                       "Default sink not set");
   return m_defaultSink.fileNamePattern;
 }
@@ -182,7 +182,7 @@ void writeLevel(std::stringstream& messageStream, Level level) {
     case Level::warning:  messageStream << " WARNING ";  break;
     case Level::error:    messageStream << "   ERROR ";  break;
     case Level::critical: messageStream << "CRITICAL ";  break;
-    default: detail::assertThrow(false, sl::fmt("% Unknown level: %",
+    default: detail::throwLoggerExceptionIfNot(false, sl::fmt("% Unknown level: %",
                                                 __FUNCTION__,
                                                 (int)level));
   }

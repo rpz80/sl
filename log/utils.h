@@ -18,24 +18,7 @@ bool maskFits(const std::string& fileName, const std::string& mask);
 }
 
 namespace str {
-
-class StringRef {
-public:
-  StringRef(const std::string& str);
-  StringRef(const std::string& str, size_t startPos, size_t size);
-  StringRef(const char* data, size_t size);
-
-  size_t size() const;
-  bool empty() const;
-
-  char& operator[](size_t index);
-  const char& operator[](size_t index) const;
-  std::string toString() const;
-
-private:
-  const char* m_data;
-  const size_t m_size;
-};
+int GlobMatch(const char *pattern, const char *mask);
 
 namespace detail {
 template<typename... Args>
@@ -122,7 +105,7 @@ template<typename... Args>
 std::string join(const Args&... tail) {
   std::string result;
   result.reserve(detail::calcSize(tail...));
-  str::detail::fillResult(result, tail...);
+  str::detail::fillResult(result, 0, tail...);
 }
 
 }

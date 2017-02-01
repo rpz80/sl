@@ -10,6 +10,8 @@
 
 #include <sm/shared_mutex.h>
 #include <log/common_types.h>
+#include <log/format.h>
+#include <log/exception.h>
 
 namespace sl {
 
@@ -98,7 +100,7 @@ public:
            const char* formatString, 
            Args&&... args) {
     sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-    detail::assertThrow(static_cast<bool>(m_defaultSink.out),
+    detail::throwLoggerExceptionIfNot(static_cast<bool>(m_defaultSink.out),
                         fmt("% No default sink", __FUNCTION__));
     writeToSink(m_defaultSink, 
                 level, 
