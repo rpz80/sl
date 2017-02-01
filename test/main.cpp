@@ -16,8 +16,8 @@ TEST_CASE("Utils", "join") {
   using namespace sl::detail;
 
   REQUIRE(str::join("ab", "cd") == "abcd");
-  REQUIRE(str::join(std::string("ab"), std::string("cd")) == "abcd");
-  REQUIRE(str::join(std::string("ab"), "cd", "ef") == "abcdef");
+  REQUIRE(str::join(std::string("ab"), std::string("cd"), std::string("ef")) == "abcdef");
+  REQUIRE(str::join(std::string("ab"), "cd", "ef") == "abcd");
   // REQUIRE(str::join(std::string("ab"), "cd", "ef", std::string("gh")) == "abcdefgh");
 }
 /*

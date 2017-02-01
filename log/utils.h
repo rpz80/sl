@@ -103,10 +103,10 @@ void fillResult(std::string& result,
 }
 
 template<typename... Args>
-std::string join(const Args&... tail) {
+std::string join(const Args&... args) {
   std::string result;
-  result.resize(detail::calcSize(tail...));
-  str::detail::fillResult(result, 0, tail...);
+  result.resize(detail::calcSize(args...));
+  str::detail::fillResult(result, 0, args...);
   return result;
 }
 
