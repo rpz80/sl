@@ -10,7 +10,7 @@
 #include "log.h"
 
 namespace sl {
-
+/*
 Logger::Logger() :
   m_timeFormat("%Y-%m-%d %H:%M:%S") {}
 
@@ -215,4 +215,5 @@ void writeLogData(std::stringstream& messageStream,
 }
 
 }
+*/
 }

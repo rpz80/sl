@@ -4,33 +4,37 @@
 
 namespace sl {
 namespace detail {
-
+/*
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 #include <dirent.h>
 #include <sys/stat.h>
 
-FileEntryVector getFileEntriesUnix(const std::string& path, 
+FileEntryList getFileEntriesUnix(const std::string& path, 
                                    const std::string& mask) {
-  DIR* d = opendir(path.c_str());
-  if (d == nullptr) {
-    return FileEntryVector();
-  }
-  
+  DIR* d;
   struct dirent* entry;
-  FileEntryVector result;
+  FileEntryList result;
 
-  while ((entry = readdir(d)) != nulltpr) {
-    addToResult(result, 
+  if ((d = opendir(path.c_str())) == nullptr) {
+    return result;
   }
 
+  while ((entry = readdir(d)) != nullptr && entry->d_type == DT_REG) {
+    std::string fullFilePath = fs::join(path, entry->d_name);
+    result.emplace_back(std::make_unique<LogFileEntry>(fullFilePath));
+  }
+
+  closedir(d);
+  return result;
 }
+
 #elif defined (_WIN32)
-FileEntryVector getFileEntriesWin(const std::string& path, 
+FileEntryList getFileEntriesWin(const std::string& path, 
                                   const std::string& mask) {
 }
 #endif
 
-FileEntryVector getFileEntries(const std::string& path, 
+FileEntryList getFileEntries(const std::string& path, 
                                const std::string& mask) {
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   return getFileEntriesUnix(path, mask);
@@ -52,5 +56,8 @@ int64_t LogFileEntry::size() const  {
 }
 
   getFileEntriesUnix();
+
+*/
 }
+
 }

@@ -18,7 +18,7 @@ bool maskFits(const std::string& fileName, const std::string& mask);
 }
 
 namespace str {
-int GlobMatch(const char *pattern, const char *mask);
+int globMatch(const char *pattern, const char *mask);
 
 namespace detail {
 template<typename... Args>
@@ -106,6 +106,7 @@ std::string join(const Args&... tail) {
   std::string result;
   result.reserve(detail::calcSize(tail...));
   str::detail::fillResult(result, 0, tail...);
+  return result;
 }
 
 }

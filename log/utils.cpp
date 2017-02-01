@@ -11,7 +11,7 @@ namespace sl {
 namespace detail {
 
 namespace fs {
-int GlobMatch(const char *pattern, const char *mask)
+int globMatch(const char *pattern, const char *mask)
 {
   const char *patternCopy;
   char groupBuf[512];
@@ -26,7 +26,7 @@ int GlobMatch(const char *pattern, const char *mask)
         return 1;
       patternCopy = pattern;
       for (; *patternCopy != 0; ++patternCopy) {
-        if (GlobMatch(patternCopy, mask + 1))
+        if (globMatch(patternCopy, mask + 1))
           return 1;
       }
       return 0;

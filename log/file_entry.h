@@ -16,11 +16,7 @@ public:
 };
 
 using FileEntryPtr = std::unique_ptr<FileEntry>;
-
-class FileEntryList {
-public:
-private:
-};
+using FileEntryList = std::vector<FileEntryPtr>;
 
 class LogFileEntry : public FileEntry {
 public:

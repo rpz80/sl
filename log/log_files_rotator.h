@@ -36,7 +36,7 @@ private:
   std::string m_fileNamePattern;
   std::string m_fullPath;
   OstreamPtr m_currentFile;
-  FileEntryVector m_fileInfos;
+  // FileEntryVector m_fileInfos;
 };
 
 }

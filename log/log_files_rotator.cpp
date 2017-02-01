@@ -4,7 +4,7 @@ namespace sl {
 namespace detail {
 
 const std::string LogFileRotator::kLogFileExtension = ".log";
-
+/*
 LogFileRotator::LogFileRotator(const std::string& path, 
                                const std::string& fileNamePattern,
                                int64_t totalLimit,
@@ -35,6 +35,6 @@ int64_t LogFileRotator::clearNeeded(int64_t spaceToClear) {
 
 bool LogFileRotator::nextFile() {
 }
-
+*/
 }
 }

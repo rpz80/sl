@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hh"
 #include <log/log.h>
+#include <log/utils.h>
 
 TEST_CASE("Format") {
   REQUIRE(sl::fmt("% %!", "Hello", "world") == "Hello world!");
@@ -11,6 +12,12 @@ TEST_CASE("Format") {
   REQUIRE(sl::fmt("%%%", 1, 2.45) == "12.45%");
 }
 
+TEST_CASE("Utils", "join") {
+  using namespace sl::detail;
+
+  REQUIRE(str::join("ab", "cd") == "abcd");
+}
+/*
 class TestLogger : public sl::Logger {
 public:
   void setDefaultSink(sl::Level level,
@@ -214,5 +221,5 @@ TEST_CASE("Logger") {
 
 TEST_CASE("Logging macros") {
 }
-
+*/
 
