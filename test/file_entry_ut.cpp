@@ -11,6 +11,6 @@ struct TestFile {
 void populateTestDir(const struct TestFile* testFiles, int testFileCount) {
 } 
 
-TEST("FileEntryTest", "[file_entry, get_entries]") {
+TEST_CASE("FileEntryTest", "[file_entry, get_entries]") {
 
 }
