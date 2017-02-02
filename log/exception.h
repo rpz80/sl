@@ -21,7 +21,7 @@ void throwIfNot(bool value, const std::string& message) {
     throw Exception(message);
 }
 
-void throwLoggerExceptionIfNot(bool value, const std::string& message) {
+inline void throwLoggerExceptionIfNot(bool value, const std::string& message) {
   throwIfNot<LoggerException>(value, message);
 }
 

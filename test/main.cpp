@@ -12,13 +12,25 @@ TEST_CASE("Format") {
   REQUIRE(sl::fmt("%%%", 1, 2.45) == "12.45%");
 }
 
-TEST_CASE("Utils", "join") {
+TEST_CASE("join", "utils") {
   using namespace sl::detail;
 
   REQUIRE(str::join("ab", "cd") == "abcd");
   REQUIRE(str::join(std::string("ab"), std::string("cd"), std::string("ef")) == "abcdef");
   REQUIRE(str::join(std::string("ab"), "cd", "ef") == "abcdef");
   REQUIRE(str::join(std::string("ab"), "cd", "ef", std::string("gh")) == "abcdefgh");
+  REQUIRE(str::join(std::string("ab"), "cd", "ef", std::string("")) == "abcdef");
+  REQUIRE(str::join(std::string("ab"), "", "ef", std::string("")) == "abef");
+}
+
+TEST_CASE("glob", "utils") {
+  using namespace sl::detail;
+
+  REQUIRE(fs::globMatch("*", "file.txt"));
+  REQUIRE(fs::globMatch("*", ""));
+  REQUIRE(fs::globMatch("*.txt", "file.txt"));
+  REQUIRE(fs::globMatch("f[oiu]l?.txt", "file.txt"));
+  REQUIRE(fs::globMatch("/s*/pa??/[uioef][krri]/??.*", "/some/path/file.txt"));
 }
 /*
 class TestLogger : public sl::Logger {
