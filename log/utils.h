@@ -15,11 +15,10 @@ namespace fs {
 std::string join(const std::string& subPath1, 
                  const std::string& subPath2);
 
-bool maskFits(const std::string& fileName, const std::string& mask);
+int globMatch(const char *pattern, const char *mask);
 }
 
 namespace str {
-int globMatch(const char *pattern, const char *mask);
 
 namespace detail {
 template<typename... Args>
