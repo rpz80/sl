@@ -25,7 +25,25 @@ namespace detail {
 template<typename... Args>
 size_t calcSize(const Args&... args);
 
-size_t calcSize(const std::string& head) {
+template<typename... Tail>
+size_t calcSize(const std::string& head, const Tail&... tail);
+
+template<size_t N, typename... Tail>
+size_t calcSize(char const(&) [N], const Tail&... tail);
+
+template<typename... Tail>
+void fillResult(std::string& result, 
+                size_t startIndex,
+                const std::string& head,
+                const Tail&... tail);
+
+template<size_t N, typename... Tail>
+void fillResult(std::string& result,
+                size_t startIndex,
+                char const(&head) [N],
+                const Tail&... tail);
+
+inline size_t calcSize(const std::string& head) {
   return head.size();
 }
 

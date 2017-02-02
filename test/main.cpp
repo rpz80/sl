@@ -17,8 +17,8 @@ TEST_CASE("Utils", "join") {
 
   REQUIRE(str::join("ab", "cd") == "abcd");
   REQUIRE(str::join(std::string("ab"), std::string("cd"), std::string("ef")) == "abcdef");
-  REQUIRE(str::join(std::string("ab"), "cd", "ef") == "abcd");
-  // REQUIRE(str::join(std::string("ab"), "cd", "ef", std::string("gh")) == "abcdefgh");
+  REQUIRE(str::join(std::string("ab"), "cd", "ef") == "abcdef");
+  REQUIRE(str::join(std::string("ab"), "cd", "ef", std::string("gh")) == "abcdefgh");
 }
 /*
 class TestLogger : public sl::Logger {
