@@ -3,7 +3,7 @@
 #include <log/log.h>
 #include <log/utils.h>
 
-TEST_CASE("Format") {
+TEST_CASE("FormatTest", "[utils, format]") {
   REQUIRE(sl::fmt("% %!", "Hello", "world") == "Hello world!");
   REQUIRE(sl::fmt("% % % \%", 1, std::string("2"), "three") == "1 2 three %");
   REQUIRE(sl::fmt("% % % \%", 1, std::string("2")) == "1 2 % %");
@@ -12,7 +12,7 @@ TEST_CASE("Format") {
   REQUIRE(sl::fmt("%%%", 1, 2.45) == "12.45%");
 }
 
-TEST_CASE("join", "utils") {
+TEST_CASE("StrJoinTest", "[utils, join]") {
   using namespace sl::detail;
 
   REQUIRE(str::join("ab", "cd") == "abcd");
@@ -23,15 +23,17 @@ TEST_CASE("join", "utils") {
   REQUIRE(str::join(std::string("ab"), "", "ef", std::string("")) == "abef");
 }
 
-TEST_CASE("glob", "utils") {
+TEST_CASE("FsGlobTest", "[utils, glob]") {
   using namespace sl::detail;
 
-  REQUIRE(fs::globMatch("*", "file.txt"));
-  REQUIRE(fs::globMatch("*", ""));
-  REQUIRE(fs::globMatch("*.txt", "file.txt"));
-  REQUIRE(fs::globMatch("f[oiu]l?.txt", "file.txt"));
-  REQUIRE(fs::globMatch("/s*/pa??/[uioef][krri]/??.*", "/some/path/file.txt"));
+  REQUIRE(fs::globMatch("file.txt", "*"));
+  REQUIRE(fs::globMatch("", "*"));
+  REQUIRE(fs::globMatch("file.txt", "*.txt"));
+  REQUIRE(fs::globMatch("file.txt", "f[oiu]l?.txt"));
+  REQUIRE(fs::globMatch("/some/path/file.txt", "/s*/p??h/[uioef][krri]??.*"));
+  REQUIRE(fs::globMatch("/some/path/file.txt", "/s*/p??h/[uioef][krri]???.*") == false);
 }
+
 /*
 class TestLogger : public sl::Logger {
 public:

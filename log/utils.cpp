@@ -11,7 +11,7 @@ namespace sl {
 namespace detail {
 
 namespace fs {
-int globMatch(const char *pattern, const char *mask)
+bool globMatch(const char *pattern, const char *mask)
 {
   const char *patternCopy;
   char groupBuf[512];
@@ -23,17 +23,17 @@ int globMatch(const char *pattern, const char *mask)
     switch (*mask) {
     case '*': {
       if (*(mask + 1) == '\0')
-        return 1;
+        return true;
       patternCopy = pattern;
       for (; *patternCopy != 0; ++patternCopy) {
         if (globMatch(patternCopy, mask + 1))
-          return 1;
+          return true;
       }
-      return 0;
+      return false;
     }
     case '?': {
       if (*pattern++ == '\0')
-        return 0;
+        return false;
       break;
     }
     case '[': {
@@ -42,14 +42,14 @@ int globMatch(const char *pattern, const char *mask)
       notGroupFlag = 0;
       ++mask;
       if (*mask == 0)
-        return 0;
+        return false;
       if (*mask == '!') {
         notGroupFlag = 1;
         ++mask;
       }
       while (1) {
         if (*mask == 0)
-          return 0;
+          return false;
         if (*mask == ']') {
           break;
         }
@@ -59,7 +59,7 @@ int globMatch(const char *pattern, const char *mask)
       for (i = 0; i < groupSize; ++i) {
         if (*pattern == groupBuf[i]) {
           if (notGroupFlag)
-            return 0;
+            return false;
           break;
         }
       }
@@ -68,15 +68,15 @@ int globMatch(const char *pattern, const char *mask)
     }
     default: {
       if (*pattern++ != *mask)
-        return 0;
+        return false;
     }
     }
   }
 
   if (*pattern == '\0')
-    return 1;
+    return true;
 
-  return 0;
+  return false;
 }
 
 std::string join(const std::string& subPath1, 

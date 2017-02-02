@@ -15,7 +15,7 @@ namespace fs {
 std::string join(const std::string& subPath1, 
                  const std::string& subPath2);
 
-int globMatch(const char *pattern, const char *mask);
+bool globMatch(const char *pattern, const char *mask);
 }
 
 namespace str {
