@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdexcept>
+#include <memory>
 #include <log/format.h>
 #include <log/file_entry.h>
 #include <log/utils.h>
@@ -21,9 +22,11 @@ FileEntryList getFileEntriesUnix(const std::string& path,
     return result;
   }
 
-  while ((entry = readdir(d)) != nullptr && entry->d_type == DT_REG) {
-    std::string fullFilePath = fs::join(path, entry->d_name);
-    result.emplace_back(std::make_unique<LogFileEntry>(fullFilePath));
+  while ((entry = readdir(d)) != nullptr) {
+    if (entry->d_type == DT_REG && fs::globMatch(entry->d_name, mask.data())) {
+      std::string fullFilePath = fs::join(path, entry->d_name);
+      result.emplace_back(std::unique_ptr<LogFileEntry>(new LogFileEntry(fullFilePath)));
+    }
   }
 
   closedir(d);
