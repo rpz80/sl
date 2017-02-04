@@ -88,6 +88,33 @@ int64_t LogFileEntry::size() const {
 #endif
 }
 
+bool LogFileEntry::exists() const {
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+  struct stat st; 
+  if (stat(m_fullPath.c_str(), &st) == 0)
+    return true;
+#elif defined(_WIN32)
+#endif
+  return false;
+}
+
+OstreamPtr LogFileEntry::stream() {
+  if (m_stream) {
+    return m_stream;
+  }
+  m_stream = OstreamPtr(new std::ofstream(m_fullPath));
+  if (!std::static_pointer_cast<std::ofstream>(m_stream)->is_open()) {
+    m_stream.reset();
+    throw std::runtime_error(sl::fmt("Failed to open file % for write", m_fullPath));
+  }
+  return m_stream;
+}
+
+void LogFileEntry::closeStream() {
+  if (m_stream)
+    std::static_pointer_cast<std::ofstream>(m_stream)->close();
+}
+
 }
 
 }

@@ -78,27 +78,11 @@ bool removeDir(const char* dirName) {
   return rmdir(dirName) == 0;
 }
 
-bool hasFile(const char* dirName, const char* fileName) {
-  DIR* d;
-  struct dirent* entry;
-  struct stat st;  
-  char nameBuf[512];
-
-  if ((d = opendir(dirName)) == nullptr) {
-    printf("open dir failed %s\n", dirName);
+bool fileExists(const char* name) {
+  struct stat st;
+  if (stat(name, &st) != 0)
     return false;
-  }
-
-  while ((entry = readdir(d)) != nullptr) {
-    if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
-      continue;
-    }
-    if (strcmp(catFileName(nameBuf, dirName, entry->d_name), fileName) == 0) {
-      return true;
-    }
-  }
-
-  return false;
+  return true;
 }
 
 TEST_CASE("FileEntryTest", "[file_entry]") {
@@ -119,8 +103,29 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
     });
     REQUIRE(fileIt != fileEntries.cend());
     REQUIRE((*fileIt)->size() == i + 1);
-    REQUIRE(hasFile(dirName, (*fileIt)->name().data()));
+    REQUIRE(fileExists((*fileIt)->name().data()));
+    REQUIRE((*fileIt)->exists());
   }
+
+  const char* newName = catFileName(nameBuffer, dirName, "newName");
+  fileEntries[0]->rename(newName);
+  REQUIRE(fileEntries[0]->name() == newName);
+  REQUIRE(fileExists(newName));
+  REQUIRE(fileEntries[0]->exists());
+
+  const char* stringToWrite = "abcd";
+  auto stream = fileEntries[0]->stream();
+  stream->write(stringToWrite, 5);
+  fileEntries[0]->closeStream();
+  FILE* f = fopen(fileEntries[0]->name().data(), "r");
+  REQUIRE(f);
+  fread(nameBuffer, 1, 5, f);
+  REQUIRE(strcmp(stringToWrite, nameBuffer) == 0);
+  fclose(f);
+
+  fileEntries[0]->remove();
+  REQUIRE(!fileExists(fileEntries[0]->name().data()));
+  REQUIRE(!fileEntries[0]->exists());
 
   REQUIRE(removeDir(dirName));
 }
