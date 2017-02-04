@@ -96,6 +96,7 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   auto fileEntries = getFileEntries(dirName, "file*");
   REQUIRE(fileEntries.size() == fileCount);
 
+  /* contents */
   for (int i = 0; i < fileCount; ++i) {
     printf("file: %s\n", fileEntries[i]->name().data());
     auto fileIt = std::find_if(fileEntries.cbegin(), fileEntries.cend(), [&] (const FileEntryPtr& fileEntry) {
@@ -107,12 +108,14 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
     REQUIRE((*fileIt)->exists());
   }
 
+  /* rename */
   const char* newName = catFileName(nameBuffer, dirName, "newName");
   fileEntries[0]->rename(newName);
   REQUIRE(fileEntries[0]->name() == newName);
   REQUIRE(fileExists(newName));
   REQUIRE(fileEntries[0]->exists());
 
+  /* stream && write */
   const char* stringToWrite = "abcd";
   auto stream = fileEntries[0]->stream();
   stream->write(stringToWrite, 5);
@@ -123,6 +126,7 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   REQUIRE(strcmp(stringToWrite, nameBuffer) == 0);
   fclose(f);
 
+  /* remove */
   fileEntries[0]->remove();
   REQUIRE(!fileExists(fileEntries[0]->name().data()));
   REQUIRE(!fileEntries[0]->exists());
