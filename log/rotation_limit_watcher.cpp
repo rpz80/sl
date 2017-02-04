@@ -27,7 +27,7 @@ void RotationLimitWatcher::addWritten(int64_t bytesWritten) {
 
   m_size += bytesWritten;
 
-  if (m_size > m_totalLimit) {
+  if (m_size >= m_totalLimit) {
     auto clearedSize = m_handler->clearNeeded();
     if (clearedSize != -1) {
       m_size -= clearedSize;

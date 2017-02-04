@@ -1,12 +1,9 @@
-#include <unistd.h>
-#include <sys/stat.h>
-#include <dirent.h>
-
 #include <assert.h>
 #include <string.h>
 
 #include "catch.hh"
 #include <log/file_entry.h>
+#include "test_utils.h"
 
 const char* catFileName(char* buffer, const char* dirName, const char* fname) {
   strcpy(buffer, dirName);

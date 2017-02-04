@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <memory>
-#include <vector>
+#include <deque>
 #include <string>
 #include <log/common_types.h>
 
@@ -21,7 +21,7 @@ public:
 };
 
 using FileEntryPtr = std::unique_ptr<FileEntry>;
-using FileEntryList = std::vector<FileEntryPtr>;
+using FileEntryList = std::deque<FileEntryPtr>;
 
 FileEntryList getFileEntries(const std::string& path, 
                              const std::string& mask); 
