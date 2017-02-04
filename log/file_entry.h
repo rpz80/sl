@@ -38,6 +38,8 @@ public:
   virtual OstreamPtr stream() override;
   virtual void closeStream() override;
 
+  static FileEntryPtr create(const std::string& fullPath);
+
 private:
   std::string m_fullPath;
   OstreamPtr m_stream;

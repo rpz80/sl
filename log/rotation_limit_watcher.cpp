@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <log/rotation_limit_watcher.h>
 
 namespace sl {
@@ -10,32 +11,32 @@ RotationLimitWatcher::RotationLimitWatcher(
   m_totalLimit(totalLimit),
   m_fileLimit(fileLimit),
   m_size(0),
-  m_watcherHandler(watcherHandler) {}
-
-bool RotationLimitWatcher::processTotalLimitOverflow(int64_t bytesWritten) {
-  if (m_size > m_totalLimit) {
-    auto clearedSize = 
-        m_watcherHandler->clearNeeded(m_size - m_totalLimit);
-    if (clearedSize != -1) {
-      m_size -= clearedSize;
-    }
-    return true;
-  }
-  return false;
-}
-
-void RotationLimitWatcher::processFileLimitOverflow(int64_t oldSize) {
-  if (oldSize / m_fileLimit != m_size / m_fileLimit) {
-    m_watcherHandler->nextFile();
-  }
+  m_handler(watcherHandler) {
+  if (m_totalLimit < m_fileLimit) {
+    throw std::runtime_error("RotationLimitWatcher: totalLimit < fileLimit");
+  } 
 }
 
 void RotationLimitWatcher::addWritten(int64_t bytesWritten) {
-  auto oldSize = m_size;
-  m_size += bytesWritten;
-  if (!processTotalLimitOverflow(bytesWritten)) {
-    processFileLimitOverflow(oldSize);
+  int fileCount = m_size / m_fileLimit;
+  int newFileCount = (m_size + bytesWritten) / m_fileLimit;
+
+  if (newFileCount != fileCount) {
+    m_handler->nextFile();
   }
+
+  m_size += bytesWritten;
+
+  if (m_size > m_totalLimit) {
+    auto clearedSize = m_handler->clearNeeded();
+    if (clearedSize != -1) {
+      m_size -= clearedSize;
+    }
+  }
+}
+
+void RotationLimitWatcher::setSize(int64_t size) {
+  m_size = size;
 }
 
 }

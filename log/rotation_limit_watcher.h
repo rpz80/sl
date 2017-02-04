@@ -14,16 +14,13 @@ public:
     RotationLimitWatcherHandler* watcherHandler);
 
   void addWritten(int64_t bytesWritten);
-
-private:
-  bool processTotalLimitOverflow(int64_t bytesWritten);
-  void processFileLimitOverflow(int64_t oldSize);
+  void setSize(int64_t);
 
 private:
   int64_t m_totalLimit;
   int64_t m_fileLimit;
   int64_t m_size;
-  RotationLimitWatcherHandler* m_watcherHandler;
+  RotationLimitWatcherHandler* m_handler;
 };
 
 }

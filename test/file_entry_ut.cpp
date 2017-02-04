@@ -89,6 +89,7 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   using namespace sl::detail;
 
   char nameBuffer[512];
+  char contentBuf[256];
   const int fileCount = 10;
   char dirTemplate[] = "/tmp/sl.XXXXXX";
   const char* dirName = populateTestDir(dirTemplate, fileCount);
@@ -122,14 +123,22 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   fileEntries[0]->closeStream();
   FILE* f = fopen(fileEntries[0]->name().data(), "r");
   REQUIRE(f);
-  fread(nameBuffer, 1, 5, f);
-  REQUIRE(strcmp(stringToWrite, nameBuffer) == 0);
+  fread(contentBuf, 1, 5, f);
+  REQUIRE(strcmp(stringToWrite, contentBuf) == 0);
   fclose(f);
 
   /* remove */
   fileEntries[0]->remove();
   REQUIRE(!fileExists(fileEntries[0]->name().data()));
   REQUIRE(!fileEntries[0]->exists());
+
+  /* create */
+  const char* createdEntry = catFileName(nameBuffer, dirName, "createdEntry");
+  REQUIRE(!fileExists(createdEntry));
+  auto newFileEntry = LogFileEntry::create(createdEntry);
+  REQUIRE(newFileEntry->exists());
+  REQUIRE(newFileEntry->name() == createdEntry);
+  REQUIRE(newFileEntry->size() == 0);
 
   REQUIRE(removeDir(dirName));
 }

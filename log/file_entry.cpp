@@ -12,8 +12,7 @@ namespace detail {
 #include <dirent.h>
 #include <sys/stat.h>
 
-FileEntryList getFileEntriesUnix(const std::string& path, 
-                                 const std::string& mask) {
+FileEntryList getFileEntriesUnix(const std::string& path, const std::string& mask) {
   DIR* d;
   struct dirent* entry;
   FileEntryList result;
@@ -41,8 +40,7 @@ int64_t getFileSizeUnix(const std::string& fullPath) {
 }
 
 #elif defined (_WIN32)
-FileEntryList getFileEntriesWin(const std::string& path, 
-                                  const std::string& mask) {
+FileEntryList getFileEntriesWin(const std::string& path, const std::string& mask) {
 }
 
 int64_t getFileSizeWin(const std::string& fullPath) {
@@ -50,8 +48,7 @@ int64_t getFileSizeWin(const std::string& fullPath) {
 }
 #endif
 
-FileEntryList getFileEntries(const std::string& path, 
-                             const std::string& mask) {
+FileEntryList getFileEntries(const std::string& path, const std::string& mask) {
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   return getFileEntriesUnix(path, mask);
 #elif defined (_WIN32)
@@ -102,7 +99,9 @@ OstreamPtr LogFileEntry::stream() {
   if (m_stream) {
     return m_stream;
   }
-  m_stream = OstreamPtr(new std::ofstream(m_fullPath));
+  m_stream = OstreamPtr(new std::ofstream(m_fullPath, std::ios_base::out | 
+                                                      std::ios_base::ate | 
+                                                      std::ios_base::binary));
   if (!std::static_pointer_cast<std::ofstream>(m_stream)->is_open()) {
     m_stream.reset();
     throw std::runtime_error(sl::fmt("Failed to open file % for write", m_fullPath));
@@ -115,6 +114,14 @@ void LogFileEntry::closeStream() {
     std::static_pointer_cast<std::ofstream>(m_stream)->close();
 }
 
+FileEntryPtr LogFileEntry::create(const std::string& fullPath) {
+  FILE* f = fopen(fullPath.c_str(), "w");
+  if (f == nullptr) {
+    throw std::runtime_error(sl::fmt("LogFileEntry: create % failed", fullPath));
+  }
+  fclose(f);
+  return FileEntryPtr(new LogFileEntry(fullPath));
 }
 
-}
+} // detail
+} // sl
