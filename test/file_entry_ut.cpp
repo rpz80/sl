@@ -8,11 +8,16 @@
 #include "catch.hh"
 #include <log/file_entry.h>
 
-
-const char* getFullFileName(char* buffer, const char* dirName, const char* fname, int index) {
+const char* catFileName(char* buffer, const char* dirName, const char* fname) {
   strcpy(buffer, dirName);
   strcat(buffer, "/");
-  strcat(buffer, "file");
+  strcat(buffer, fname);
+
+  return buffer;
+}
+
+const char* getFullFileName(char* buffer, const char* dirName, const char* fname, int index) {
+  catFileName(buffer, dirName, fname);
   sprintf(buffer + strlen(buffer), "%d", index);
 
   return buffer;
@@ -30,8 +35,9 @@ const char* populateTestDir(char* dirTemplate, int testFileCount) {
     f = fopen(fullFileName, "wb");
     assert(f);
 
-    for (int j = 0; j <= i + 1; ++j)
+    for (int j = 0; j < i + 1; ++j) {
       fwrite("a", 1, 1, f);
+    }
 
     fclose(f);
   }
@@ -43,18 +49,28 @@ bool removeDir(const char* dirName) {
   DIR* d;
   struct dirent* entry;
   struct stat st;
+  char nameBuf[512];
 
   if ((d = opendir(dirName)) == nullptr) {
+    printf("open dir failed %s\n", dirName);
     return false;
   }
 
   while ((entry = readdir(d)) != nullptr) {
-    if (!stat(entry->d_name, &st))
+    if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
+      continue;
+    }
+    if (stat(catFileName(nameBuf, dirName, entry->d_name), &st) != 0) {
+      printf("stat failed %s\n", nameBuf);
       return false;
-    if (S_ISDIR(st.st_mode))
-      return removeDir(entry->d_name);
-    if (!remove(entry->d_name))
+    }
+    if (S_ISDIR(st.st_mode)) {
+      return removeDir(catFileName(nameBuf, dirName, entry->d_name));
+    }
+    if (remove(catFileName(nameBuf, dirName, entry->d_name)) != 0) {
+      printf("remove failed %s\n", nameBuf);
       return false;
+    }
   }
 
   closedir(d);
@@ -62,7 +78,30 @@ bool removeDir(const char* dirName) {
   return rmdir(dirName) == 0;
 }
 
-TEST_CASE("FileEntryTest", "[file_entry, get_entries]") {
+bool hasFile(const char* dirName, const char* fileName) {
+  DIR* d;
+  struct dirent* entry;
+  struct stat st;  
+  char nameBuf[512];
+
+  if ((d = opendir(dirName)) == nullptr) {
+    printf("open dir failed %s\n", dirName);
+    return false;
+  }
+
+  while ((entry = readdir(d)) != nullptr) {
+    if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
+      continue;
+    }
+    if (strcmp(catFileName(nameBuf, dirName, entry->d_name), fileName) == 0) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+TEST_CASE("FileEntryTest", "[file_entry]") {
   using namespace sl::detail;
 
   char nameBuffer[512];
@@ -75,7 +114,12 @@ TEST_CASE("FileEntryTest", "[file_entry, get_entries]") {
 
   for (int i = 0; i < fileCount; ++i) {
     printf("file: %s\n", fileEntries[i]->name().data());
-    // REQUIRE(fileEntries[i]->name() == getFullFileName(nameBuffer, dirName, "file", i));
+    auto fileIt = std::find_if(fileEntries.cbegin(), fileEntries.cend(), [&] (const FileEntryPtr& fileEntry) {
+      return fileEntry->name() == getFullFileName(nameBuffer, dirName, "file", i);
+    });
+    REQUIRE(fileIt != fileEntries.cend());
+    REQUIRE((*fileIt)->size() == i + 1);
+    REQUIRE(hasFile(dirName, (*fileIt)->name().data()));
   }
 
   REQUIRE(removeDir(dirName));
