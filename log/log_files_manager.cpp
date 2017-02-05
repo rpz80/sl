@@ -19,7 +19,7 @@ LogFilesManager::LogFilesManager(const std::string& logDir,
 {
   if (m_fileEntries.empty()) {
     auto fileEntryName = fs::join(logDir, str::join(fileNamePattern, ".log"));
-    m_fileEntries.emplace_back(LogFileEntry::create(fileEntryName));
+    m_fileEntries.emplace_back(FileEntry::create(fileEntryName));
   } else {
     std::sort(m_fileEntries.begin(),
               m_fileEntries.end(), 
@@ -63,7 +63,8 @@ void LogFilesManager::nextFile() {
     if (fileEntry->name()[baseNameSize] == '.') {
       strcat(buf, "1");
     } else {
-      long fileNumber = strtol(fileEntry->name().data() + baseNameSize, nullptr, 10);
+      long fileNumber = strtol(fileEntry->name().data() + baseNameSize, 
+                               nullptr, 10);
       sprintf(buf + baseNameSize, "%ld", fileNumber + 1);
     }
     strcat(buf, kLogFilesManagerExtension.data());
@@ -73,7 +74,7 @@ void LogFilesManager::nextFile() {
   strncpy(buf, baseNamePattern.data(), baseNameSize);
   buf[baseNameSize] = '\0';
   strcat(buf, kLogFilesManagerExtension.data());
-  m_fileEntries.push_front(LogFileEntry::create(buf));
+  m_fileEntries.push_front(FileEntry::create(buf));
   m_stream = m_fileEntries[0]->stream();
 }
 
@@ -81,6 +82,10 @@ void LogFilesManager::write(const char* data, int64_t size) {
   m_stream->write(data, size);
   m_stream->flush();
   m_limitWatcher.addWritten(size);
+}
+
+std::string LogFilesManager::fileNamePattern() const {
+  return m_fileNamePattern;
 }
 
 }

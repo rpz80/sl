@@ -132,7 +132,7 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   /* create */
   const char* createdEntry = catFileName(nameBuffer, dirName, "createdEntry");
   REQUIRE(!fileExists(createdEntry));
-  auto newFileEntry = LogFileEntry::create(createdEntry);
+  auto newFileEntry = FileEntry::create(createdEntry);
   REQUIRE(newFileEntry->exists());
   REQUIRE(newFileEntry->name() == createdEntry);
   REQUIRE(newFileEntry->size() == 0);

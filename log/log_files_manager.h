@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
 #include <log/common_types.h>
 #include <log/rotation_limit_watcher_handler.h>
 #include <log/rotation_limit_watcher.h>
@@ -19,6 +20,7 @@ public:
                  int64_t fileLimit);
 
   void write(const char* data, int64_t size);
+  std::string fileNamePattern() const;
   
 private:
   virtual int64_t clearNeeded() override;
@@ -32,5 +34,6 @@ private:
   OstreamPtr m_stream;
 };
 
+using LogFilesManagerPtr = std::unique_ptr<LogFilesManager>;
 }
 }

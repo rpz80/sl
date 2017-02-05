@@ -12,6 +12,7 @@
 #include <log/common_types.h>
 #include <log/format.h>
 #include <log/exception.h>
+#include <log/log_files_manager.h>
 
 namespace sl {
 
@@ -32,25 +33,18 @@ void writeLogData(std::stringstream& messageStream,
 
 class Logger {
   struct Sink {
+    detail::LogFilesManagerPtr fileManager;
     Level level;
-    std::string path;
-    std::string fileNamePattern;
-    detail::OstreamPtr out;
     bool duplicateToStdout;
     std::unique_ptr<std::mutex> mutex;
 
-    Sink() : level(Level::error), 
+    Sink() : level(Level::error),
              duplicateToStdout(false) {}
 
     Sink(Level level, 
-         const std::string& path,
-         const std::string& fileNamePattern,
-         detail::OstreamPtr out,
+         detail::LogFilesManagerPtr fileManager, 
          bool duplicateToStdout) :
       level(level),
-      path(path),
-      fileNamePattern(fileNamePattern),
-      out(std::move(out)),
       duplicateToStdout(duplicateToStdout),
       mutex(new std::mutex) {}
   };
@@ -68,18 +62,22 @@ public:
   Level getDefaultLevel() const;
 
   void addSink(int sinkId, 
+               const std::string& logDir,
                const std::string& fileNamePattern,
                Level level,
+               int64_t totalLimit,
+               int64_t fileLimit,
                bool duplicateToStdout = false);
 
-  void removeSink(int sinkId);
   bool hasSink(int sinkId) const;
 
-  void setDefaultSink(const std::string& fileNamePattern,
-                      Level level,
+  void setDefaultSink(const std::string& logDir, 
+                      const std::string& fileNamePattern, 
+                      Level level, 
+                      int64_t totalLimit, 
+                      int64_t fileLimit,
                       bool duplicateToStdout = false);
 
-  void removeDefaultSink();
   bool hasDefaultSink() const;
 
   template<typename... Args>
@@ -100,8 +98,9 @@ public:
            const char* formatString, 
            Args&&... args) {
     sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-    detail::throwLoggerExceptionIfNot(static_cast<bool>(m_defaultSink.out),
-                        fmt("% No default sink", __FUNCTION__));
+    detail::throwLoggerExceptionIfNot(
+        static_cast<bool>(m_defaultSink.fileManager), 
+        fmt("% No default sink", __FUNCTION__));
     writeToSink(m_defaultSink, 
                 level, 
                 formatString,
@@ -112,17 +111,6 @@ public:
   static Logger& getLogger();
 
 protected:
-  void setDefaultSink(Level level,
-                      const std::string& fileName,
-                      const detail::OstreamPtr& sinkStream,
-                      bool duplicateToStdout);
-
-  void addSink(int sinkId, 
-               Level level,
-               const std::string& fileName,
-               const detail::OstreamPtr& sinkStream,
-               bool duplicateToStdout);
-
   std::string getFileNamePattern(int sinkId) const;
   std::string getDefaultFileNamePattern() const;
   std::string getTimeFormat() const;
@@ -130,6 +118,7 @@ protected:
 private:
   SinkMapConstIterator getSinkById(int sinkId) const;
   SinkMapIterator getSinkById(int sinkId);
+  void checkSinkWithPattern(const std::string& fileName) const;
 
   template<typename... Args>
   void writeToSink(Sink& sink, 
@@ -143,9 +132,10 @@ private:
                 std::forward<Args>(args)...);
     messageStream << std::endl << std::endl;
     std::lock_guard<std::mutex>(*sink.mutex);
-    *sink.out << messageStream.str();
+    auto outString = messageStream.str();
+    sink.fileManager->write(outString.data(), outString.size());
     if (sink.duplicateToStdout) {
-      std::cout << messageStream.str();
+      std::cout << outString;
     }
   }
 
