@@ -145,7 +145,8 @@ TEST_CASE("Logger") {
                      kFileNamePattern, kSinkLevel);
 
   }
-}
 
-TEST_CASE("Logging macros") {
+  SECTION("Logging") {
+
+  }
 }
