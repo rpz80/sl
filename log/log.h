@@ -44,6 +44,7 @@ class Logger {
     Sink(Level level, 
          detail::LogFilesManagerPtr fileManager, 
          bool duplicateToStdout) :
+      fileManager(std::move(fileManager)),
       level(level),
       duplicateToStdout(duplicateToStdout),
       mutex(new std::mutex) {}

@@ -85,7 +85,7 @@ void LogFilesManager::write(const char* data, int64_t size) {
 }
 
 std::string LogFilesManager::fileNamePattern() const {
-  return m_fileNamePattern;
+  return m_fileNamePattern.substr(0, m_fileNamePattern.size() - 1);
 }
 
 }
