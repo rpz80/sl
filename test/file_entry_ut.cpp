@@ -114,16 +114,20 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   REQUIRE(fileEntries[0]->exists());
 
   /* stream && write */
-  const char* stringToWrite = "abcd";
+  const char* stringToWrite = "xbcd";
+  int stringToWriteLen = strlen(stringToWrite);
   auto stream = fileEntries[0]->stream();
   REQUIRE(stream);
-  fwrite(stringToWrite, strlen(stringToWrite), 1, stream);
+  fwrite(stringToWrite, stringToWriteLen, 1, stream);
   fileEntries[0]->closeStream();
-  FILE* f = fopen(fileEntries[0]->name().data(), "rb");
+
+  FILE* f = fopen(fileEntries[0]->name().data(), "r");
   REQUIRE(f);
   fread(contentBuf, 5, 1, f);
-  printf("content buf: %s\n", contentBuf);
-  REQUIRE(strcmp(stringToWrite, contentBuf) == 0);
+  int contentLen = strlen(contentBuf);
+  for (int i = stringToWriteLen - 1; i >= 0; --i) {
+    REQUIRE(contentBuf[i + (contentLen - stringToWriteLen)] == stringToWrite[i]);
+  }
   fclose(f);
 
   /* remove */
@@ -135,6 +139,7 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   const char* createdEntry = catFileName(nameBuffer, dirName, "createdEntry");
   REQUIRE(!fileExists(createdEntry));
   auto newFileEntry = FileEntry::create(createdEntry);
+  REQUIRE(newFileEntry->stream());
   REQUIRE(newFileEntry->exists());
   REQUIRE(newFileEntry->name() == createdEntry);
   REQUIRE(newFileEntry->size() == 0);

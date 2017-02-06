@@ -15,6 +15,7 @@ using FileEntryPtr = std::unique_ptr<FileEntry>;
 class FileEntry {
 public:
   FileEntry(const std::string& fullPath);
+  ~FileEntry();
 
   void remove();
   void rename(const std::string& newName);

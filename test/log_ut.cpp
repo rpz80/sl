@@ -137,7 +137,9 @@ TEST_CASE("Logger") {
 
     REQUIRE(fileExists(filePath.data()));
 
-    auto fileStrings = splitBy(fileContent(contentBuf, filePath.data()), '\n');
+    const char* content = fileContent(contentBuf, filePath.data());
+    printf("Content: %s\n", content);
+    auto fileStrings = splitBy(content, '\n');
     REQUIRE(!fileStrings.empty());
     checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
   }

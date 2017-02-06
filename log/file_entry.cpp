@@ -65,6 +65,11 @@ FileEntry::FileEntry(const std::string& fullPath) :
     m_stream(nullptr) {
 }
 
+FileEntry::~FileEntry() {
+  if (m_stream)
+    fclose(m_stream);
+}
+
 void FileEntry::remove() {
   if (::remove(m_fullPath.data()) != 0) {
     throw std::runtime_error(sl::fmt("Delete file % failed", m_fullPath));
