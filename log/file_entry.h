@@ -21,14 +21,14 @@ public:
   std::string name() const;
   int64_t size() const;
   bool exists() const;
-  OstreamPtr stream();
+  FILE* stream();
   void closeStream();
 
   static FileEntryPtr create(const std::string& fullPath);
 
 private:
   std::string m_fullPath;
-  OstreamPtr m_stream;
+  FILE* m_stream;
 };
 
 using FileEntryList = std::deque<FileEntryPtr>;

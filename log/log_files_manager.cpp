@@ -79,8 +79,8 @@ void LogFilesManager::nextFile() {
 }
 
 void LogFilesManager::write(const char* data, int64_t size) {
-  m_stream->write(data, size);
-  m_stream->flush();
+  fwrite(data, size, 1, m_stream);
+  fflush(m_stream);
   m_limitWatcher.addWritten(size);
 }
 

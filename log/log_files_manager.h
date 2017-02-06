@@ -31,7 +31,7 @@ private:
   std::string m_logDir;
   std::string m_fileNamePattern;
   FileEntryList m_fileEntries;
-  OstreamPtr m_stream;
+  FILE* m_stream;
 };
 
 using LogFilesManagerPtr = std::unique_ptr<LogFilesManager>;

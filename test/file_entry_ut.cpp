@@ -116,11 +116,13 @@ TEST_CASE("FileEntryTest", "[file_entry]") {
   /* stream && write */
   const char* stringToWrite = "abcd";
   auto stream = fileEntries[0]->stream();
-  stream->write(stringToWrite, 5);
+  REQUIRE(stream);
+  fwrite(stringToWrite, strlen(stringToWrite), 1, stream);
   fileEntries[0]->closeStream();
-  FILE* f = fopen(fileEntries[0]->name().data(), "r");
+  FILE* f = fopen(fileEntries[0]->name().data(), "rb");
   REQUIRE(f);
-  fread(contentBuf, 1, 5, f);
+  fread(contentBuf, 5, 1, f);
+  printf("content buf: %s\n", contentBuf);
   REQUIRE(strcmp(stringToWrite, contentBuf) == 0);
   fclose(f);
 

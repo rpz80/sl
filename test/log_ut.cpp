@@ -133,7 +133,7 @@ TEST_CASE("Logger") {
     assertDefaultSinkState(logger, kFileName, sl::Level::debug);
 
     const auto filePath = fs::join(dirName, str::join(kFileName, ".log"));
-    logger.log(sl::Level::info, "% %", "hello world");
+    logger.log(sl::Level::info, "% %", "hello", "world");
 
     REQUIRE(fileExists(filePath.data()));
 

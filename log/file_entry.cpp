@@ -61,7 +61,8 @@ FileEntryList getFileEntries(const std::string& path, const std::string& mask) {
 }
 
 FileEntry::FileEntry(const std::string& fullPath) : 
-    m_fullPath(fullPath) {
+    m_fullPath(fullPath),
+    m_stream(nullptr) {
 }
 
 void FileEntry::remove() {
@@ -101,15 +102,12 @@ bool FileEntry::exists() const {
   return false;
 }
 
-OstreamPtr FileEntry::stream() {
+FILE* FileEntry::stream() {
   if (m_stream) {
     return m_stream;
   }
-  m_stream = OstreamPtr(new std::ofstream(m_fullPath, std::ios_base::out | 
-                                                      std::ios_base::ate | 
-                                                      std::ios_base::binary));
-  if (!std::static_pointer_cast<std::ofstream>(m_stream)->is_open()) {
-    m_stream.reset();
+  m_stream = fopen(m_fullPath.c_str(), "a");
+  if (m_stream == nullptr) {
     throw std::runtime_error(sl::fmt("Failed to open file % for write", 
                                      m_fullPath));
   }
@@ -117,16 +115,17 @@ OstreamPtr FileEntry::stream() {
 }
 
 void FileEntry::closeStream() {
-  if (m_stream)
-    std::static_pointer_cast<std::ofstream>(m_stream)->close();
+  if (m_stream) {
+    fflush(m_stream);
+    fclose(m_stream);
+    m_stream = nullptr;
+  }
 }
 
 FileEntryPtr FileEntry::create(const std::string& fullPath) {
-  FILE* f = fopen(fullPath.c_str(), "w");
-  if (f == nullptr) {
-    throw std::runtime_error(sl::fmt("FileEntry: create % failed", fullPath));
-  }
-  fclose(f);
+  // struct stat st;
+  // if (stat(fullPath.c_str(), &st) != 0)
+  //   throw std::runtime_error(sl::fmt("Directory % doesn't exist", fullPath));
   return FileEntryPtr(new FileEntry(fullPath));
 }
 
