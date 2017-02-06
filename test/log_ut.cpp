@@ -1,6 +1,7 @@
 #include "catch.hh"
 #include "test_utils.h"
 #include <log/log.h>
+#include <log/utils.h>
 
 const int64_t kTotalLimit = 30;
 const int64_t kFileLimit = 10;
@@ -111,9 +112,12 @@ void assertSinksState(TestLogger& logger,
 
 TEST_CASE("Logger") {
   TestLogger logger;
+  using namespace sl::detail;
 
   char dirTemplate[] = "/tmp/sl.XXXXXX";
   const char* dirName = mkdtemp(dirTemplate);
+  char buf[512];
+  char contentBuf[4096];
 
   SECTION("Uninitialized test") {
     assertUninitializedState(logger);
@@ -127,6 +131,15 @@ TEST_CASE("Logger") {
                           kTotalLimit, kFileLimit, true);
 
     assertDefaultSinkState(logger, kFileName, sl::Level::debug);
+
+    const auto filePath = fs::join(dirName, str::join(kFileName, ".log"));
+    logger.log(sl::Level::info, "% %", "hello world");
+
+    REQUIRE(fileExists(filePath.data()));
+
+    auto fileStrings = splitBy(fileContent(contentBuf, filePath.data()), '\n');
+    REQUIRE(!fileStrings.empty());
+    checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
   }
 
   SECTION("Sinks with Id") {
@@ -146,7 +159,5 @@ TEST_CASE("Logger") {
 
   }
 
-  SECTION("Logging") {
-
-  }
+  REQUIRE(removeDir(dirName));
 }

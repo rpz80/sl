@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <string.h>
 #include "catch.hh"
 #include <log/log_files_manager.h>
 #include "test_utils.h"
