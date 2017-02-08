@@ -48,7 +48,7 @@ void FileStream::write(const void* data, size_t size) {
 }
 
 bool FileStream::isOpened() const {
-  return m_stream == nullptr;
+  return m_stream != nullptr;
 }
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
