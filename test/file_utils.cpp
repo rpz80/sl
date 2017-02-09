@@ -50,8 +50,10 @@ private:
   }
 
   void close() {
-    if (m_dirHandle)
+    if (m_dirHandle) {
       closedir(m_dirHandle);
+      m_dirHandle = nullptr;
+    }
   }
 
   void processEntry(struct dirent* entry, EntryHandler handler) {
@@ -172,4 +174,7 @@ void TmpDir::remove() {
                                      __FUNCTION__, m_dirPath));
 }
 
+std::string TmpDir::path() const {
+  return m_dirPath;
+}
 }

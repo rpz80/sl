@@ -19,12 +19,14 @@ class TmpDir {
 public:
   TmpDir();
   TmpDir(const std::string& fileNamePattern, size_t count);
-  void forEachFile(FileHandler handler);
   ~TmpDir();
+  
+  void forEachFile(FileHandler handler);
+  std::string path() const;
 
 private:
   void create();
-  void populate(size_t count);
+  void populate(const std::string& fileNamePattern, size_t count);
   void remove();
   void forEachFile(const std::string& dirName, FileHandler handler);
   void processFile(const std::string& name, FileHandler handler);

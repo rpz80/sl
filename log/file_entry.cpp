@@ -41,7 +41,7 @@ void FileStream::close() {
 }
 
 void FileStream::write(const void* data, size_t size) {
-  auto bytesWritten = fwrite(data, size, 1, m_stream);
+  auto bytesWritten = fwrite(data, size, 1, m_stream) * size;
   if (bytesWritten != size) {
     throw std::runtime_error(sl::fmt("FileStream: file % write failed", m_fileName));
   }

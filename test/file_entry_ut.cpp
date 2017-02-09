@@ -1,3 +1,4 @@
+#include <random>
 #include <assert.h>
 #include <string.h>
 
@@ -6,6 +7,55 @@
 #include <log/utils.h>
 #include "file_utils.h"
 
+using namespace sl::detail;
+
+class WriterTest {
+public:
+  WriterTest(FileStream& stream) 
+    : m_stream(stream),
+      m_gen(m_device()) {}
+
+  void writeRandomData(size_t iterations = 500) {
+
+  }
+
+  std::vector<char>  expectedContent() const {
+    return m_expectedContent;
+  }
+private:
+  std::vector<char> genRandomData() {
+
+  }
+private:
+  std::vector<char> m_expectedContent;
+  FileStream& m_stream;
+  std::random_device m_device;
+  std::mt19937 m_gen;
+}
+
+TEST_CASE("FileStreamTest") {
+
+  futils::TmpDir tmpDir;
+  auto fname = fs::join(tmpDir.path(), "log_file");
+  FileStream stream(fname);
+
+  REQUIRE(futils::fileExists(fname));
+  REQUIRE(stream.isOpened());
+
+  SECTION("CloseTest") {
+    stream.close();
+    REQUIRE(futils::fileExists(fname));
+    REQUIRE(stream.isOpened() == false);
+  }
+
+  SECTION("WriteTest") {
+    stream.write("hello ", 5);
+    stream.write("world", 4);
+    stream.close();
+    auto content = futils::fileContent(fname);
+    REQUIRE(content.size() == 9);
+  }
+}
 /*
 TEST_CASE("FileEntryTest", "[file_entry]") {
   using namespace sl::detail;
