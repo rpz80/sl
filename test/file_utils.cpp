@@ -99,10 +99,9 @@ TmpDir::TmpDir() {
 }
 
 TmpDir::TmpDir(const std::string& fileNamePattern, size_t count) 
-  : m_fileNamePattern(fileNamePattern) 
 {
   create();
-  populate(count);
+  populate(fileNamePattern, count);
 }
 
 void TmpDir::create() {
@@ -113,11 +112,11 @@ void TmpDir::create() {
                                      __FUNCTION__));
 }
 
-void TmpDir::populate(size_t count) {
+void TmpDir::populate(const std::string& fileNamePattern, size_t count) {
   using namespace sl::detail;
 
   for (size_t i = 0; i < count; ++i) {
-    auto fullFileName = str::join(fs::join(m_dirPath, "file"), std::to_string(i));
+    auto fullFileName = str::join(fs::join(m_dirPath, fileNamePattern), std::to_string(i));
     std::ofstream ofs(fullFileName);
     detail::checkIfOpened(fullFileName, ofs);
   }

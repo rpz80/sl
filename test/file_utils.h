@@ -32,7 +32,6 @@ private:
 
 private:
   std::string m_dirPath;
-  std::string m_fileNamePattern;
 };
 
 }
