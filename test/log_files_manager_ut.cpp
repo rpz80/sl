@@ -2,33 +2,9 @@
 #include <string.h>
 #include "catch.hh"
 #include <log/log_files_manager.h>
-#include "test_utils.h"
+#include "file_utils.h"
 
-const char* fileContent(char* buf, const char* fileName) {
-  FILE* f;
-  int i = 0;
-
-  f = fopen(fileName, "rb");
-  assert(f);
-  while (fread(buf + i, 1, 1, f) != 0) {
-    ++i;
-  }
-  buf[i] = '\0';
-  fclose(f);
-
-  return buf;
-}
-
-int64_t fileSize(const char* fileName) {
-  struct stat st;
-  int result;
-
-  result = stat(fileName, &st);
-  assert(result == 0);
-
-  return st.st_size;
-}
-
+/*
 TEST_CASE("LogFilesManagerTest") {
   using namespace sl::detail;
 
@@ -77,3 +53,4 @@ TEST_CASE("LogFilesManagerTest") {
   
   REQUIRE(removeDir(dirName));
 }
+*/

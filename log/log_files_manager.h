@@ -3,7 +3,6 @@
 #include <string>
 #include <cstdint>
 #include <memory>
-#include <log/common_types.h>
 #include <log/rotation_limit_watcher_handler.h>
 #include <log/rotation_limit_watcher.h>
 #include <log/file_entry.h>
@@ -30,8 +29,6 @@ private:
   RotationLimitWatcher m_limitWatcher;
   std::string m_logDir;
   std::string m_fileNamePattern;
-  FileEntryList m_fileEntries;
-  FILE* m_stream;
 };
 
 using LogFilesManagerPtr = std::unique_ptr<LogFilesManager>;

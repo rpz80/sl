@@ -12,7 +12,7 @@ namespace sl {
 namespace detail {
 
 FileStream::FileStream(const std::string& fileName) 
-  : m_fileName(fileName)
+  : m_fileName(fileName),
     m_stream(nullptr) 
 {
   open();
@@ -104,13 +104,7 @@ FileEntryList getFileEntries(const std::string& path, const std::string& mask) {
 }
 
 FileEntry::FileEntry(const std::string& fullPath) : 
-    m_fullPath(fullPath),
-    m_stream(nullptr) {
-}
-
-FileEntry::~FileEntry() {
-  if (m_stream)
-    fclose(m_stream);
+    m_fullPath(fullPath) {
 }
 
 void FileEntry::remove() {
@@ -150,31 +144,8 @@ bool FileEntry::exists() const {
   return false;
 }
 
-FILE* FileEntry::stream() {
-  if (m_stream) {
-    return m_stream;
-  }
-  m_stream = fopen(m_fullPath.c_str(), "a");
-  if (m_stream == nullptr) {
-    throw std::runtime_error(sl::fmt("Failed to open file % for write", 
-                                     m_fullPath));
-  }
-  return m_stream;
-}
-
-void FileEntry::closeStream() {
-  if (m_stream) {
-    fflush(m_stream);
-    fclose(m_stream);
-    m_stream = nullptr;
-  }
-}
-
-FileEntryPtr FileEntry::create(const std::string& fullPath) {
-  // struct stat st;
-  // if (stat(fullPath.c_str(), &st) != 0)
-  //   throw std::runtime_error(sl::fmt("Directory % doesn't exist", fullPath));
-  return FileEntryPtr(new FileEntry(fullPath));
+FileStreamPtr FileEntry::open() {
+  return FileStreamPtr(new FileStream(m_fullPath));
 }
 
 } // detail

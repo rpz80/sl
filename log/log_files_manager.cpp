@@ -8,6 +8,7 @@ namespace detail {
 
 const std::string LogFilesManager::kLogFilesManagerExtension = ".log";
 
+/*
 LogFilesManager::LogFilesManager(const std::string& logDir, 
                                const std::string& fileNamePattern,
                                int64_t totalLimit,
@@ -87,6 +88,7 @@ void LogFilesManager::write(const char* data, int64_t size) {
 std::string LogFilesManager::fileNamePattern() const {
   return m_fileNamePattern.substr(0, m_fileNamePattern.size() - 1);
 }
+*/
 
 }
 }

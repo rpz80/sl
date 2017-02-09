@@ -9,7 +9,6 @@
 #include <cstdint>
 
 #include <sm/shared_mutex.h>
-#include <log/common_types.h>
 #include <log/format.h>
 #include <log/exception.h>
 #include <log/log_files_manager.h>

@@ -1,8 +1,9 @@
 #include "catch.hh"
-#include "test_utils.h"
+#include "file_utils.h"
 #include <log/log.h>
 #include <log/utils.h>
 
+/*
 const int64_t kTotalLimit = 30;
 const int64_t kFileLimit = 10;
 
@@ -163,3 +164,4 @@ TEST_CASE("Logger") {
 
   REQUIRE(removeDir(dirName));
 }
+*/
