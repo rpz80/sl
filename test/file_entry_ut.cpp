@@ -1,4 +1,3 @@
-#include <random>
 #include <assert.h>
 #include <string.h>
 
@@ -6,6 +5,7 @@
 #include <log/file_entry.h>
 #include <log/utils.h>
 #include "file_utils.h"
+#include "random_utils.h"
 
 using namespace sl::detail;
 
@@ -13,25 +13,23 @@ class WriterTest {
 public:
   WriterTest(FileStream& stream) 
     : m_stream(stream),
-      m_gen(m_device()) {}
+      m_randomData(50, 100) {}
 
   void writeRandomData(size_t iterations = 500) {
-
+    for (size_t i = 0; i < iterations; ++i) {
+      auto data = m_randomData();
+      m_stream.write(data.data(), data.size());
+    }
   }
 
   std::vector<char>  expectedContent() const {
     return m_expectedContent;
   }
 private:
-  std::vector<char> genRandomData() {
-
-  }
-private:
   std::vector<char> m_expectedContent;
   FileStream& m_stream;
-  std::random_device m_device;
-  std::mt19937 m_gen;
-}
+  RandomData m_randomData;
+};
 
 TEST_CASE("FileStreamTest") {
 
