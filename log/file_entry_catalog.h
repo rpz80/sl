@@ -7,9 +7,10 @@ namespace detail {
 
 class FileEntryCatalog {
 public:
-  FileEntryCatalog(const std::string& path, const std::string& mask);
+  FileEntryCatalog(FileEntryList entries);
   FileEntry& first();
   void rotate();
+  void removeLast();
 private:
   FileEntryList m_entries;
 };

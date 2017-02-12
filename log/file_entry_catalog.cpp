@@ -3,16 +3,15 @@
 namespace sl {
 namespace detail {
 
-FileEntryCatalog::FileEntryCatalog(const std::string& path, 
-                                   const std::string& mask)
-  : m_entries(getFileEntries(path, mask)) {}
+FileEntryCatalog::FileEntryCatalog(FileEntryList entries)
+  : m_entries(std::move(entries)) {}
 
 FileEntry& FileEntryCatalog::first() {
 
 }
 
 void FileEntryCatalog::rotate() {
-  
+
 }
 
 }
