@@ -6,8 +6,6 @@
 namespace sl {
 namespace detail {
 
-const std::string LogFilesManager::kLogFilesManagerExtension = ".log";
-
 /*
 LogFilesManager::LogFilesManager(const std::string& logDir, 
                                const std::string& fileNamePattern,

@@ -77,14 +77,16 @@ TEST_CASE("FileEntryGetEntriesTest", "[FileEntry, getEntries]") {
   const std::string kFilePattern = "log_file";
 
   futils::TmpDir td(kFilePattern, kFileCount);
-  auto entries = getFileEntries(td.path(), kFilePattern + "*");
+  FileEntryFactory factory;
+  auto entries = factory.getExistent(td.path(), kFilePattern + "*");
 
   REQUIRE(entries.size() == kFileCount);
 }
 
 TEST_CASE("FileEntryGetEntriesFAILTest", "[FileEntry, getEntries]") {
   const std::string kFilePattern = "log_file";
-  REQUIRE_THROWS(getFileEntries("/not/existing/path", kFilePattern + "*"));
+  FileEntryFactory factory;
+  REQUIRE_THROWS(factory.getExistent("/not/existing/path", kFilePattern + "*"));
 }
 
 TEST_CASE("FileEntryRemoveTest", "[FileEntry, remove]") {

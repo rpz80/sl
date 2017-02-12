@@ -11,6 +11,8 @@
 namespace sl {
 namespace detail {
 
+const std::string kLogFileExtension = ".log";
+
 FileStream::FileStream(const std::string& fileName) 
   : m_fileName(fileName),
     m_stream(nullptr) 
@@ -24,11 +26,13 @@ FileStream::~FileStream() {
 
 void FileStream::open() {
   if (m_stream != nullptr) {
-    throw std::runtime_error(sl::fmt("FileStream: file % already opened", m_fileName));
+    throw std::runtime_error(sl::fmt("FileStream: file % already opened", 
+                                     m_fileName));
   }
   m_stream = fopen(m_fileName.c_str(), "ab");
   if (m_stream == nullptr) {
-    throw std::runtime_error(sl::fmt("FileStream: file % open failed", m_fileName));
+    throw std::runtime_error(sl::fmt("FileStream: file % open failed", 
+                                     m_fileName));
   }
 }
 
@@ -43,7 +47,8 @@ void FileStream::close() {
 void FileStream::write(const void* data, size_t size) {
   auto bytesWritten = fwrite(data, size, 1, m_stream) * size;
   if (bytesWritten != size) {
-    throw std::runtime_error(sl::fmt("FileStream: file % write failed", m_fileName));
+    throw std::runtime_error(sl::fmt("FileStream: file % write failed", 
+                                     m_fileName));
   }
 }
 
@@ -97,7 +102,50 @@ int64_t getFileSizeWin(const std::string& fullPath) {
 }
 #endif
 
-FileEntryList getFileEntries(const std::string& path, const std::string& mask) {
+FileEntryPtr FileEntryFactory::create(const std::string& path, 
+                                      const std::string& mask,
+                                      size_t index) {
+  auto fullFileName =  FileNameComposer(path, mask, index)();
+  return FileEntryPtr(new FileEntry(fullFileName));
+}
+
+FileNameComposer::FileNameComposer(const std::string& path,
+                                   const std::string& mask,
+                                   size_t index)
+  : m_path(path),
+    m_mask(mask),
+    m_index(index) {}
+
+std::string FileNameComposer::operator()() const {
+  if (m_index == 0) {
+    return str::join(fs::join(m_path, stripMask()), kLogFileExtension);
+  }
+
+  return str::join(fs::join(m_path, stripMask()), 
+                   std::to_string(m_index),
+                   kLogFileExtension);
+}
+
+std::string FileNameComposer::stripMask() const {
+  return m_mask.substr(0, findLastSpecCharIndex());
+}
+
+size_t FileNameComposer::findLastSpecCharIndex() const {
+  for (int i = m_mask.size() - 1; i >= 0; --i) {
+    if (notSpecial(m_mask[i])) {
+      return i;
+    }
+  }
+  
+  return 0;
+}
+
+bool FileNameComposer::notSpecial(char c) const {
+  return c != '[' && c != ']' && c != '*' && c != '?';
+}
+
+FileEntryList FileEntryFactory::getExistent(const std::string& path, 
+                                            const std::string& mask) {
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   return getFileEntriesUnix(path, mask);
 #elif defined (_WIN32)

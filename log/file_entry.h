@@ -63,9 +63,40 @@ private:
 
 using FileEntryList = std::deque<FileEntryPtr>;
 
-FileEntryList getFileEntries(const std::string& path, 
-                             const std::string& mask); 
+class IFileEntryFactory {
+public:
+  virtual FileEntryPtr create(const std::string& path, 
+                              const std::string& mask,
+                              size_t index = 0) = 0;
+  virtual FileEntryList getExistent(const std::string& path, 
+                                    const std::string& mask) = 0;
+};
 
+class FileNameComposer {
+public:
+  FileNameComposer(const std::string& path,
+                   const std::string& mask,
+                   size_t index);
+  std::string operator()() const;
+private:
+  std::string stripMask() const;
+  size_t findLastSpecCharIndex() const;
+  bool notSpecial(char c) const;
+
+private:
+  const std::string& m_path;
+  const std::string& m_mask;
+  const size_t m_index;
+};
+
+class FileEntryFactory : public IFileEntryFactory {
+public:
+  virtual FileEntryPtr create(const std::string& path, 
+                              const std::string& mask,
+                              size_t index = 0) override;
+  virtual FileEntryList getExistent(const std::string& path, 
+                                    const std::string& mask) override;
+};
 
 }
 }
