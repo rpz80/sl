@@ -38,8 +38,6 @@ public:
   bool exists() const;
   FileStreamPtr open();
 
-  static FileEntryPtr create(const std::string& fullPath);
-
 private:
   std::string m_fullPath;
 };

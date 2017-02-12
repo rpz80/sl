@@ -62,7 +62,9 @@ FileEntryList getFileEntriesUnix(const std::string& path,
   FileEntryList result;
 
   if ((d = opendir(path.c_str())) == nullptr) {
-    return result;
+    throw std::runtime_error(sl::fmt("%: path % doesn't exist",
+                                     __FUNCTION__,
+                                     path));
   }
 
   while ((entry = readdir(d)) != nullptr) {
