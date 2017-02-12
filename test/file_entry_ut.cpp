@@ -13,7 +13,7 @@ using namespace sl::detail;
 
 class TestWriter {
 public:
-  TestWriter(FileStream& stream) 
+  TestWriter(IFileStream& stream) 
     : m_stream(stream),
       m_randomData(50, 100) {}
 
@@ -31,7 +31,7 @@ public:
   }
 private:
   std::vector<char> m_expectedContent;
-  FileStream& m_stream;
+  IFileStream& m_stream;
   RandomData m_randomData;
 };
 

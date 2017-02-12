@@ -14,5 +14,9 @@ void FileEntryCatalog::rotate() {
 
 }
 
+void FileEntryCatalog::removeLast() {
+  
+}
+
 }
 }
