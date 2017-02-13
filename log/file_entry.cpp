@@ -133,7 +133,7 @@ std::string FileNameComposer::stripMask() const {
 size_t FileNameComposer::findLastSpecCharIndex() const {
   for (int i = m_mask.size() - 1; i >= 0; --i) {
     if (notSpecial(m_mask[i])) {
-      return i;
+      return i + 1;
     }
   }
   

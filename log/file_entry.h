@@ -84,8 +84,8 @@ private:
   bool notSpecial(char c) const;
 
 private:
-  const std::string& m_path;
-  const std::string& m_mask;
+  const std::string m_path;
+  const std::string m_mask;
   const size_t m_index;
 };
 

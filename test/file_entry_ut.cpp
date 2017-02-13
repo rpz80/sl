@@ -72,7 +72,32 @@ TEST_CASE("FileStreamTest") {
   }
 }
 
-TEST_CASE("FileEntryGetEntriesTest", "[FileEntry, getEntries]") {
+TEST_CASE("FileNameComposerZeroIndexTest", "[FileNameComposer, ZeroIndex]") {
+  FileNameComposer fc("/some/path", "log_file*", 0);
+  REQUIRE(fc() == "/some/path/log_file.log");
+}
+
+TEST_CASE("FileNameComposerZeroIndexWithSlashTest", "[FileNameComposer, ZeroIndex]") {
+  FileNameComposer fc("/some/path/", "log_file*", 0);
+  REQUIRE(fc() == "/some/path/log_file.log");
+}
+
+TEST_CASE("FileNameComposerTest", "[FileNameComposer, NotZeroIndex]") {
+  const int kTestCount = 500;
+  for (int i = 1; i < kTestCount; ++i) {
+    FileNameComposer fc("/some/path", "log_file*", i);
+    REQUIRE(fc() == str::join("/some/path/log_file", 
+                              std::to_string(i), ".log"));
+  }
+}
+
+TEST_CASE("FileEntryFactoryCreateTest", "[FileEntry, createEntry]") {
+  FileEntryFactory fef;
+  auto entry = fef.create("/some/path/", "log_file?*", 32);
+  REQUIRE(entry->name() == "/some/path/log_file32.log");
+}
+
+TEST_CASE("FileEntryFactoryGetEntriesTest", "[FileEntry, getEntries]") {
   const size_t kFileCount = 300;
   const std::string kFilePattern = "log_file";
 
@@ -83,7 +108,7 @@ TEST_CASE("FileEntryGetEntriesTest", "[FileEntry, getEntries]") {
   REQUIRE(entries.size() == kFileCount);
 }
 
-TEST_CASE("FileEntryGetEntriesFAILTest", "[FileEntry, getEntries]") {
+TEST_CASE("FileEntryFactoryGetEntriesFAILTest", "[FileEntry, getEntries]") {
   const std::string kFilePattern = "log_file";
   FileEntryFactory factory;
   REQUIRE_THROWS(factory.getExistent("/not/existing/path", kFilePattern + "*"));

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <log/file_entry_catalog.h>
 #include <log/utils.h>
 
