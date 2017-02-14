@@ -7,11 +7,11 @@ namespace detail {
 
 FileEntryCatalog::FileEntryCatalog(IFileEntryFactory* entryFactory, 
                    const std::string& path, 
-                   const std::string& mask)
+                   const std::string& baseName)
   : m_factory(entryFactory),
-    m_entries(m_factory->getExistent(path, mask)),
+    m_entries(m_factory->getExistent(path, baseName)),
     m_path(path),
-    m_mask(mask) 
+    m_baseName(baseName) 
 {
   if (m_entries.empty()) {
     makeFirst();
@@ -28,7 +28,7 @@ void FileEntryCatalog::sortEntries() {
 }
 
 void FileEntryCatalog::makeFirst() {
-  m_entries.emplace_back(m_factory->create(m_path, m_mask));
+  m_entries.emplace_back(m_factory->create(m_path, m_baseName));
 }
 
 IFileEntry& FileEntryCatalog::first() {

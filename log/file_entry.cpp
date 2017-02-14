@@ -60,28 +60,45 @@ bool FileStream::isOpened() const {
 #include <dirent.h>
 #include <sys/stat.h>
 
+class FileEntriesPosix {
+public:
+  FileEntriesPosix(const std::string& path, const std::string& baseName)
+    : m_posixDir(path),
+      m_baseName(baseName) {}
+
+  FileEntryList operator()() {
+    FileEntryList result;
+
+    m_posixDir.forEachEntry([&result, this](struct ::dirent* entry){
+      addIfMatches(entry, result);
+    });
+
+    return result;
+  }
+
+private:
+  void addIfMatches(struct dirent* entry, FileEntryList& result) {
+    if (!entryMatches(entry))
+      return;
+
+    auto newEntry = m_factory.create(m_posixDir.name(), m_baseName);
+    result.push_back(newEntry);
+  }
+
+  bool entryMatches(struct dirent* entry) {
+    return entry->d_type == DT_REG && 
+           fs::globMatch(entry->d_name, (m_baseName + '*').data());
+  }
+
+private:
+  fs::PosixDir m_posixDir;
+  std::string m_baseName;
+  FileEntryFactory m_factory;
+};
+
 FileEntryList getFileEntriesUnix(const std::string& path, 
-                                 const std::string& mask) {
-  DIR* d;
-  struct dirent* entry;
-  FileEntryList result;
-
-  if ((d = opendir(path.c_str())) == nullptr) {
-    throw std::runtime_error(sl::fmt("%: path % doesn't exist",
-                                     __FUNCTION__,
-                                     path));
-  }
-
-  while ((entry = readdir(d)) != nullptr) {
-    if (entry->d_type == DT_REG && fs::globMatch(entry->d_name, mask.data())) {
-      std::string fullFilePath = fs::join(path, entry->d_name);
-      result.emplace_back(
-          std::unique_ptr<FileEntry>(new FileEntry(fullFilePath)));
-    }
-  }
-
-  closedir(d);
-  return result;
+                                 const std::string& baseName) {
+  return FileEntriesPosix(path, baseName)();
 }
 
 int64_t getFileSizeUnix(const std::string& fullPath) {
@@ -94,7 +111,7 @@ int64_t getFileSizeUnix(const std::string& fullPath) {
 
 #elif defined (_WIN32)
 FileEntryList getFileEntriesWin(const std::string& path, 
-                                const std::string& mask) {
+                                const std::string& baseName) {
 }
 
 int64_t getFileSizeWin(const std::string& fullPath) {
@@ -103,53 +120,30 @@ int64_t getFileSizeWin(const std::string& fullPath) {
 #endif
 
 FileEntryPtr FileEntryFactory::create(const std::string& path, 
-                                      const std::string& mask,
+                                      const std::string& baseName,
                                       size_t index) {
-  auto fullFileName =  FileNameComposer(path, mask, index)();
+  std::string fullFileName = getFullFileName(path, baseName, index);
   return FileEntryPtr(new FileEntry(fullFileName));
 }
 
-FileNameComposer::FileNameComposer(const std::string& path,
-                                   const std::string& mask,
-                                   size_t index)
-  : m_path(path),
-    m_mask(mask),
-    m_index(index) {}
-
-std::string FileNameComposer::operator()() const {
+std::string FileEntryFactory::getFullFileName(const std::string& path,
+                                              const std::string& baseName,
+                                              size_t index) {
   if (m_index == 0) {
-    return str::join(fs::join(m_path, stripMask()), kLogFileExtension);
+    return str::join(fs::join(m_path, baseName), kLogFileExtension);
   }
 
-  return str::join(fs::join(m_path, stripMask()), 
+  return str::join(fs::join(m_path, baseName), 
                    std::to_string(m_index),
                    kLogFileExtension);
 }
 
-std::string FileNameComposer::stripMask() const {
-  return m_mask.substr(0, findLastSpecCharIndex());
-}
-
-size_t FileNameComposer::findLastSpecCharIndex() const {
-  for (int i = m_mask.size() - 1; i >= 0; --i) {
-    if (notSpecial(m_mask[i])) {
-      return i + 1;
-    }
-  }
-  
-  return 0;
-}
-
-bool FileNameComposer::notSpecial(char c) const {
-  return c != '[' && c != ']' && c != '*' && c != '?';
-}
-
 FileEntryList FileEntryFactory::getExistent(const std::string& path, 
-                                            const std::string& mask) {
+                                            const std::string& baseName) {
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-  return getFileEntriesUnix(path, mask);
+  return getFileEntriesUnix(path, baseName);
 #elif defined (_WIN32)
-  return getFileEntriesWin(path, mask);
+  return getFileEntriesWin(path, baseName);
 #endif
 }
 

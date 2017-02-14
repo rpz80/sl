@@ -99,6 +99,54 @@ std::string join(const std::string& subPath1,
   return detail::str::join(subPath1, "/", subPath2);
 }
 
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+#include <dirent.h>
+#include <sys/stat.h>
+
+PosixDir::PosixDir(const std::string& name) : m_name(name) {}
+
+void PosixDir::forEachEntry(EntryHandler handler) {
+  struct dirent* entry;
+
+  open();
+  while ((entry = readdir(m_dirHandle)) != nullptr) {
+    processEntry(entry, handler);
+  }
+  close();
+}
+
+PosixDir::~PosixDir() {
+  close();
+}
+
+std::string PosixDir::name() const {
+  return m_name;
+}
+
+void PosixDir::open() {
+  m_dirHandle = opendir(m_name.c_str());
+  if (!m_dirHandle)
+    throw std::runtime_error(sl::fmt("%: open dir % failed",
+                                     __FUNCTION__, m_name));
+}
+
+void PosixDir::close() {
+  if (m_dirHandle) {
+    closedir(m_dirHandle);
+    m_dirHandle = nullptr;
+  }
+}
+
+void PosixDir::processEntry(struct dirent* entry, EntryHandler handler) {
+  if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
+    return;
+  }
+
+  handler(entry);
+}
+
+#endif
+
 }
 
 }

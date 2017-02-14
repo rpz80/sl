@@ -16,6 +16,32 @@ std::string join(const std::string& subPath1,
                  const std::string& subPath2);
 
 bool globMatch(const char *pattern, const char *mask);
+
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+#include <dirent.h>
+#include <sys/stat.h>
+
+class PosixDir {
+  using EntryHandler = std::function<void(struct dirent*)>;
+public:
+  PosixDir(const std::string& name);
+  ~PosixDir();
+
+  void forEachEntry(EntryHandler handler);
+  std::string name() const;
+
+private:
+  void open(); 
+  void close(); 
+
+  void processEntry(struct dirent* entry, EntryHandler handler);
+
+private:
+  std::string m_name;
+  DIR* m_dirHandle;
+};
+#endif
+
 }
 
 namespace str {

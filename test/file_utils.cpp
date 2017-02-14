@@ -22,53 +22,6 @@ void checkIfOpened(const std::string& name, const Stream& stream) {
                                      name));
 }
 
-class PosixDir {
-  using EntryHandler = std::function<void(struct dirent*)>;
-public:
-  PosixDir(const std::string& name) : m_name(name) {}
-
-  void forEachEntry(EntryHandler handler) {
-    struct dirent* entry;
-
-    open();
-    while ((entry = readdir(m_dirHandle)) != nullptr) {
-      processEntry(entry, handler);
-    }
-    close();
-  }
-
-  ~PosixDir() {
-    close();
-  }
-
-private:
-  void open() {
-    m_dirHandle = opendir(m_name.c_str());
-    if (!m_dirHandle)
-      throw std::runtime_error(sl::fmt("%: open dir % failed",
-                                       __FUNCTION__, m_name));
-  }
-
-  void close() {
-    if (m_dirHandle) {
-      closedir(m_dirHandle);
-      m_dirHandle = nullptr;
-    }
-  }
-
-  void processEntry(struct dirent* entry, EntryHandler handler) {
-    if (std::strcmp(entry->d_name, "..") == 0 || std::strcmp(entry->d_name, ".") == 0) {
-      return;
-    }
-
-    handler(entry);
-  }
-
-private:
-  std::string m_name;
-  DIR* m_dirHandle;
-};
-
 }
 
 bool fileExists(const std::string& name) {
@@ -131,7 +84,7 @@ void TmpDir::forEachFile(FileHandler handler) {
 
 void TmpDir::forEachFile(const std::string& dirName, FileHandler handler) {
   using namespace sl::detail;
-  detail::PosixDir dir(dirName);
+  fs::PosixDir dir(dirName);
 
   dir.forEachEntry([this, &dirName, handler](struct dirent* entry) {
     auto fullName = fs::join(dirName, entry->d_name);

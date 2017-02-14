@@ -10,7 +10,7 @@ class FileEntryCatalog {
 public:
   FileEntryCatalog(IFileEntryFactory* entryFactory, 
                    const std::string& path, 
-                   const std::string& mask);
+                   const std::string& baseName);
   IFileEntry& first();
   void rotate();
   void removeLast();
@@ -23,7 +23,7 @@ private:
   IFileEntryFactory* m_factory;
   FileEntryList m_entries;
   std::string m_path;
-  std::string m_mask;
+  std::string m_baseName;
 };
 
 }
