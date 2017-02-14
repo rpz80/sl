@@ -2,6 +2,12 @@
 
 #include <string>
 #include <iostream>
+#include <functional>
+
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+# include <dirent.h>
+# include <sys/stat.h>
+#endif
 
 namespace sl {
 namespace detail {
@@ -18,8 +24,6 @@ std::string join(const std::string& subPath1,
 bool globMatch(const char *pattern, const char *mask);
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-#include <dirent.h>
-#include <sys/stat.h>
 
 class PosixDir {
   using EntryHandler = std::function<void(struct dirent*)>;

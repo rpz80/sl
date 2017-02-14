@@ -57,8 +57,6 @@ bool FileStream::isOpened() const {
 }
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-#include <dirent.h>
-#include <sys/stat.h>
 
 class FileEntriesPosix {
 public:
@@ -82,7 +80,7 @@ private:
       return;
 
     auto newEntry = m_factory.create(m_posixDir.name(), m_baseName);
-    result.push_back(newEntry);
+    result.push_back(std::move(newEntry));
   }
 
   bool entryMatches(struct dirent* entry) {
@@ -129,12 +127,12 @@ FileEntryPtr FileEntryFactory::create(const std::string& path,
 std::string FileEntryFactory::getFullFileName(const std::string& path,
                                               const std::string& baseName,
                                               size_t index) {
-  if (m_index == 0) {
-    return str::join(fs::join(m_path, baseName), kLogFileExtension);
+  if (index == 0) {
+    return str::join(fs::join(path, baseName), kLogFileExtension);
   }
 
-  return str::join(fs::join(m_path, baseName), 
-                   std::to_string(m_index),
+  return str::join(fs::join(path, baseName), 
+                   std::to_string(index),
                    kLogFileExtension);
 }
 
