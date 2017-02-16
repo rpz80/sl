@@ -7,33 +7,8 @@
 #include <log/file_entry.h>
 #include <log/utils.h>
 #include "file_utils.h"
-#include "random_utils.h"
 
 using namespace sl::detail;
-
-class TestWriter {
-public:
-  TestWriter(IFileStream& stream) 
-    : m_stream(stream),
-      m_randomData(50, 100) {}
-
-  void writeRandomData(size_t iterations = 500) {
-    for (size_t i = 0; i < iterations; ++i) {
-      auto data = m_randomData();
-      m_stream.write(data.data(), data.size());
-      std::copy(data.cbegin(), data.cend(), 
-                std::back_inserter(m_expectedContent));
-    }
-  }
-
-  std::vector<char>  expectedContent() const {
-    return m_expectedContent;
-  }
-private:
-  std::vector<char> m_expectedContent;
-  IFileStream& m_stream;
-  RandomData m_randomData;
-};
 
 FileEntryPtr createTestEntry(futils::TmpDir& tmpDir) {
   const std::string kFileName = fs::join(tmpDir.path(), "log_file");
@@ -47,43 +22,6 @@ FileEntryPtr createTestEntry(futils::TmpDir& tmpDir) {
   REQUIRE(futils::fileExists(kFileName) == true);
   return result;
 }
-
-TEST_CASE("FileStreamTest") {
-
-  futils::TmpDir tmpDir;
-  auto fname = fs::join(tmpDir.path(), "log_file");
-  FileStream stream(fname);
-
-  REQUIRE(futils::fileExists(fname));
-  REQUIRE(stream.isOpened());
-
-  SECTION("CloseTest") {
-    stream.close();
-    REQUIRE(futils::fileExists(fname));
-    REQUIRE(stream.isOpened() == false);
-  }
-
-  SECTION("WriteTest") {
-    TestWriter tw(stream);
-    tw.writeRandomData();
-    stream.close();
-    auto content = futils::fileContent(fname);
-    REQUIRE(content == tw.expectedContent());
-  }
-}
-
-class CreateEntryTestDataGenerator {
-public:
-  CreateEntryTestDataGenerator(const std::string& dirPath = "/some/path",
-                               const std::string& baseName = "log_file")
-    : m_dirPath(dirPath),
-      m_baseName(baseName) {
-
-  }
-private:
-  std::string m_dirPath;
-  std::string m_baseName;
-};
 
 TEST_CASE("FileEntryFactoryCreateTest", "[FileEntry, createEntry]") {
   FileEntryFactory fef;

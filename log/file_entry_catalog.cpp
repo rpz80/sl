@@ -1,6 +1,8 @@
+#include <stdio.h>
 #include <algorithm>
 #include <log/file_entry_catalog.h>
 #include <log/utils.h>
+#include <log/format.h>
 
 namespace sl {
 namespace detail {
@@ -14,7 +16,7 @@ FileEntryCatalog::FileEntryCatalog(IFileEntryFactory* entryFactory,
     m_baseName(baseName) 
 {
   if (m_entries.empty()) {
-    makeFirst();
+    addDefault();
   }
 
   sortEntries();
@@ -27,20 +29,39 @@ void FileEntryCatalog::sortEntries() {
             });
 }
 
-void FileEntryCatalog::makeFirst() {
-  m_entries.emplace_back(m_factory->create(m_path, m_baseName));
+void FileEntryCatalog::addDefault() {
+  m_entries.emplace_front(m_factory->create(m_path, m_baseName));
 }
 
 IFileEntry& FileEntryCatalog::first() {
+  if (m_entries.empty()) {
+    throw std::runtime_error(sl::fmt("%: no entries", __FUNCTION__));
+  }
+
   return *m_entries[0];
 }
 
 void FileEntryCatalog::rotate() {
+  for (int i = 0; i < m_entries.size(); ++i) {
+    this->rename(i);
+  }
 
+  addDefault();
+}
+
+void FileEntryCatalog::rename(size_t index) {
+  std::string newName = str::join(fs::join(m_path, m_baseName), 
+                                  std::to_string(index + 1), 
+                                  kLogFileExtension);
+  m_entries[index]->rename(newName);
 }
 
 void FileEntryCatalog::removeLast() {
-  
+  if (m_entries.empty()) {
+    throw std::runtime_error(sl::fmt("%: no entries", __FUNCTION__));
+  }
+
+  m_entries.back()->remove();
 }
 
 }

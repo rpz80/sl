@@ -17,7 +17,8 @@ public:
 
 private:
   void sortEntries();
-  void makeFirst();
+  void addDefault();
+  void rename(size_t index);
 
 private:
   IFileEntryFactory* m_factory;
