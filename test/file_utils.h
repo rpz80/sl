@@ -1,6 +1,10 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <log/file_stream.h>
+#include "random_utils.h"
+
+using namespace sl::detail;
 
 namespace futils {
 

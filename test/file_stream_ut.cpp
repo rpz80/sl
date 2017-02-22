@@ -23,7 +23,7 @@ TEST_CASE("FileStreamTest") {
   }
 
   SECTION("WriteTest") {
-    TestWriter tw(stream);
+    futils::TestWriter tw(stream);
     tw.writeRandomData();
     stream.close();
     auto content = futils::fileContent(fname);

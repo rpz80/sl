@@ -83,7 +83,7 @@ TEST_CASE("FileEntrySizeTest", "[FileEntry, size]") {
   auto testEntry = createTestEntry(tmpDir);
   auto stream = testEntry->open();
 
-  TestWriter tw(*stream);
+  futils::TestWriter tw(*stream);
   tw.writeRandomData();
   stream->close();
 
