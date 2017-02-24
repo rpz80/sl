@@ -14,6 +14,7 @@ public:
   IFileEntry& first();
   void rotate();
   void removeLast();
+  std::string baseName() const;
 
 private:
   void sortEntries();

@@ -6,6 +6,8 @@
 #include <log/rotation_limit_watcher_handler.h>
 #include <log/rotation_limit_watcher.h>
 #include <log/file_entry.h>
+#include <log/file_entry_catalog.h>
+#include <log/file_stream.h>
 
 namespace sl {
 namespace detail {
@@ -14,12 +16,13 @@ class LogFilesManager : public RotationLimitWatcherHandler {
   static const std::string kLogFilesManagerExtension;
 public:
   LogFilesManager(const std::string& logDir, 
-                 const std::string& fileNamePattern,
+                 const std::string& baseName,
                  int64_t totalLimit,
-                 int64_t fileLimit);
+                 int64_t fileLimit,
+                 FileEntryFactoryPtr factory);
 
   void write(const char* data, int64_t size);
-  std::string fileNamePattern() const;
+  std::string baseName() const;
   
 private:
   virtual int64_t clearNeeded() override;
@@ -27,8 +30,9 @@ private:
 
 private:
   RotationLimitWatcher m_limitWatcher;
-  std::string m_logDir;
-  std::string m_fileNamePattern;
+  FileEntryFactoryPtr m_factory;
+  FileEntryCatalog m_catalog;
+  FileStreamPtr m_stream;
 };
 
 using LogFilesManagerPtr = std::unique_ptr<LogFilesManager>;

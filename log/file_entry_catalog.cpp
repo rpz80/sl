@@ -61,7 +61,12 @@ void FileEntryCatalog::removeLast() {
     throw std::runtime_error(sl::fmt("%: no entries", __FUNCTION__));
   }
 
-  m_entries.back()->remove();
+  m_entries.back()->remove(); 
+  m_entries.pop_back();
+}
+
+std::string FileEntryCatalog::baseName() const {
+  return m_baseName;
 }
 
 }

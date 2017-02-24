@@ -11,6 +11,8 @@
 
 namespace sl {
 
+using namespace detail;
+
 Logger::Logger() :
   m_timeFormat("%Y-%m-%d %H:%M:%S") {}
 
@@ -33,13 +35,16 @@ Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
                       bool duplicateToStdout) {
   std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
   checkSinkWithPattern(fileNamePattern);
-  m_defaultSink = Sink(level, 
-                       detail::LogFilesManagerPtr(
-                          new detail::LogFilesManager(logDir, 
-                                                      fileNamePattern, 
-                                                      totalLimit, 
-                                                      fileLimit)),
-                       duplicateToStdout);
+  m_defaultSink = 
+    Sink(level, 
+         detail::LogFilesManagerPtr( 
+              new detail::LogFilesManager( 
+                  logDir, 
+                  fileNamePattern, 
+                  totalLimit, 
+                  fileLimit, 
+                  FileEntryFactoryPtr(new FileEntryFactory))), 
+         duplicateToStdout);
 }
 
 void Logger::addSink(int sinkId, 
@@ -58,14 +63,17 @@ void Logger::addSink(int sinkId,
   }
   checkSinkWithPattern(fileNamePattern);
   bool emplaceResult = 
-      m_sinks.emplace(sinkId, 
-                      Sink(level, 
-                           detail::LogFilesManagerPtr(
-                               new detail::LogFilesManager(logDir, 
-                                                           fileNamePattern, 
-                                                           totalLimit, 
-                                                           fileLimit)),
-                           duplicateToStdout)).second;
+      m_sinks.emplace(
+          sinkId, 
+          Sink(level, 
+               detail::LogFilesManagerPtr( 
+                  new detail::LogFilesManager(
+                      logDir, 
+                      fileNamePattern, 
+                      totalLimit, 
+                      fileLimit,
+                      FileEntryFactoryPtr(new FileEntryFactory))), 
+               duplicateToStdout)).second;
   detail::throwLoggerExceptionIfNot(
       emplaceResult, 
       fmt("% Emplace failed. fileName pattern = %. sinkId = %",
@@ -76,7 +84,7 @@ void Logger::addSink(int sinkId,
 
 void Logger::checkSinkWithPattern(const std::string& fileNamePattern) const {
   for (auto sinkIt = m_sinks.cbegin(); sinkIt != m_sinks.cend(); ++ sinkIt) {
-    if (sinkIt->second.fileManager->fileNamePattern() == fileNamePattern) {
+    if (sinkIt->second.fileManager->baseName() == fileNamePattern) {
       throw std::runtime_error(
           fmt("sink with this file name pattern (%) already exists", 
               fileNamePattern));
@@ -115,7 +123,7 @@ Level Logger::getDefaultLevel() const {
 std::string Logger::getFileNamePattern(int sinkId) const {
   sm::shared_lock<sm::shared_mutex> lock(m_sinksMutex);
   auto sinkIt = getSinkById(sinkId);
-  return sinkIt->second.fileManager->fileNamePattern();
+  return sinkIt->second.fileManager->baseName();
 }
 
 std::string Logger::getDefaultFileNamePattern() const {
@@ -123,7 +131,7 @@ std::string Logger::getDefaultFileNamePattern() const {
   detail::throwLoggerExceptionIfNot(
       static_cast<bool>(m_defaultSink.fileManager), 
       "Default sink not set");
-  return m_defaultSink.fileManager->fileNamePattern();
+  return m_defaultSink.fileManager->baseName();
 }
 
 bool Logger::hasSink(int sinkId) const {

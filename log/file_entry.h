@@ -64,5 +64,7 @@ private:
                                      size_t index);
 };
 
+using FileEntryFactoryPtr = std::unique_ptr<IFileEntryFactory>;
+
 }
 }

@@ -6,28 +6,22 @@
 namespace sl {
 namespace detail {
 
-/*
-LogFilesManager::LogFilesManager(const std::string& logDir, 
-                               const std::string& fileNamePattern,
+LogFilesManager::LogFilesManager(const std::string& path, 
+                               const std::string& baseName,
                                int64_t totalLimit,
-                               int64_t fileLimit)
+                               int64_t fileLimit,
+                               FileEntryFactoryPtr factory)
   : m_limitWatcher(totalLimit, fileLimit, this),
-    m_logDir(logDir),
-    m_fileNamePattern(fileNamePattern + "*"),
-    m_fileEntries(getFileEntries(logDir, m_fileNamePattern))
+    m_factory(std::move(factory)),
+    m_catalog(m_factory.get(), path, baseName)
 {
-  if (m_fileEntries.empty()) {
-    auto fileEntryName = fs::join(logDir, str::join(fileNamePattern, ".log"));
-    m_fileEntries.emplace_back(FileEntry::create(fileEntryName));
-  } else {
-    std::sort(m_fileEntries.begin(),
-              m_fileEntries.end(), 
-              [](const FileEntryPtr& lhs, const FileEntryPtr& rhs) {
-      return lhs->name() < rhs->name();
-    });
-  }
-  m_stream = m_fileEntries[0]->stream();
+  m_stream = m_catalog.first().open();
 }
+
+std::string LogFilesManager::baseName() const {
+  return m_catalog.baseName();
+}
+/*
 
 int64_t LogFilesManager::clearNeeded() {
   int64_t result = 0;
