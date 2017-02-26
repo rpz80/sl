@@ -56,17 +56,40 @@ void FileEntryCatalog::rename(size_t index) {
   m_entries[index]->rename(newName);
 }
 
-void FileEntryCatalog::removeLast() {
+int64_t FileEntryCatalog::removeLast() {
   if (m_entries.empty()) {
     throw std::runtime_error(sl::fmt("%: no entries", __FUNCTION__));
   }
-
+  
+  auto result = m_entries.back()->size();
   m_entries.back()->remove(); 
-  m_entries.pop_back();
+
+  if (m_entries.size() > 1) {
+    m_entries.pop_back();
+  }
+
+  return result;
 }
 
 std::string FileEntryCatalog::baseName() const {
   return m_baseName;
+}
+
+size_t FileEntryCatalog::size() const {
+  return m_entries.size();
+}
+
+bool FileEntryCatalog::empty() const {
+  return m_entries.empty();
+}
+
+int64_t FileEntryCatalog::totalBytes() const {
+  int64_t result = 0;
+  for (size_t i = 0; i < m_entries.size(); ++i) {
+    result += m_entries[i]->size();
+  }
+
+  return result;
 }
 
 }

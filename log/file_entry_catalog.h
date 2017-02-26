@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <log/file_entry.h>
 
 namespace sl {
@@ -13,8 +14,14 @@ public:
                    const std::string& baseName);
   IFileEntry& first();
   void rotate();
-  void removeLast();
+  int64_t removeLast();
   std::string baseName() const;
+  size_t size() const;
+  bool empty() const;
+  int64_t totalBytes() const;
+
+protected:
+  const FileEntryList& entries() const { return m_entries; }
 
 private:
   void sortEntries();
@@ -27,6 +34,8 @@ private:
   std::string m_path;
   std::string m_baseName;
 };
+
+using FileEntryCatalogPtr = std::unique_ptr<FileEntryCatalog>;
 
 }
 }

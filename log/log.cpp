@@ -39,11 +39,12 @@ Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
     Sink(level, 
          detail::LogFilesManagerPtr( 
               new detail::LogFilesManager( 
-                  logDir, 
-                  fileNamePattern, 
                   totalLimit, 
                   fileLimit, 
-                  FileEntryFactoryPtr(new FileEntryFactory))), 
+                  FileEntryCatalogPtr(new FileEntryCatalog(
+                      new FileEntryFactory(),
+                      logDir,
+                      fileNamePattern)))), 
          duplicateToStdout);
 }
 
@@ -68,11 +69,12 @@ void Logger::addSink(int sinkId,
           Sink(level, 
                detail::LogFilesManagerPtr( 
                   new detail::LogFilesManager(
-                      logDir, 
-                      fileNamePattern, 
                       totalLimit, 
                       fileLimit,
-                      FileEntryFactoryPtr(new FileEntryFactory))), 
+                      FileEntryCatalogPtr(new FileEntryCatalog(
+                          new FileEntryFactory(),
+                          logDir,
+                          fileNamePattern)))), 
                duplicateToStdout)).second;
   detail::throwLoggerExceptionIfNot(
       emplaceResult, 

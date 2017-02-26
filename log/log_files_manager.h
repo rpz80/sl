@@ -15,14 +15,15 @@ namespace detail {
 class LogFilesManager : public RotationLimitWatcherHandler {
   static const std::string kLogFilesManagerExtension;
 public:
-  LogFilesManager(const std::string& logDir, 
-                 const std::string& baseName,
-                 int64_t totalLimit,
-                 int64_t fileLimit,
-                 FileEntryFactoryPtr factory);
+  LogFilesManager(int64_t totalLimit,
+                  int64_t fileLimit,
+                  FileEntryCatalogPtr catalog);
 
-  void write(const char* data, int64_t size);
+  void write(const void* data, size_t size);
   std::string baseName() const;
+
+protected:
+  const FileStreamPtr& stream() const { return m_stream; }
   
 private:
   virtual int64_t clearNeeded() override;
@@ -30,8 +31,7 @@ private:
 
 private:
   RotationLimitWatcher m_limitWatcher;
-  FileEntryFactoryPtr m_factory;
-  FileEntryCatalog m_catalog;
+  FileEntryCatalogPtr m_catalog;
   FileStreamPtr m_stream;
 };
 
