@@ -3,7 +3,6 @@
 #include <log/log.h>
 #include <log/utils.h>
 
-/*
 const int64_t kTotalLimit = 30;
 const int64_t kFileLimit = 10;
 
@@ -115,10 +114,7 @@ TEST_CASE("Logger") {
   TestLogger logger;
   using namespace sl::detail;
 
-  char dirTemplate[] = "/tmp/sl.XXXXXX";
-  const char* dirName = mkdtemp(dirTemplate);
-  char buf[512];
-  char contentBuf[4096];
+  futils::TmpDir tmpDir;
 
   SECTION("Uninitialized test") {
     assertUninitializedState(logger);
@@ -128,21 +124,21 @@ TEST_CASE("Logger") {
     assertUninitializedState(logger);
 
     const std::string kFileName("someFileName");
-    logger.setDefaultSink(dirName, kFileName,sl::Level::debug,
+    logger.setDefaultSink(tmpDir.path().c_str(), kFileName,sl::Level::debug,
                           kTotalLimit, kFileLimit, true);
 
     assertDefaultSinkState(logger, kFileName, sl::Level::debug);
 
-    const auto filePath = fs::join(dirName, str::join(kFileName, ".log"));
-    logger.log(sl::Level::info, "% %", "hello", "world");
+    // const auto filePath = fs::join(dirName, str::join(kFileName, ".log"));
+    // logger.log(sl::Level::info, "% %", "hello", "world");
 
-    REQUIRE(fileExists(filePath.data()));
+    // REQUIRE(fileExists(filePath.data()));
 
-    const char* content = fileContent(contentBuf, filePath.data());
-    printf("Content: %s\n", content);
-    auto fileStrings = splitBy(content, '\n');
-    REQUIRE(!fileStrings.empty());
-    checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
+    // const char* content = fileContent(contentBuf, filePath.data());
+    // printf("Content: %s\n", content);
+    // auto fileStrings = splitBy(content, '\n');
+    // REQUIRE(!fileStrings.empty());
+    // checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
   }
 
   SECTION("Sinks with Id") {
@@ -153,15 +149,12 @@ TEST_CASE("Logger") {
     const sl::Level kSinkLevel = sl::Level::debug;
 
     for (size_t i = 0; i < kSinksCount; ++i) {
-      logger.addSink(i, dirName, kFileNamePattern + std::to_string(i), 
+      logger.addSink(i, tmpDir.path(), kFileNamePattern + std::to_string(i), 
                      kSinkLevel, kTotalLimit, kFileLimit, false);
     }
 
-    assertSinksState(logger, dirName, kSinksCount, 
+    assertSinksState(logger, tmpDir.path().c_str(), kSinksCount, 
                      kFileNamePattern, kSinkLevel);
 
   }
-
-  REQUIRE(removeDir(dirName));
 }
-*/

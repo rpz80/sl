@@ -25,14 +25,11 @@ int64_t LogFilesManager::clearNeeded() {
   if (m_catalog->empty())
     return 0;
 
-  auto oldCatalogSize = m_catalog->size();
-  auto result = m_catalog->removeLast();
+  if (m_stream)
+    m_stream->close();
 
-  if (oldCatalogSize == 1) {
-    if (m_stream)
-      m_stream->close();
-    m_stream = m_catalog->first().open();
-  }
+  auto result = m_catalog->removeLast();
+  m_stream = m_catalog->first().open();
 
   return result;
 }

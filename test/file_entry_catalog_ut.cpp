@@ -7,7 +7,7 @@ using namespace sl::detail;
 
 TEST_CASE("FileEntryCatalogEmptyTest", "[FileEntryCatalog, empty]") 
 {
-  TestFileEntryFactory factory;
+  TestFileEntryFactory factory(100, 0);
   FileEntryCatalog catalog(&factory, kPath, kBaseName);
 
   REQUIRE(catalog.size() == 1);
@@ -17,11 +17,12 @@ TEST_CASE("FileEntryCatalogEmptyTest", "[FileEntryCatalog, empty]")
 TEST_CASE("FileEntryCatalogTest", "[FileEntryCatalog]")
 {
   const size_t kEntriesCount = 3;
-  TestFileEntryFactory factory(kEntriesCount);
+  const int64_t kFileSize = 100;
+  TestFileEntryFactory factory(kFileSize, kEntriesCount);
   FileEntryCatalog catalog(&factory, kPath, kBaseName);
 
   REQUIRE(catalog.size() == kEntriesCount);
-  REQUIRE(catalog.totalBytes() == kEntriesCount * kTestSize);
+  REQUIRE(catalog.totalBytes() == kEntriesCount * kFileSize);
   REQUIRE(catalog.first().name() == "/test/path/test.log");
   for (size_t i = 0; i < kEntriesCount; ++i) {
     auto newName = str::join(
@@ -29,7 +30,7 @@ TEST_CASE("FileEntryCatalogTest", "[FileEntryCatalog]")
         (i == 0 ? "" : std::to_string(i)), 
         ".log");
     REQUIRE(factory.get()[i]->name() == newName);
-    REQUIRE(factory.get()[i]->size() == kTestSize);
+    REQUIRE(factory.get()[i]->size() == kFileSize);
   }
 
   SECTION("rotate")
@@ -52,7 +53,7 @@ TEST_CASE("FileEntryCatalogTest", "[FileEntryCatalog]")
     for (size_t i = 0; i < kEntriesCount; ++i) {
       int64_t removeResult; 
       REQUIRE_NOTHROW(removeResult = catalog.removeLast());
-      REQUIRE(removeResult == kTestSize);
+      REQUIRE(removeResult == kFileSize);
     };
     REQUIRE(catalog.size() == 1);
     REQUIRE(catalog.totalBytes() == 0);

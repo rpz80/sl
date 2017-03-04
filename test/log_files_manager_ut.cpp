@@ -20,25 +20,41 @@ public:
 };
 
 TEST_CASE("LogFilesManager") {
-  const size_t kEntriesCount = 3;
-  const int64_t kTotalLimit = 100;
-  const int64_t kFileLimit = 50;
+  const size_t kEntriesCount = 0;
+  const int64_t kTotalLimit = 300;
+  const int64_t kFileLimit = 100;
 
-  TestFileEntryFactory factory(kEntriesCount);
+  TestFileEntryFactory factory(0, 0);
   FileEntryCatalogPtr catalog(new TestFileEntryCatalog(&factory, kPath, kBaseName));
   TestFileEntryCatalog* catalogPtr = static_cast<TestFileEntryCatalog*>(catalog.get());
   TestLogFilesManager manager(kTotalLimit, kFileLimit, std::move(catalog));
 
   REQUIRE(manager.baseName() == kBaseName);
+  /* default entry should be created */
+  REQUIRE(catalogPtr->entries().size() == 1);
 
   SECTION("Write below file limit") {
-    manager.write(nullptr, 30);
-    REQUIRE(catalogPtr->entries().size() == kEntriesCount);
-    REQUIRE(static_cast<TestFileStream*>(manager.stream().get())->written == 30);
+    manager.write(nullptr, 70);
+    REQUIRE(catalogPtr->entries().size() == 1);
+    REQUIRE(static_cast<TestFileStream*>(manager.stream().get())->written == 70);
   }
 
   SECTION("Write beyond file limit") {
-    manager.write(nullptr, 51);
-    REQUIRE(catalogPtr->entries().size() == kEntriesCount + 1);
+    manager.write(nullptr, 101);
+    REQUIRE(catalogPtr->entries().size() == 2);
+  }
+
+  SECTION("Write beyond total limit") {
+    manager.write(nullptr, 50);
+    REQUIRE(catalogPtr->entries().size() == 1);
+    
+    manager.write(nullptr, 101);
+    REQUIRE(catalogPtr->entries().size() == 2);
+
+    manager.write(nullptr, 101);
+    REQUIRE(catalogPtr->entries().size() == 3);
+
+    manager.write(nullptr, 101);
+    REQUIRE(catalogPtr->entries().size() == 3);
   }
 }
