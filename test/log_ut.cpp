@@ -3,8 +3,8 @@
 #include <log/log.h>
 #include <log/utils.h>
 
-const int64_t kTotalLimit = 30;
-const int64_t kFileLimit = 10;
+const int64_t kTotalLimit = 1000;
+const int64_t kFileLimit = 300;
 
 class TestLogger : public sl::Logger {
 public:
@@ -138,7 +138,7 @@ TEST_CASE("Logger") {
     auto content = futils::fileContent(filePath);
     auto fileStrings = splitBy(content, '\n');
     REQUIRE(!fileStrings.empty());
-    checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
+    checkLogOutput(fileStrings[0], sl::Level::info, "hello world");
   }
 
   SECTION("Sinks with Id") {

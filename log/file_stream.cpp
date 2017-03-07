@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <log/file_stream.h>
 #include <log/format.h>
 
@@ -20,9 +21,16 @@ void FileStream::open() {
     throw std::runtime_error(sl::fmt("FileStream: file % already opened", 
                                      m_fileName));
   }
+
   m_stream = fopen(m_fileName.c_str(), "ab");
   if (m_stream == nullptr) {
     throw std::runtime_error(sl::fmt("FileStream: file % open failed", 
+                                     m_fileName));
+  }
+
+  if (setvbuf(m_stream, NULL, _IONBF, 0) != 0) {
+    fclose(m_stream);
+    throw std::runtime_error(sl::fmt("FileStream: file % setvbuf failed", 
                                      m_fileName));
   }
 }
