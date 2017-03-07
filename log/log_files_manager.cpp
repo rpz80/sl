@@ -13,8 +13,10 @@ LogFilesManager::LogFilesManager(int64_t totalLimit,
   : m_limitWatcher(totalLimit, fileLimit, this),
     m_catalog(std::move(catalog))
 {
-  m_limitWatcher.setSize(m_catalog->totalBytes());
   m_stream = m_catalog->first().open();
+  m_stream->close();
+  m_limitWatcher.setSize(m_catalog->totalBytes());
+  m_stream->open();
 }
 
 std::string LogFilesManager::baseName() const {

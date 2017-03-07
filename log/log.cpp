@@ -13,8 +13,9 @@ namespace sl {
 
 using namespace detail;
 
-Logger::Logger() :
-  m_timeFormat("%Y-%m-%d %H:%M:%S") {}
+Logger::Logger() 
+    : m_timeFormat("%Y-%m-%d %H:%M:%S") {
+}
 
 Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {
   return const_cast<Logger&>(*this).getSinkById(sinkId);
