@@ -1,3 +1,4 @@
+#include <thread>
 #include "catch.hh"
 #include "file_utils.h"
 #include <log/log.h>
@@ -116,6 +117,7 @@ TEST_CASE("Logger") {
   using namespace sl::detail;
 
   futils::TmpDir tmpDir;
+  std::thread([](){}).detach();
 
   SECTION("Uninitialized test") {
     assertUninitializedState(logger);
