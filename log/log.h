@@ -153,9 +153,9 @@ private:
 
 #define LOG_S(___sinkId, ___level, ___formatStr, ...) \
   do { \
-    if (sl::Logger::getLogger().getLevel(___sinkId) <= ___level) { \
+    if ((int)sl::Logger::getLogger().getLevel(___sinkId) <= (int)___level) { \
       sl::Logger::getLogger().log(___sinkId,  \
-                                  ___level,  \
+                                  (sl::Level)___level,  \
                                   ___formatStr, \
                                   ___LOG_EXPAND(__VA_ARGS__)); \
     } \
@@ -164,8 +164,8 @@ private:
 
 #define LOG(___level, ___formatStr, ...) \
   do { \
-    if (sl::Logger::getLogger().getDefaultLevel() <= ___level) { \
-      sl::Logger::getLogger().log(___level,  \
+    if ((int)sl::Logger::getLogger().getDefaultLevel() <= (int)___level) { \
+      sl::Logger::getLogger().log((sl::Level)___level,  \
                                   ___formatStr, \
                                   ___LOG_EXPAND(__VA_ARGS__)); \
     } \

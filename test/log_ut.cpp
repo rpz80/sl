@@ -2,8 +2,10 @@
 #include "file_utils.h"
 #include <log/log.h>
 #include <log/utils.h>
+#include <unordered_map>
+#include "random_utils.h"
 
-const int64_t kTotalLimit = 1000;
+const int64_t kTotalLimit = 10000;
 const int64_t kFileLimit = 300;
 
 class TestLogger : public sl::Logger {
@@ -38,6 +40,70 @@ std::vector<std::string> splitBy(const Source& source, char delim) {
   }
 
   return result;
+}
+
+using LogDataMap = std::unordered_map<std::string, bool>;
+
+void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId, 
+                    const std::string& dirPath, const std::string& baseName, 
+                    sl::Level level, int64_t fileLimit, int64_t totalLimit)
+{
+  /* SetUp sink */
+  if (sinkId == -1) {
+    logger.setDefaultSink(dirPath, baseName, level,
+                          totalLimit, fileLimit, true);
+    return;
+  }
+
+  logger.addSink(sinkId, dirPath, baseName, 
+                 level, totalLimit, fileLimit, true);
+
+  /* Init random generators and logData structure*/
+  RandomData randomDataGen(10, 50);
+  std::random_device levelRandDevice;
+  std::mt19937 levelRandGen(levelRandDevice());
+  std::uniform_int_distribution<> levelDist((int)sl::Level::debug, (int)sl::Level::critical);
+  LogDataMap memoryData;
+
+  /* write random messages to log and to the logData */
+  for (int i = 0; i < messageCount; ++i) {
+    auto writeLogLevel = levelDist(levelRandGen);
+    auto logMessage = randomDataGen();
+
+    /* not all messages should be logged (based on the sink log level) */
+    if ((int)level <= writeLogLevel) {
+      memoryData.emplace(logMessage, true);
+    } else {
+      memoryData.emplace(logMessage, false);
+    }
+
+    if (sinkId == -1) {
+      LOG((sl::Level)writeLogLevel, "%", logMessage);
+    } else {
+      LOG_S(sinkId, (sl::Level)writeLogLevel, "%", logMessage);
+    }
+  }
+
+  /* Compare results */
+  auto actualLoggedData = futils::readAll(dirPath, baseName);
+
+  /* all actual logged messages should be found in memory data */
+  for (auto it = actualLoggedData.cbegin(); it != actualLoggedData.cend(); ++it) {
+    auto memoryDataIt = memoryData.find(*it);
+    REQUIRE(memoryDataIt != memoryData.cend());
+    REQUIRE(memoryDataIt->second == true);
+    REQUIRE(memoryDataIt->first == *it);
+  }
+
+  /* but not all memory messages should have been actually logged */
+  for (auto it = memoryData.cbegin(); it != memoryData.cend(); ++it) {
+    auto actualDataIt = actualLoggedData.find(it->first);
+    if (it->second) {
+      REQUIRE(actualDataIt != actualLoggedData.cend());
+      REQUIRE(*actualDataIt == it->first);
+    }
+  }
+
 }
 
 void checkLogLevel(sl::Level level, const std::string& levelLine) {
@@ -156,5 +222,8 @@ TEST_CASE("Logger") {
     assertSinksState(logger, tmpDir.path().c_str(), kSinksCount, 
                      kFileNamePattern, kSinkLevel);
 
+  }
+
+  SECTION("Contents check") {
   }
 }

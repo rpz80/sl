@@ -48,6 +48,11 @@ int64_t fileSize(const std::string& fileName) {
   return st.st_size;
 }
 
+std::unordered_set<std::string> readAll(const std::string& path, const std::string& baseName) {
+  std::unordered_set<std::string> result;
+  return result;
+}
+
 
 TmpDir::TmpDir() {
   create();

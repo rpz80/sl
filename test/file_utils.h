@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <unordered_set>
 #include <log/file_stream.h>
 #include <log/file_entry.h>
 #include <log/utils.h>
@@ -110,6 +111,7 @@ namespace futils {
 bool fileExists(const std::string& name);
 int64_t fileSize(const std::string& fileName);
 std::vector<char> fileContent(const std::string& fileName);
+std::unordered_set<std::string> readAll(const std::string& path, const std::string& baseName);
 
 enum class FileType {
   file,
