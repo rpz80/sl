@@ -21,7 +21,8 @@ public:
   }
 };
 
-std::vector<std::string> splitBy(const std::string& source, char delim) {
+template<typename Source>
+std::vector<std::string> splitBy(const Source& source, char delim) {
   std::vector<std::string> result;
   std::string tmp;
 
@@ -129,16 +130,15 @@ TEST_CASE("Logger") {
 
     assertDefaultSinkState(logger, kFileName, sl::Level::debug);
 
-    // const auto filePath = fs::join(dirName, str::join(kFileName, ".log"));
-    // logger.log(sl::Level::info, "% %", "hello", "world");
+    const auto filePath = fs::join(tmpDir.path(), str::join(kFileName, ".log"));
+    logger.log(sl::Level::info, "% %", "hello", "world");
 
-    // REQUIRE(fileExists(filePath.data()));
+    REQUIRE(futils::fileExists(filePath));
 
-    // const char* content = fileContent(contentBuf, filePath.data());
-    // printf("Content: %s\n", content);
-    // auto fileStrings = splitBy(content, '\n');
-    // REQUIRE(!fileStrings.empty());
-    // checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
+    auto content = futils::fileContent(filePath);
+    auto fileStrings = splitBy(content, '\n');
+    REQUIRE(!fileStrings.empty());
+    checkLogOutput(fileStrings[0], sl::Level::debug, "hello world");
   }
 
   SECTION("Sinks with Id") {
