@@ -1,0 +1,974 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AND_THEN	test/catch.hh	/^#define AND_THEN(/;"	d
+AND_WHEN	test/catch.hh	/^#define AND_WHEN(/;"	d
+ARCHITECTURE_ID	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#   define ARCHITECTURE_ID /;"	d	file:
+ARCHITECTURE_ID	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define ARCHITECTURE_ID /;"	d	file:
+ARCHITECTURE_ID	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#   define ARCHITECTURE_ID /;"	d	file:
+ARCHITECTURE_ID	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define ARCHITECTURE_ID /;"	d	file:
+AllOf	test/catch.hh	/^            AllOf( AllOf const& other ) : m_matchers( other.m_matchers ) {}$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf
+AllOf	test/catch.hh	/^            AllOf() {}$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf
+AllOf	test/catch.hh	/^        class AllOf : public MatcherImpl<AllOf<ExpressionT>, ExpressionT> {$/;"	c	namespace:Catch::Matchers::Impl::Generic
+AllOf	test/catch.hh	/^    inline Impl::Generic::AllOf<ExpressionT> AllOf( Impl::Matcher<ExpressionT> const& m1,$/;"	f	namespace:Catch::Matchers
+AnyOf	test/catch.hh	/^            AnyOf( AnyOf const& other ) : m_matchers( other.m_matchers ) {}$/;"	f	class:Catch::Matchers::Impl::Generic::AnyOf
+AnyOf	test/catch.hh	/^            AnyOf() {}$/;"	f	class:Catch::Matchers::Impl::Generic::AnyOf
+AnyOf	test/catch.hh	/^        class AnyOf : public MatcherImpl<AnyOf<ExpressionT>, ExpressionT> {$/;"	c	namespace:Catch::Matchers::Impl::Generic
+AnyOf	test/catch.hh	/^    inline Impl::Generic::AnyOf<ExpressionT> AnyOf( Impl::Matcher<ExpressionT> const& m1,$/;"	f	namespace:Catch::Matchers
+AssertionInfo	test/catch.hh	/^        AssertionInfo() {}$/;"	f	struct:Catch::AssertionInfo
+AssertionInfo	test/catch.hh	/^    struct AssertionInfo$/;"	s	namespace:Catch
+AssertionResult	test/catch.hh	/^    class AssertionResult {$/;"	c	namespace:Catch
+AssertionResultData	test/catch.hh	/^        AssertionResultData() : resultType( ResultWas::Unknown ) {}$/;"	f	struct:Catch::AssertionResultData
+AssertionResultData	test/catch.hh	/^    struct AssertionResultData$/;"	s	namespace:Catch
+AutoReg	test/catch.hh	/^    AutoReg$/;"	f	struct:Catch::AutoReg
+AutoReg	test/catch.hh	/^struct AutoReg {$/;"	s	namespace:Catch
+BorgType	test/catch.hh	/^    struct BorgType {$/;"	s	namespace:Catch::Detail
+CATCH_AND_THEN	test/catch.hh	/^#define CATCH_AND_THEN(/;"	d
+CATCH_AND_WHEN	test/catch.hh	/^#define CATCH_AND_WHEN(/;"	d
+CATCH_ANON_TEST_CASE	test/catch.hh	/^#define CATCH_ANON_TEST_CASE(/;"	d
+CATCH_ARC_ENABLED	test/catch.hh	/^#define CATCH_ARC_ENABLED /;"	d
+CATCH_ARC_STRONG	test/catch.hh	/^#define CATCH_ARC_STRONG /;"	d
+CATCH_ARC_STRONG	test/catch.hh	/^#define CATCH_ARC_STRONG$/;"	d
+CATCH_AUTO_PTR	test/catch.hh	/^#   define CATCH_AUTO_PTR(/;"	d
+CATCH_BREAK_INTO_DEBUGGER	test/catch.hh	/^            #define CATCH_BREAK_INTO_DEBUGGER(/;"	d
+CATCH_BREAK_INTO_DEBUGGER	test/catch.hh	/^#define CATCH_BREAK_INTO_DEBUGGER(/;"	d
+CATCH_CAPTURE	test/catch.hh	/^#define CATCH_CAPTURE(/;"	d
+CATCH_CHECK	test/catch.hh	/^#define CATCH_CHECK(/;"	d
+CATCH_CHECKED_ELSE	test/catch.hh	/^#define CATCH_CHECKED_ELSE(/;"	d
+CATCH_CHECKED_IF	test/catch.hh	/^#define CATCH_CHECKED_IF(/;"	d
+CATCH_CHECK_FALSE	test/catch.hh	/^#define CATCH_CHECK_FALSE(/;"	d
+CATCH_CHECK_NOFAIL	test/catch.hh	/^#define CATCH_CHECK_NOFAIL(/;"	d
+CATCH_CHECK_NOTHROW	test/catch.hh	/^#define CATCH_CHECK_NOTHROW(/;"	d
+CATCH_CHECK_THROWS	test/catch.hh	/^#define CATCH_CHECK_THROWS(/;"	d
+CATCH_CHECK_THROWS_AS	test/catch.hh	/^#define CATCH_CHECK_THROWS_AS(/;"	d
+CATCH_CHECK_THROWS_WITH	test/catch.hh	/^#define CATCH_CHECK_THROWS_WITH(/;"	d
+CATCH_CONFIG_COLOUR_WINDOWS	test/catch.hh	/^#       define CATCH_CONFIG_COLOUR_WINDOWS$/;"	d
+CATCH_CONFIG_CONSOLE_WIDTH	test/catch.hh	/^#define CATCH_CONFIG_CONSOLE_WIDTH /;"	d
+CATCH_CONFIG_COUNTER	test/catch.hh	/^#   define CATCH_CONFIG_COUNTER$/;"	d
+CATCH_CONFIG_CPP11_GENERATED_METHODS	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_GENERATED_METHODS$/;"	d
+CATCH_CONFIG_CPP11_IS_ENUM	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_IS_ENUM$/;"	d
+CATCH_CONFIG_CPP11_LONG_LONG	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_LONG_LONG$/;"	d
+CATCH_CONFIG_CPP11_NOEXCEPT	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_NOEXCEPT$/;"	d
+CATCH_CONFIG_CPP11_NULLPTR	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_NULLPTR$/;"	d
+CATCH_CONFIG_CPP11_OVERRIDE	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_OVERRIDE$/;"	d
+CATCH_CONFIG_CPP11_TUPLE	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_TUPLE$/;"	d
+CATCH_CONFIG_CPP11_UNIQUE_PTR	test/catch.hh	/^#   define CATCH_CONFIG_CPP11_UNIQUE_PTR$/;"	d
+CATCH_CONFIG_MAIN	test/main.cpp	/^#define CATCH_CONFIG_MAIN$/;"	d	file:
+CATCH_CONFIG_VARIADIC_MACROS	test/catch.hh	/^#   define CATCH_CONFIG_VARIADIC_MACROS$/;"	d
+CATCH_CPP11_OR_GREATER	test/catch.hh	/^#    define CATCH_CPP11_OR_GREATER$/;"	d
+CATCH_CPP14_OR_GREATER	test/catch.hh	/^#    define CATCH_CPP14_OR_GREATER$/;"	d
+CATCH_FAIL	test/catch.hh	/^    #define CATCH_FAIL(/;"	d
+CATCH_GENERATE	test/catch.hh	/^#define CATCH_GENERATE(/;"	d
+CATCH_GIVEN	test/catch.hh	/^#define CATCH_GIVEN(/;"	d
+CATCH_IMPL	test/catch.hh	/^#  define CATCH_IMPL$/;"	d
+CATCH_INFO	test/catch.hh	/^#define CATCH_INFO(/;"	d
+CATCH_INTERNAL_CONFIG_COUNTER	test/catch.hh	/^#define CATCH_INTERNAL_CONFIG_COUNTER$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_GENERATED_METHODS	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_GENERATED_METHODS$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_GENERATED_METHODS	test/catch.hh	/^#define CATCH_INTERNAL_CONFIG_CPP11_GENERATED_METHODS$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_IS_ENUM	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_IS_ENUM$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_LONG_LONG	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_LONG_LONG$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_NOEXCEPT	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_NOEXCEPT$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_NOEXCEPT	test/catch.hh	/^#define CATCH_INTERNAL_CONFIG_CPP11_NOEXCEPT$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_NULLPTR	test/catch.hh	/^#       define CATCH_INTERNAL_CONFIG_CPP11_NULLPTR$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_NULLPTR	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_NULLPTR$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_NULLPTR	test/catch.hh	/^#   define CATCH_INTERNAL_CONFIG_CPP11_NULLPTR$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_OVERRIDE	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_OVERRIDE$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_TUPLE	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_TUPLE$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_UNIQUE_PTR	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_CPP11_UNIQUE_PTR$/;"	d
+CATCH_INTERNAL_CONFIG_CPP11_UNIQUE_PTR	test/catch.hh	/^#   define CATCH_INTERNAL_CONFIG_CPP11_UNIQUE_PTR$/;"	d
+CATCH_INTERNAL_CONFIG_VARIADIC_MACROS	test/catch.hh	/^#    define CATCH_INTERNAL_CONFIG_VARIADIC_MACROS$/;"	d
+CATCH_INTERNAL_CONFIG_VARIADIC_MACROS	test/catch.hh	/^#define CATCH_INTERNAL_CONFIG_VARIADIC_MACROS$/;"	d
+CATCH_INTERNAL_ERROR	test/catch.hh	/^#define CATCH_INTERNAL_ERROR(/;"	d
+CATCH_INTERNAL_LINEINFO	test/catch.hh	/^#define CATCH_INTERNAL_LINEINFO /;"	d
+CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS	test/catch.hh	/^#       define CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS /;"	d
+CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS	test/catch.hh	/^#   define CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS$/;"	d
+CATCH_METHOD_AS_TEST_CASE	test/catch.hh	/^    #define CATCH_METHOD_AS_TEST_CASE(/;"	d
+CATCH_NOEXCEPT	test/catch.hh	/^        virtual const char* what() const CATCH_NOEXCEPT;$/;"	m	class:Catch::NotImplementedException
+CATCH_NOEXCEPT	test/catch.hh	/^#  define CATCH_NOEXCEPT /;"	d
+CATCH_NOEXCEPT_IS	test/catch.hh	/^#  define CATCH_NOEXCEPT_IS(/;"	d
+CATCH_NOT_IMPLEMENTED	test/catch.hh	/^#define CATCH_NOT_IMPLEMENTED /;"	d
+CATCH_NULL	test/catch.hh	/^#   define CATCH_NULL /;"	d
+CATCH_OVERRIDE	test/catch.hh	/^#   define CATCH_OVERRIDE /;"	d
+CATCH_OVERRIDE	test/catch.hh	/^#   define CATCH_OVERRIDE$/;"	d
+CATCH_PLATFORM_MAC	test/catch.hh	/^#define CATCH_PLATFORM_MAC$/;"	d
+CATCH_REGISTER_LEGACY_REPORTER	test/catch.hh	/^#define CATCH_REGISTER_LEGACY_REPORTER(/;"	d
+CATCH_REGISTER_REPORTER	test/catch.hh	/^#define CATCH_REGISTER_REPORTER(/;"	d
+CATCH_REGISTER_TAG_ALIAS	test/catch.hh	/^#define CATCH_REGISTER_TAG_ALIAS(/;"	d
+CATCH_REGISTER_TEST_CASE	test/catch.hh	/^    #define CATCH_REGISTER_TEST_CASE(/;"	d
+CATCH_REQUIRE	test/catch.hh	/^#define CATCH_REQUIRE(/;"	d
+CATCH_REQUIRE_FALSE	test/catch.hh	/^#define CATCH_REQUIRE_FALSE(/;"	d
+CATCH_REQUIRE_NOTHROW	test/catch.hh	/^#define CATCH_REQUIRE_NOTHROW(/;"	d
+CATCH_REQUIRE_THAT	test/catch.hh	/^#define CATCH_REQUIRE_THAT(/;"	d
+CATCH_REQUIRE_THROWS	test/catch.hh	/^#define CATCH_REQUIRE_THROWS(/;"	d
+CATCH_REQUIRE_THROWS_AS	test/catch.hh	/^#define CATCH_REQUIRE_THROWS_AS(/;"	d
+CATCH_REQUIRE_THROWS_WITH	test/catch.hh	/^#define CATCH_REQUIRE_THROWS_WITH(/;"	d
+CATCH_SCENARIO	test/catch.hh	/^#define CATCH_SCENARIO(/;"	d
+CATCH_SCENARIO_METHOD	test/catch.hh	/^#define CATCH_SCENARIO_METHOD(/;"	d
+CATCH_SCOPED_CAPTURE	test/catch.hh	/^#define CATCH_SCOPED_CAPTURE(/;"	d
+CATCH_SCOPED_INFO	test/catch.hh	/^#define CATCH_SCOPED_INFO(/;"	d
+CATCH_SECTION	test/catch.hh	/^    #define CATCH_SECTION(/;"	d
+CATCH_SUCCEED	test/catch.hh	/^    #define CATCH_SUCCEED(/;"	d
+CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH	test/catch.hh	/^#define CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH /;"	d
+CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH	test/catch.hh	/^#undef CATCH_TEMP_CLARA_CONFIG_CONSOLE_WIDTH$/;"	d
+CATCH_TEST_CASE	test/catch.hh	/^    #define CATCH_TEST_CASE(/;"	d
+CATCH_TEST_CASE_METHOD	test/catch.hh	/^    #define CATCH_TEST_CASE_METHOD(/;"	d
+CATCH_THEN	test/catch.hh	/^#define CATCH_THEN(/;"	d
+CATCH_TRANSLATE_EXCEPTION	test/catch.hh	/^#define CATCH_TRANSLATE_EXCEPTION(/;"	d
+CATCH_UNSAFE_UNRETAINED	test/catch.hh	/^#define CATCH_UNSAFE_UNRETAINED /;"	d
+CATCH_UNSAFE_UNRETAINED	test/catch.hh	/^#define CATCH_UNSAFE_UNRETAINED$/;"	d
+CATCH_WARN	test/catch.hh	/^#define CATCH_WARN(/;"	d
+CATCH_WHEN	test/catch.hh	/^#define CATCH_WHEN(/;"	d
+CHECK_THAT	test/catch.hh	/^#define CHECK_THAT(/;"	d
+CLARA_AUTO_PTR	test/catch.hh	/^#   define CLARA_AUTO_PTR(/;"	d
+CLARA_CONFIG_CONSOLE_WIDTH	test/catch.hh	/^#define CLARA_CONFIG_CONSOLE_WIDTH /;"	d
+CLARA_CONFIG_CONSOLE_WIDTH	test/catch.hh	/^#undef CLARA_CONFIG_CONSOLE_WIDTH$/;"	d
+CLARA_CONFIG_CPP11_GENERATED_METHODS	test/catch.hh	/^#define CLARA_CONFIG_CPP11_GENERATED_METHODS$/;"	d
+CLARA_CONFIG_CPP11_NOEXCEPT	test/catch.hh	/^#define CLARA_CONFIG_CPP11_NOEXCEPT$/;"	d
+CLARA_CONFIG_CPP11_NULLPTR	test/catch.hh	/^#define CLARA_CONFIG_CPP11_NULLPTR$/;"	d
+CLARA_CONFIG_CPP11_OVERRIDE	test/catch.hh	/^#define CLARA_CONFIG_CPP11_OVERRIDE$/;"	d
+CLARA_CONFIG_CPP11_UNIQUE_PTR	test/catch.hh	/^#define CLARA_CONFIG_CPP11_UNIQUE_PTR$/;"	d
+CLARA_CONFIG_MAIN	test/catch.hh	/^#    define CLARA_CONFIG_MAIN$/;"	d
+CLARA_CONFIG_MAIN	test/catch.hh	/^#  undef CLARA_CONFIG_MAIN$/;"	d
+CLARA_CONFIG_MAIN_NOT_DEFINED	test/catch.hh	/^#    define CLARA_CONFIG_MAIN_NOT_DEFINED$/;"	d
+CLARA_CPP11_OR_GREATER	test/catch.hh	/^#define CLARA_CPP11_OR_GREATER$/;"	d
+CLARA_INTERNAL_CONFIG_CPP11_GENERATED_METHODS	test/catch.hh	/^#define CLARA_INTERNAL_CONFIG_CPP11_GENERATED_METHODS$/;"	d
+CLARA_INTERNAL_CONFIG_CPP11_NOEXCEPT	test/catch.hh	/^#define CLARA_INTERNAL_CONFIG_CPP11_NOEXCEPT$/;"	d
+CLARA_INTERNAL_CONFIG_CPP11_NULLPTR	test/catch.hh	/^#define CLARA_INTERNAL_CONFIG_CPP11_NULLPTR$/;"	d
+CLARA_INTERNAL_CONFIG_CPP11_OVERRIDE	test/catch.hh	/^#define CLARA_INTERNAL_CONFIG_CPP11_OVERRIDE$/;"	d
+CLARA_INTERNAL_CONFIG_CPP11_UNIQUE_PTR	test/catch.hh	/^#define CLARA_INTERNAL_CONFIG_CPP11_UNIQUE_PTR$/;"	d
+CLARA_NOEXCEPT	test/catch.hh	/^#define CLARA_NOEXCEPT /;"	d
+CLARA_NOEXCEPT_IS	test/catch.hh	/^#  define CLARA_NOEXCEPT_IS(/;"	d
+CLARA_NULL	test/catch.hh	/^#define CLARA_NULL /;"	d
+CLARA_OVERRIDE	test/catch.hh	/^#define CLARA_OVERRIDE /;"	d
+CLARA_PLATFORM_WINDOWS	test/catch.hh	/^#define CLARA_PLATFORM_WINDOWS$/;"	d
+CLICHE_TBC_TEXT_FORMAT_OUTER_NAMESPACE	test/catch.hh	/^#define CLICHE_TBC_TEXT_FORMAT_OUTER_NAMESPACE /;"	d
+CLICHE_TBC_TEXT_FORMAT_OUTER_NAMESPACE	test/catch.hh	/^#undef CLICHE_TBC_TEXT_FORMAT_OUTER_NAMESPACE$/;"	d
+CMAKE_BINARY_DIR	.build/Makefile	/^CMAKE_BINARY_DIR = \/Users\/a.kulikov\/proj\/github.com\/rpz80\/sl\/.build$/;"	m
+CMAKE_BINARY_DIR	.build/log/Makefile	/^CMAKE_BINARY_DIR = \/Users\/a.kulikov\/proj\/github.com\/rpz80\/sl\/.build$/;"	m
+CMAKE_BINARY_DIR	.build/test/Makefile	/^CMAKE_BINARY_DIR = \/Users\/a.kulikov\/proj\/github.com\/rpz80\/sl\/.build$/;"	m
+CMAKE_COMMAND	.build/Makefile	/^CMAKE_COMMAND = \/usr\/local\/Cellar\/cmake\/3.5.2\/bin\/cmake$/;"	m
+CMAKE_COMMAND	.build/log/Makefile	/^CMAKE_COMMAND = \/usr\/local\/Cellar\/cmake\/3.5.2\/bin\/cmake$/;"	m
+CMAKE_COMMAND	.build/test/Makefile	/^CMAKE_COMMAND = \/usr\/local\/Cellar\/cmake\/3.5.2\/bin\/cmake$/;"	m
+CMAKE_SOURCE_DIR	.build/Makefile	/^CMAKE_SOURCE_DIR = \/Users\/a.kulikov\/proj\/github.com\/rpz80\/sl$/;"	m
+CMAKE_SOURCE_DIR	.build/log/Makefile	/^CMAKE_SOURCE_DIR = \/Users\/a.kulikov\/proj\/github.com\/rpz80\/sl$/;"	m
+CMAKE_SOURCE_DIR	.build/test/Makefile	/^CMAKE_SOURCE_DIR = \/Users\/a.kulikov\/proj\/github.com\/rpz80\/sl$/;"	m
+CMakeCCompilerId.c	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	1;"	F
+CMakeCXXCompilerId.cpp	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	1;"	F
+COMPILER_ID	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_ID /;"	d	file:
+COMPILER_ID	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_ID /;"	d	file:
+COMPILER_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^  # define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^  # define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_MAJOR /;"	d	file:
+COMPILER_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^  # define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^  # define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_MINOR /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^  # define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#   define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^  # define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#   define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_PATCH	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_PATCH /;"	d	file:
+COMPILER_VERSION_TWEAK	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPILER_VERSION_TWEAK	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPILER_VERSION_TWEAK	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define COMPILER_VERSION_TWEAK /;"	d	file:
+COMPILER_VERSION_TWEAK	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define COMPILER_VERSION_TWEAK /;"	d	file:
+CaseSensitive	test/catch.hh	/^    struct CaseSensitive { enum Choice {$/;"	s	namespace:Catch
+CasedString	test/catch.hh	/^            CasedString( std::string const& str, CaseSensitive::Choice caseSensitivity )$/;"	f	struct:Catch::Matchers::Impl::StdString::CasedString
+CasedString	test/catch.hh	/^        struct CasedString$/;"	s	namespace:Catch::Matchers::Impl::StdString
+Catch	test/catch.hh	/^namespace Catch {$/;"	n
+Choice	test/catch.hh	/^    struct CaseSensitive { enum Choice {$/;"	g	struct:Catch::CaseSensitive
+Contains	test/catch.hh	/^            Contains( Contains const& other ) : m_data( other.m_data ){}$/;"	f	struct:Catch::Matchers::Impl::StdString::Contains
+Contains	test/catch.hh	/^            Contains( std::string const& substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes )$/;"	f	struct:Catch::Matchers::Impl::StdString::Contains
+Contains	test/catch.hh	/^        struct Contains : MatcherImpl<Contains, std::string> {$/;"	s	namespace:Catch::Matchers::Impl::StdString
+Contains	test/catch.hh	/^    inline Impl::StdString::Contains    Contains( const char* substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes ) {$/;"	f	namespace:Catch::Matchers
+Contains	test/catch.hh	/^    inline Impl::StdString::Contains    Contains( std::string const& substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes ) {$/;"	f	namespace:Catch::Matchers
+ContinueOnFailure	test/catch.hh	/^        ContinueOnFailure = 0x02,   \/\/ Failures fail test, but execution continues$/;"	e	enum:Catch::ResultDisposition::Flags
+CopyableStream	test/catch.hh	/^        CopyableStream( CopyableStream const& other ) {$/;"	f	struct:Catch::CopyableStream
+CopyableStream	test/catch.hh	/^        CopyableStream() {}$/;"	f	struct:Catch::CopyableStream
+CopyableStream	test/catch.hh	/^    struct CopyableStream {$/;"	s	namespace:Catch
+DEC	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#define DEC(/;"	d	file:
+DEC	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define DEC(/;"	d	file:
+Detail	test/catch.hh	/^namespace Detail {$/;"	n	namespace:Catch
+DidntThrowException	test/catch.hh	/^        DidntThrowException = Exception | 2,$/;"	e	enum:Catch::ResultWas::OfType
+EQUALS	.build/Makefile	/^EQUALS = =$/;"	m
+EQUALS	.build/log/Makefile	/^EQUALS = =$/;"	m
+EQUALS	.build/test/Makefile	/^EQUALS = =$/;"	m
+EndsWith	test/catch.hh	/^            EndsWith( EndsWith const& other ) : m_data( other.m_data ){}$/;"	f	struct:Catch::Matchers::Impl::StdString::EndsWith
+EndsWith	test/catch.hh	/^            EndsWith( std::string const& substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes )$/;"	f	struct:Catch::Matchers::Impl::StdString::EndsWith
+EndsWith	test/catch.hh	/^        struct EndsWith : MatcherImpl<EndsWith, std::string> {$/;"	s	namespace:Catch::Matchers::Impl::StdString
+EndsWith	test/catch.hh	/^    inline Impl::StdString::EndsWith    EndsWith( const char* substr ) {$/;"	f	namespace:Catch::Matchers
+EndsWith	test/catch.hh	/^    inline Impl::StdString::EndsWith    EndsWith( std::string const& substr ) {$/;"	f	namespace:Catch::Matchers
+EnumStringMaker	test/catch.hh	/^    struct EnumStringMaker$/;"	s	namespace:Catch::Detail
+EnumStringMaker	test/catch.hh	/^    struct EnumStringMaker<T,true>$/;"	s	namespace:Catch::Detail
+Equals	test/catch.hh	/^            Equals( Equals const& other ) : m_data( other.m_data ){}$/;"	f	struct:Catch::Matchers::Impl::StdString::Equals
+Equals	test/catch.hh	/^            Equals( std::string const& str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes )$/;"	f	struct:Catch::Matchers::Impl::StdString::Equals
+Equals	test/catch.hh	/^        struct Equals : MatcherImpl<Equals, std::string> {$/;"	s	namespace:Catch::Matchers::Impl::StdString
+Equals	test/catch.hh	/^    inline Impl::StdString::Equals      Equals( const char* str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes ) {$/;"	f	namespace:Catch::Matchers
+Equals	test/catch.hh	/^    inline Impl::StdString::Equals      Equals( std::string const& str, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes ) {$/;"	f	namespace:Catch::Matchers
+Evaluator	test/catch.hh	/^    class Evaluator{};$/;"	c	namespace:Catch::Internal
+Evaluator	test/catch.hh	/^    struct Evaluator<T1, T2, IsEqualTo> {$/;"	s	namespace:Catch::Internal
+Evaluator	test/catch.hh	/^    struct Evaluator<T1, T2, IsGreaterThan> {$/;"	s	namespace:Catch::Internal
+Evaluator	test/catch.hh	/^    struct Evaluator<T1, T2, IsGreaterThanOrEqualTo> {$/;"	s	namespace:Catch::Internal
+Evaluator	test/catch.hh	/^    struct Evaluator<T1, T2, IsLessThan> {$/;"	s	namespace:Catch::Internal
+Evaluator	test/catch.hh	/^    struct Evaluator<T1, T2, IsLessThanOrEqualTo> {$/;"	s	namespace:Catch::Internal
+Evaluator	test/catch.hh	/^    struct Evaluator<T1, T2, IsNotEqualTo> {$/;"	s	namespace:Catch::Internal
+Exception	test/catch.hh	/^        Exception = 0x100 | FailureBit,$/;"	e	enum:Catch::ResultWas::OfType
+ExplicitFailure	test/catch.hh	/^        ExplicitFailure = FailureBit | 2,$/;"	e	enum:Catch::ResultWas::OfType
+ExprComponents	test/catch.hh	/^            ExprComponents() : testFalse( false ) {}$/;"	f	struct:Catch::ResultBuilder::ExprComponents
+ExprComponents	test/catch.hh	/^        struct ExprComponents {$/;"	s	class:Catch::ResultBuilder
+ExpressionFailed	test/catch.hh	/^        ExpressionFailed = FailureBit | 1,$/;"	e	enum:Catch::ResultWas::OfType
+ExpressionType	test/catch.hh	/^        typedef ExpressionT ExpressionType;$/;"	t	struct:Catch::Matchers::Impl::Matcher
+FailureBit	test/catch.hh	/^        FailureBit = 0x10,$/;"	e	enum:Catch::ResultWas::OfType
+FalseTest	test/catch.hh	/^        FalseTest = 0x04,           \/\/ Prefix expression with !$/;"	e	enum:Catch::ResultDisposition::Flags
+FalseType	test/catch.hh	/^    struct FalseType { char sizer[2]; };$/;"	s	namespace:Catch::Detail
+FatalErrorCondition	test/catch.hh	/^        FatalErrorCondition = 0x200 | FailureBit$/;"	e	enum:Catch::ResultWas::OfType
+FileEntriesPosix	log/file_entry.cpp	/^  FileEntriesPosix(const std::string& path, const std::string& baseName)$/;"	f	class:sl::detail::FileEntriesPosix
+FileEntriesPosix	log/file_entry.cpp	/^class FileEntriesPosix {$/;"	c	namespace:sl::detail	file:
+FileEntry	log/file_entry.cpp	/^FileEntry::FileEntry(const std::string& fullPath) : $/;"	f	class:sl::detail::FileEntry
+FileEntry	log/file_entry.h	/^class FileEntry : public IFileEntry {$/;"	c	namespace:sl::detail
+FileEntryCatalog	log/file_entry_catalog.cpp	/^FileEntryCatalog::FileEntryCatalog(IFileEntryFactory* entryFactory, $/;"	f	class:sl::detail::FileEntryCatalog
+FileEntryCatalog	log/file_entry_catalog.h	/^class FileEntryCatalog {$/;"	c	namespace:sl::detail
+FileEntryFactory	log/file_entry.h	/^class FileEntryFactory : public IFileEntryFactory {$/;"	c	namespace:sl::detail
+FileStream	log/file_stream.cpp	/^FileStream::FileStream(const std::string& fileName) $/;"	f	class:sl::detail::FileStream
+FileStream	log/file_stream.h	/^class FileStream : public IFileStream {$/;"	c	namespace:sl::detail
+FileType	test/file_utils.h	/^enum class FileType {$/;"	c	namespace:futils
+Flags	test/catch.hh	/^    struct ResultDisposition { enum Flags {$/;"	g	struct:Catch::ResultDisposition
+GIVEN	test/catch.hh	/^#define GIVEN(/;"	d
+Generic	test/catch.hh	/^    namespace Generic {$/;"	n	namespace:Catch::Matchers::Impl
+HEX	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#define HEX(/;"	d	file:
+HEX	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define HEX(/;"	d	file:
+IContext	test/catch.hh	/^    struct IContext$/;"	s	namespace:Catch
+ID_VOID_MAIN	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define ID_VOID_MAIN$/;"	d	file:
+IFileEntry	log/file_entry.h	/^class IFileEntry {$/;"	c	namespace:sl::detail
+IFileEntryFactory	log/file_entry.h	/^class IFileEntryFactory {$/;"	c	namespace:sl::detail
+IFileStream	log/file_stream.h	/^class IFileStream {$/;"	c	namespace:sl::detail
+IGeneratorInfo	test/catch.hh	/^    struct IGeneratorInfo {$/;"	s	namespace:Catch
+IGeneratorsForTest	test/catch.hh	/^    struct IGeneratorsForTest {$/;"	s	namespace:Catch
+IMutableContext	test/catch.hh	/^    struct IMutableContext : IContext$/;"	s	namespace:Catch
+INTERNAL_CATCH_ELSE	test/catch.hh	/^#define INTERNAL_CATCH_ELSE(/;"	d
+INTERNAL_CATCH_GENERATE	test/catch.hh	/^#define INTERNAL_CATCH_GENERATE(/;"	d
+INTERNAL_CATCH_IF	test/catch.hh	/^#define INTERNAL_CATCH_IF(/;"	d
+INTERNAL_CATCH_INFO	test/catch.hh	/^#define INTERNAL_CATCH_INFO(/;"	d
+INTERNAL_CATCH_LINESTR	test/catch.hh	/^#define INTERNAL_CATCH_LINESTR(/;"	d
+INTERNAL_CATCH_LINESTR2	test/catch.hh	/^#define INTERNAL_CATCH_LINESTR2(/;"	d
+INTERNAL_CATCH_METHOD_AS_TEST_CASE	test/catch.hh	/^    #define INTERNAL_CATCH_METHOD_AS_TEST_CASE(/;"	d
+INTERNAL_CATCH_MSG	test/catch.hh	/^    #define INTERNAL_CATCH_MSG(/;"	d
+INTERNAL_CATCH_NO_THROW	test/catch.hh	/^#define INTERNAL_CATCH_NO_THROW(/;"	d
+INTERNAL_CATCH_REACT	test/catch.hh	/^#define INTERNAL_CATCH_REACT(/;"	d
+INTERNAL_CATCH_REGISTER_LEGACY_REPORTER	test/catch.hh	/^#define INTERNAL_CATCH_REGISTER_LEGACY_REPORTER(/;"	d
+INTERNAL_CATCH_REGISTER_LISTENER	test/catch.hh	/^#define INTERNAL_CATCH_REGISTER_LISTENER(/;"	d
+INTERNAL_CATCH_REGISTER_REPORTER	test/catch.hh	/^#define INTERNAL_CATCH_REGISTER_REPORTER(/;"	d
+INTERNAL_CATCH_REGISTER_TESTCASE	test/catch.hh	/^    #define INTERNAL_CATCH_REGISTER_TESTCASE(/;"	d
+INTERNAL_CATCH_SECTION	test/catch.hh	/^    #define INTERNAL_CATCH_SECTION(/;"	d
+INTERNAL_CATCH_STRINGIFY	test/catch.hh	/^#define INTERNAL_CATCH_STRINGIFY(/;"	d
+INTERNAL_CATCH_STRINGIFY2	test/catch.hh	/^#define INTERNAL_CATCH_STRINGIFY2(/;"	d
+INTERNAL_CATCH_TEST	test/catch.hh	/^#define INTERNAL_CATCH_TEST(/;"	d
+INTERNAL_CATCH_TESTCASE	test/catch.hh	/^    #define INTERNAL_CATCH_TESTCASE(/;"	d
+INTERNAL_CATCH_TESTCASE2	test/catch.hh	/^    #define INTERNAL_CATCH_TESTCASE2(/;"	d
+INTERNAL_CATCH_TEST_CASE_METHOD	test/catch.hh	/^    #define INTERNAL_CATCH_TEST_CASE_METHOD(/;"	d
+INTERNAL_CATCH_TEST_CASE_METHOD2	test/catch.hh	/^    #define INTERNAL_CATCH_TEST_CASE_METHOD2(/;"	d
+INTERNAL_CATCH_THROWS	test/catch.hh	/^#define INTERNAL_CATCH_THROWS(/;"	d
+INTERNAL_CATCH_THROWS_AS	test/catch.hh	/^#define INTERNAL_CATCH_THROWS_AS(/;"	d
+INTERNAL_CATCH_TRANSLATE_EXCEPTION	test/catch.hh	/^#define INTERNAL_CATCH_TRANSLATE_EXCEPTION(/;"	d
+INTERNAL_CATCH_TRANSLATE_EXCEPTION2	test/catch.hh	/^#define INTERNAL_CATCH_TRANSLATE_EXCEPTION2(/;"	d
+INTERNAL_CATCH_UNIQUE_NAME	test/catch.hh	/^#  define INTERNAL_CATCH_UNIQUE_NAME(/;"	d
+INTERNAL_CATCH_UNIQUE_NAME_LINE	test/catch.hh	/^#define INTERNAL_CATCH_UNIQUE_NAME_LINE(/;"	d
+INTERNAL_CATCH_UNIQUE_NAME_LINE2	test/catch.hh	/^#define INTERNAL_CATCH_UNIQUE_NAME_LINE2(/;"	d
+INTERNAL_CHECK_THAT	test/catch.hh	/^#define INTERNAL_CHECK_THAT(/;"	d
+IShared	test/catch.hh	/^    struct IShared : NonCopyable {$/;"	s	namespace:Catch
+ITestCase	test/catch.hh	/^    struct ITestCase : IShared {$/;"	s	namespace:Catch
+ITestCaseRegistry	test/catch.hh	/^    struct ITestCaseRegistry {$/;"	s	namespace:Catch
+Impl	test/catch.hh	/^    namespace Impl {$/;"	n	namespace:Catch::Matchers
+Info	test/catch.hh	/^        Info = 1,$/;"	e	enum:Catch::ResultWas::OfType
+Internal	test/catch.hh	/^namespace Internal {$/;"	n	namespace:Catch
+IsEqualTo	test/catch.hh	/^        IsEqualTo,$/;"	e	enum:Catch::Internal::Operator
+IsGreaterThan	test/catch.hh	/^        IsGreaterThan,$/;"	e	enum:Catch::Internal::Operator
+IsGreaterThanOrEqualTo	test/catch.hh	/^        IsGreaterThanOrEqualTo$/;"	e	enum:Catch::Internal::Operator
+IsLessThan	test/catch.hh	/^        IsLessThan,$/;"	e	enum:Catch::Internal::Operator
+IsLessThanOrEqualTo	test/catch.hh	/^        IsLessThanOrEqualTo,$/;"	e	enum:Catch::Internal::Operator
+IsNotEqualTo	test/catch.hh	/^        IsNotEqualTo,$/;"	e	enum:Catch::Internal::Operator
+IsStreamInsertable	test/catch.hh	/^    struct IsStreamInsertable {$/;"	s	namespace:Catch::Detail
+LOG	log/log.h	/^#define LOG(/;"	d
+LOG_S	log/log.h	/^#define LOG_S(/;"	d
+Level	log/log.h	/^enum class Level {$/;"	c	namespace:sl
+LogFilesManager	log/log_files_manager.cpp	/^LogFilesManager::LogFilesManager(int64_t totalLimit,$/;"	f	class:sl::detail::LogFilesManager
+LogFilesManager	log/log_files_manager.h	/^class LogFilesManager : public RotationLimitWatcherHandler {$/;"	c	namespace:sl::detail
+Logger	log/log.cpp	/^Logger::Logger() $/;"	f	class:sl::Logger
+Logger	log/log.h	/^class Logger {$/;"	c	namespace:sl
+LoggerException	log/exception.h	/^class LoggerException : public std::runtime_error {$/;"	c	namespace:sl::detail
+Makefile	.build/Makefile	1;"	F
+Makefile	.build/log/Makefile	1;"	F
+Makefile	.build/test/Makefile	1;"	F
+Matcher	test/catch.hh	/^    struct Matcher : SharedImpl<IShared>$/;"	s	namespace:Catch::Matchers::Impl
+MatcherImpl	test/catch.hh	/^    struct MatcherImpl : Matcher<ExpressionT> {$/;"	s	namespace:Catch::Matchers::Impl
+Matchers	test/catch.hh	/^namespace Matchers {$/;"	n	namespace:Catch
+MethodTestCase	test/catch.hh	/^    MethodTestCase( void (C::*method)() ) : m_method( method ) {}$/;"	f	class:Catch::MethodTestCase
+MethodTestCase	test/catch.hh	/^class MethodTestCase : public SharedImpl<ITestCase> {$/;"	c	namespace:Catch
+NOMINMAX	test/catch.hh	/^#define NOMINMAX$/;"	d
+NameAndDesc	test/catch.hh	/^    NameAndDesc( const char* _name = "", const char* _description= "" )$/;"	f	struct:Catch::NameAndDesc
+NameAndDesc	test/catch.hh	/^struct NameAndDesc {$/;"	s	namespace:Catch
+No	test/catch.hh	/^        No$/;"	e	enum:Catch::CaseSensitive::Choice
+NonCopyable	test/catch.hh	/^        NonCopyable() {}$/;"	f	class:Catch::NonCopyable
+NonCopyable	test/catch.hh	/^    class NonCopyable {$/;"	c	namespace:Catch
+Normal	test/catch.hh	/^        Normal = 0x01,$/;"	e	enum:Catch::ResultDisposition::Flags
+Not	test/catch.hh	/^            Not( Not const& other ) : m_matcher( other.m_matcher ) {}$/;"	f	class:Catch::Matchers::Impl::Generic::Not
+Not	test/catch.hh	/^            explicit Not( Matcher<ExpressionT> const& matcher ) : m_matcher(matcher.clone()) {}$/;"	f	class:Catch::Matchers::Impl::Generic::Not
+Not	test/catch.hh	/^        class Not : public MatcherImpl<Not<ExpressionT>, ExpressionT> {$/;"	c	namespace:Catch::Matchers::Impl::Generic
+Not	test/catch.hh	/^    inline Impl::Generic::Not<ExpressionT> Not( Impl::Matcher<ExpressionT> const& m ) {$/;"	f	namespace:Catch::Matchers
+NotImplementedException	test/catch.hh	/^        NotImplementedException( NotImplementedException const& ) {}$/;"	f	class:Catch::NotImplementedException
+NotImplementedException	test/catch.hh	/^    class NotImplementedException : public std::exception$/;"	c	namespace:Catch
+OC_TEST_CASE	test/catch.hh	/^#define OC_TEST_CASE(/;"	d
+OfType	test/catch.hh	/^    struct ResultWas { enum OfType {$/;"	g	struct:Catch::ResultWas
+Ok	test/catch.hh	/^        Ok = 0,$/;"	e	enum:Catch::ResultWas::OfType
+Operator	test/catch.hh	/^    enum Operator {$/;"	g	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<> struct OperatorTraits<IsEqualTo>             { static const char* getName(){ return "=="; } };$/;"	s	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<> struct OperatorTraits<IsGreaterThan>         { static const char* getName(){ return ">"; } };$/;"	s	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<> struct OperatorTraits<IsGreaterThanOrEqualTo>{ static const char* getName(){ return ">="; } };$/;"	s	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<> struct OperatorTraits<IsLessThan>            { static const char* getName(){ return "<"; } };$/;"	s	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<> struct OperatorTraits<IsLessThanOrEqualTo>   { static const char* getName(){ return "<="; } };$/;"	s	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<> struct OperatorTraits<IsNotEqualTo>          { static const char* getName(){ return "!="; } };$/;"	s	namespace:Catch::Internal
+OperatorTraits	test/catch.hh	/^    template<Operator Op> struct OperatorTraits             { static const char* getName(){ return "*error*"; } };$/;"	s	namespace:Catch::Internal
+PLATFORM_ID	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define PLATFORM_ID /;"	d	file:
+PLATFORM_ID	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^# define PLATFORM_ID /;"	d	file:
+PLATFORM_ID	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define PLATFORM_ID /;"	d	file:
+PLATFORM_ID	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^# define PLATFORM_ID /;"	d	file:
+PosixDir	log/utils.cpp	/^PosixDir::PosixDir(const std::string& name) : m_name(name) {}$/;"	f	class:sl::detail::fs::PosixDir
+PosixDir	log/utils.h	/^class PosixDir {$/;"	c	namespace:sl::detail::fs
+Ptr	test/catch.hh	/^        Ptr( Ptr const& other ) : m_p( other.m_p ){$/;"	f	class:Catch::Ptr
+Ptr	test/catch.hh	/^        Ptr( T* p ) : m_p( p ){$/;"	f	class:Catch::Ptr
+Ptr	test/catch.hh	/^        Ptr() : m_p( CATCH_NULL ){}$/;"	f	class:Catch::Ptr
+Ptr	test/catch.hh	/^    class Ptr {$/;"	c	namespace:Catch
+RM	.build/Makefile	/^RM = \/usr\/local\/Cellar\/cmake\/3.5.2\/bin\/cmake -E remove -f$/;"	m
+RM	.build/log/Makefile	/^RM = \/usr\/local\/Cellar\/cmake\/3.5.2\/bin\/cmake -E remove -f$/;"	m
+RM	.build/test/Makefile	/^RM = \/usr\/local\/Cellar\/cmake\/3.5.2\/bin\/cmake -E remove -f$/;"	m
+RandomData	test/random_utils.cpp	/^RandomData::RandomData(size_t minSize, size_t maxSize) $/;"	f	class:RandomData
+RandomData	test/random_utils.h	/^class RandomData {$/;"	c
+ResultBuilder	test/catch.hh	/^    class ResultBuilder {$/;"	c	namespace:Catch
+ResultDisposition	test/catch.hh	/^    struct ResultDisposition { enum Flags {$/;"	s	namespace:Catch
+ResultWas	test/catch.hh	/^    struct ResultWas { enum OfType {$/;"	s	namespace:Catch
+RotationLimitWatcher	log/rotation_limit_watcher.cpp	/^RotationLimitWatcher::RotationLimitWatcher($/;"	f	class:sl::detail::RotationLimitWatcher
+RotationLimitWatcher	log/rotation_limit_watcher.h	/^class RotationLimitWatcher {$/;"	c	namespace:sl::detail
+RotationLimitWatcherHandler	log/rotation_limit_watcher_handler.h	/^class RotationLimitWatcherHandler {$/;"	c	namespace:sl::detail
+SCENARIO	test/catch.hh	/^#define SCENARIO(/;"	d
+SCENARIO_METHOD	test/catch.hh	/^#define SCENARIO_METHOD(/;"	d
+SHELL	.build/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHELL	.build/log/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHELL	.build/test/Makefile	/^SHELL = \/bin\/sh$/;"	m
+SIMULATE_ID	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define SIMULATE_ID /;"	d	file:
+SIMULATE_ID	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define SIMULATE_ID /;"	d	file:
+SIMULATE_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define SIMULATE_VERSION_MAJOR /;"	d	file:
+SIMULATE_VERSION_MAJOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define SIMULATE_VERSION_MAJOR /;"	d	file:
+SIMULATE_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#  define SIMULATE_VERSION_MINOR /;"	d	file:
+SIMULATE_VERSION_MINOR	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#  define SIMULATE_VERSION_MINOR /;"	d	file:
+STITCH_CLARA_CLOSE_NAMESPACE	test/catch.hh	/^#define STITCH_CLARA_CLOSE_NAMESPACE$/;"	d
+STITCH_CLARA_CLOSE_NAMESPACE	test/catch.hh	/^#undef STITCH_CLARA_CLOSE_NAMESPACE$/;"	d
+STITCH_CLARA_OPEN_NAMESPACE	test/catch.hh	/^#define STITCH_CLARA_OPEN_NAMESPACE /;"	d
+STITCH_CLARA_OPEN_NAMESPACE	test/catch.hh	/^#define STITCH_CLARA_OPEN_NAMESPACE$/;"	d
+STITCH_CLARA_OPEN_NAMESPACE	test/catch.hh	/^#undef STITCH_CLARA_OPEN_NAMESPACE$/;"	d
+STITCH_TBC_TEXT_FORMAT_OPEN_NAMESPACE	test/catch.hh	/^#define STITCH_TBC_TEXT_FORMAT_OPEN_NAMESPACE /;"	d
+STITCH_TBC_TEXT_FORMAT_OPEN_NAMESPACE	test/catch.hh	/^#undef STITCH_TBC_TEXT_FORMAT_OPEN_NAMESPACE$/;"	d
+STRINGIFY	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#define STRINGIFY(/;"	d	file:
+STRINGIFY	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define STRINGIFY(/;"	d	file:
+STRINGIFY_HELPER	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^#define STRINGIFY_HELPER(/;"	d	file:
+STRINGIFY_HELPER	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^#define STRINGIFY_HELPER(/;"	d	file:
+SUFFIXES	.build/Makefile	/^SUFFIXES =$/;"	m
+SUFFIXES	.build/log/Makefile	/^SUFFIXES =$/;"	m
+SUFFIXES	.build/test/Makefile	/^SUFFIXES =$/;"	m
+SafeBool	test/catch.hh	/^    class SafeBool {$/;"	c	namespace:Catch
+SharedImpl	test/catch.hh	/^        SharedImpl() : m_rc( 0 ){}$/;"	f	struct:Catch::SharedImpl
+SharedImpl	test/catch.hh	/^    struct SharedImpl : T {$/;"	s	namespace:Catch
+Sink	log/log.h	/^    Sink() : level(Level::error),$/;"	f	struct:sl::Logger::Sink
+Sink	log/log.h	/^    Sink(Level level, $/;"	f	struct:sl::Logger::Sink
+Sink	log/log.h	/^  struct Sink {$/;"	s	class:sl::Logger
+SourceLineInfo	test/catch.hh	/^    struct SourceLineInfo {$/;"	s	namespace:Catch
+StartsWith	test/catch.hh	/^            StartsWith( StartsWith const& other ) : m_data( other.m_data ){}$/;"	f	struct:Catch::Matchers::Impl::StdString::StartsWith
+StartsWith	test/catch.hh	/^            StartsWith( std::string const& substr, CaseSensitive::Choice caseSensitivity = CaseSensitive::Yes )$/;"	f	struct:Catch::Matchers::Impl::StdString::StartsWith
+StartsWith	test/catch.hh	/^        struct StartsWith : MatcherImpl<StartsWith, std::string> {$/;"	s	namespace:Catch::Matchers::Impl::StdString
+StartsWith	test/catch.hh	/^    inline Impl::StdString::StartsWith  StartsWith( const char* substr ) {$/;"	f	namespace:Catch::Matchers
+StartsWith	test/catch.hh	/^    inline Impl::StdString::StartsWith  StartsWith( std::string const& substr ) {$/;"	f	namespace:Catch::Matchers
+StdString	test/catch.hh	/^    namespace StdString {$/;"	n	namespace:Catch::Matchers::Impl
+StreamEndStop	test/catch.hh	/^    struct StreamEndStop {$/;"	s	namespace:Catch
+StringMaker	test/catch.hh	/^struct StringMaker :$/;"	s	namespace:Catch
+StringMaker	test/catch.hh	/^struct StringMaker<R C::*> {$/;"	s	namespace:Catch
+StringMaker	test/catch.hh	/^struct StringMaker<T*> {$/;"	s	namespace:Catch
+StringMakerBase	test/catch.hh	/^    struct StringMakerBase {$/;"	s	namespace:Catch::Detail
+StringMakerBase	test/catch.hh	/^    struct StringMakerBase<true> {$/;"	s	namespace:Catch::Detail
+SuppressFail	test/catch.hh	/^        SuppressFail = 0x08         \/\/ Failures are reported but do not fail the test$/;"	e	enum:Catch::ResultDisposition::Flags
+TBC_TEXT_FORMAT_CONSOLE_WIDTH	test/catch.hh	/^#define TBC_TEXT_FORMAT_CONSOLE_WIDTH /;"	d
+TBC_TEXT_FORMAT_H_INCLUDED	test/catch.hh	/^#define TBC_TEXT_FORMAT_H_INCLUDED$/;"	d
+THEN	test/catch.hh	/^#define THEN(/;"	d
+TWOBLUECUBES_CATCH_APPROX_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_APPROX_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_ASSERTIONRESULT_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_ASSERTIONRESULT_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_ASSERTIONRESULT_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_ASSERTIONRESULT_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CAPTURE_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CAPTURE_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CLARA_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CLARA_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_COMMANDLINE_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_COMMANDLINE_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_COMMON_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_COMMON_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_COMMON_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_COMMON_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_COMPILER_CAPABILITIES_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_COMPILER_CAPABILITIES_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CONFIG_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CONFIG_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CONSOLE_COLOUR_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CONSOLE_COLOUR_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CONSOLE_COLOUR_IMPL_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CONSOLE_COLOUR_IMPL_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CONTEXT_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CONTEXT_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_CONTEXT_IMPL_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_CONTEXT_IMPL_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_DEBUGGER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_DEBUGGER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_DEBUGGER_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_DEBUGGER_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_DEFAULT_MAIN_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_DEFAULT_MAIN_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_EVALUATE_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_EVALUATE_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_EXCEPTION_TRANSLATOR_REGISTRY_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_EXCEPTION_TRANSLATOR_REGISTRY_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_EXPRESSION_LHS_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_EXPRESSION_LHS_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_FATAL_CONDITION_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_FATAL_CONDITION_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_GENERATORS_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_GENERATORS_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_GENERATORS_IMPL_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_GENERATORS_IMPL_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_IMPL_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_IMPL_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_CAPTURE_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_CAPTURE_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_CONFIG_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_CONFIG_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_EXCEPTION_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_EXCEPTION_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_GENERATORS_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_GENERATORS_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_REGISTRY_HUB_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_REGISTRY_HUB_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_REPORTER_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_REPORTER_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_RUNNER_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_RUNNER_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_TAG_ALIAS_REGISTRY_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_TAG_ALIAS_REGISTRY_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_INTERFACES_TESTCASE_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_INTERFACES_TESTCASE_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_LEGACY_REPORTER_ADAPTER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_LEGACY_REPORTER_ADAPTER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_LEGACY_REPORTER_ADAPTER_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_LEGACY_REPORTER_ADAPTER_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_LIST_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_LIST_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_MATCHERS_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_MATCHERS_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_MESSAGE_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_MESSAGE_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_MESSAGE_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_MESSAGE_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_NOTIMPLEMENTED_EXCEPTION_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_NOTIMPLEMENTED_EXCEPTION_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_NOTIMPLEMENTED_EXCEPTION_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_NOTIMPLEMENTED_EXCEPTION_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_OBJC_ARC_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_OBJC_ARC_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_OBJC_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_OBJC_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_OPTION_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_OPTION_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_PLATFORM_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_PLATFORM_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_PTR_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_PTR_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REENABLE_WARNINGS_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REENABLE_WARNINGS_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REGISTRY_HUB_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REGISTRY_HUB_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_COMPACT_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_COMPACT_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_CONSOLE_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_CONSOLE_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_JUNIT_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_JUNIT_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_MULTI_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_MULTI_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_REGISTRARS_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_REGISTRARS_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_REGISTRY_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_REGISTRY_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_REPORTER_XML_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_REPORTER_XML_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_RESULT_BUILDER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_RESULT_BUILDER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_RESULT_BUILDER_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_RESULT_BUILDER_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_RESULT_TYPE_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_RESULT_TYPE_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_RUNNER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_RUNNER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_RUNNER_IMPL_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_RUNNER_IMPL_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_SECTION_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_SECTION_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_SECTION_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_SECTION_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_SECTION_INFO_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_SECTION_INFO_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_STREAMBUF_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_STREAMBUF_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_STREAM_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_STREAM_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_STREAM_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_STREAM_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TAG_ALIAS_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TAG_ALIAS_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TAG_ALIAS_REGISTRY_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TAG_ALIAS_REGISTRY_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TAG_ALIAS_REGISTRY_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TAG_ALIAS_REGISTRY_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_CASE_INFO_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_CASE_INFO_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_CASE_INFO_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_CASE_INFO_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_CASE_REGISTRY_IMPL_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_CASE_REGISTRY_IMPL_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_CASE_TRACKER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_CASE_TRACKER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_REGISTRY_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_REGISTRY_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_SPEC_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_SPEC_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEST_SPEC_PARSER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEST_SPEC_PARSER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TEXT_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TEXT_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TIMER_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TIMER_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TOSTRING_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TOSTRING_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TOSTRING_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TOSTRING_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_TOTALS_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_TOTALS_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_VERSION_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_VERSION_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_VERSION_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_VERSION_H_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_WILDCARD_PATTERN_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_WILDCARD_PATTERN_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CATCH_XMLWRITER_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CATCH_XMLWRITER_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_CLARA_COMPILERS_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CLARA_COMPILERS_H_INCLUDED$/;"	d
+TWOBLUECUBES_CLARA_H_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_CLARA_H_INCLUDED$/;"	d
+TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED	test/catch.hh	/^#define TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED$/;"	d
+TWOBLUECUBES_TEXT_FORMAT_H_ALREADY_INCLUDED	test/catch.hh	/^#   define TWOBLUECUBES_TEXT_FORMAT_H_ALREADY_INCLUDED$/;"	d
+TestFailureException	test/catch.hh	/^    struct TestFailureException{};$/;"	s	namespace:Catch
+TestFileEntry	test/file_utils.h	/^  TestFileEntry(const std::string& name, int64_t fileSize) $/;"	f	class:TestFileEntry
+TestFileEntry	test/file_utils.h	/^class TestFileEntry : public IFileEntry {$/;"	c
+TestFileEntryCatalog	test/log_files_manager_ut.cpp	/^class TestFileEntryCatalog : public FileEntryCatalog {$/;"	c	file:
+TestFileEntryFactory	test/file_utils.h	/^  TestFileEntryFactory(int64_t entrySize, size_t count)$/;"	f	class:TestFileEntryFactory
+TestFileEntryFactory	test/file_utils.h	/^class TestFileEntryFactory : public IFileEntryFactory {$/;"	c
+TestFileStream	test/file_utils.h	/^  TestFileStream(int64_t size) : fileSize(size) {}$/;"	f	class:TestFileStream
+TestFileStream	test/file_utils.h	/^class TestFileStream : public IFileStream {$/;"	c
+TestFunction	test/catch.hh	/^typedef void(*TestFunction)();$/;"	t	namespace:Catch
+TestLogFilesManager	test/log_files_manager_ut.cpp	/^class TestLogFilesManager : public LogFilesManager {$/;"	c	file:
+TestLogger	test/log_ut.cpp	/^class TestLogger : public sl::Logger {$/;"	c	file:
+TestWatcherHandler	test/rotation_limit_watcher_ut.cpp	/^class TestWatcherHandler : public sl::detail::RotationLimitWatcherHandler {$/;"	c	file:
+TestWriter	test/file_utils.h	/^  TestWriter(IFileStream& stream) $/;"	f	class:futils::TestWriter
+TestWriter	test/file_utils.h	/^class TestWriter {$/;"	c	namespace:futils
+ThrewException	test/catch.hh	/^        ThrewException = Exception | 1,$/;"	e	enum:Catch::ResultWas::OfType
+TmpDir	test/file_utils.cpp	/^TmpDir::TmpDir() {$/;"	f	class:futils::TmpDir
+TmpDir	test/file_utils.cpp	/^TmpDir::TmpDir(const std::string& fileNamePattern, size_t count) $/;"	f	class:futils::TmpDir
+TmpDir	test/file_utils.h	/^class TmpDir {$/;"	c	namespace:futils
+TrueType	test/catch.hh	/^    struct TrueType { char sizer[1]; };$/;"	s	namespace:Catch::Detail
+TupleDetail	test/catch.hh	/^namespace TupleDetail {$/;"	n	namespace:Catch
+Unknown	test/catch.hh	/^        Unknown = -1,$/;"	e	enum:Catch::ResultWas::OfType
+UtilsException	log/exception.h	/^class UtilsException : public std::runtime_error {$/;"	c	namespace:sl::detail
+WHEN	test/catch.hh	/^#define WHEN(/;"	d
+Warning	test/catch.hh	/^        Warning = 2,$/;"	e	enum:Catch::ResultWas::OfType
+Yes	test/catch.hh	/^        Yes,$/;"	e	enum:Catch::CaseSensitive::Choice
+___LOG_EXPAND	log/log.h	/^#define ___LOG_EXPAND(/;"	d
+add	test/catch.hh	/^            AllOf& add( Matcher<ExpressionT> const& matcher ) {$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf
+add	test/catch.hh	/^            AnyOf& add( Matcher<ExpressionT> const& matcher ) {$/;"	f	class:Catch::Matchers::Impl::Generic::AnyOf
+addDefault	log/file_entry_catalog.cpp	/^void FileEntryCatalog::addDefault() {$/;"	f	class:sl::detail::FileEntryCatalog
+addIfMatches	log/file_entry.cpp	/^  void addIfMatches(struct dirent* entry, FileEntryList& result) {$/;"	f	class:sl::detail::FileEntriesPosix	file:
+addRef	test/catch.hh	/^        virtual void addRef() const {$/;"	f	struct:Catch::SharedImpl
+addSink	log/log.cpp	/^void Logger::addSink(int sinkId, $/;"	f	class:sl::Logger
+addWritten	log/rotation_limit_watcher.cpp	/^void RotationLimitWatcher::addWritten(int64_t bytesWritten) {$/;"	f	class:sl::detail::RotationLimitWatcher
+adjustString	test/catch.hh	/^            std::string adjustString( std::string const& str ) const {$/;"	f	struct:Catch::Matchers::Impl::StdString::CasedString
+alwaysFalse	test/catch.hh	/^    inline bool alwaysFalse() { return false; }$/;"	f	namespace:Catch
+alwaysTrue	test/catch.hh	/^    inline bool alwaysTrue() { return true; }$/;"	f	namespace:Catch
+applyEvaluator	test/catch.hh	/^    bool applyEvaluator( T1 const& lhs, T2 const& rhs ) {$/;"	f	namespace:Catch::Internal
+arcSafeRelease	test/catch.hh	/^inline void arcSafeRelease( NSObject* ){}$/;"	f
+arcSafeRelease	test/catch.hh	/^inline void arcSafeRelease( NSObject* obj ) {$/;"	f
+assertDefaultSinkState	test/log_ut.cpp	/^void assertDefaultSinkState(TestLogger& logger, $/;"	f
+assertSinksState	test/log_ut.cpp	/^void assertSinksState(TestLogger& logger,$/;"	f
+assertUninitializedState	test/log_ut.cpp	/^void assertUninitializedState(TestLogger& logger) {$/;"	f
+baseName	log/file_entry_catalog.cpp	/^std::string FileEntryCatalog::baseName() const {$/;"	f	class:sl::detail::FileEntryCatalog
+baseName	log/log_files_manager.cpp	/^std::string LogFilesManager::baseName() const {$/;"	f	class:sl::detail::LogFilesManager
+calcSize	log/utils.h	/^inline size_t calcSize(const std::string& head) {$/;"	f	namespace:sl::detail::str::detail
+calcSize	log/utils.h	/^size_t calcSize(char const(&) [N]) {$/;"	f	namespace:sl::detail::str::detail
+calcSize	log/utils.h	/^size_t calcSize(char const(&) [N], const Tail&... tail) {$/;"	f	namespace:sl::detail::str::detail
+calcSize	log/utils.h	/^size_t calcSize(const std::string& head, const Tail&... tail) {$/;"	f	namespace:sl::detail::str::detail
+capturedExpression	test/catch.hh	/^        std::string capturedExpression;$/;"	m	struct:Catch::AssertionInfo
+catch.hh	test/catch.hh	1;"	F
+checkIfOpened	test/file_utils.cpp	/^void checkIfOpened(const std::string& name, const Stream& stream) {$/;"	f	namespace:futils::detail
+checkLogLevel	test/log_ut.cpp	/^void checkLogLevel(sl::Level level, const std::string& levelLine) {$/;"	f
+checkLogOutput	test/log_ut.cpp	/^void checkLogOutput(const std::string& logLine, sl::Level level, const std::string& message) {$/;"	f
+checkMessage	test/log_ut.cpp	/^void checkMessage(const std::vector<std::string>& logParts, const std::string& message) {$/;"	f
+checkSinkWithPattern	log/log.cpp	/^void Logger::checkSinkWithPattern(const std::string& fileNamePattern) const {$/;"	f	class:sl::Logger
+clearNeeded	log/log_files_manager.cpp	/^int64_t LogFilesManager::clearNeeded() {$/;"	f	class:sl::detail::LogFilesManager
+clearNeededCalled	test/rotation_limit_watcher_ut.cpp	/^  bool clearNeededCalled = false;$/;"	m	class:TestWatcherHandler	file:
+clone	test/catch.hh	/^        virtual Ptr<Matcher<ExpressionT> > clone() const {$/;"	f	struct:Catch::Matchers::Impl::MatcherImpl
+close	log/file_stream.cpp	/^void FileStream::close() {$/;"	f	class:sl::detail::FileStream
+close	log/utils.cpp	/^void PosixDir::close() {$/;"	f	class:sl::detail::fs::PosixDir
+compare	test/catch.hh	/^    bool compare( T1 const& lhs, T2 const& rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( T* lhs, int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( T* lhs, long long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( T* lhs, long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( T* lhs, std::nullptr_t ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( int lhs, T* rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( long lhs, T* rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( long long lhs, T* rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op, typename T> bool compare( std::nullptr_t, T* rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( int lhs, unsigned char rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( int lhs, unsigned int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( int lhs, unsigned long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long lhs, unsigned char rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long lhs, unsigned int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long lhs, unsigned long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long long lhs, unsigned char rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long long lhs, unsigned int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long long lhs, unsigned long long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( long long lhs, unsigned long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned char lhs, int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned char lhs, long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned int lhs, int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned int lhs, long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned long lhs, int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned long lhs, long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned long long lhs, char rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned long long lhs, int rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned long long lhs, long long rhs ) {$/;"	f	namespace:Catch::Internal
+compare	test/catch.hh	/^    template<Operator Op> bool compare( unsigned long long lhs, long rhs ) {$/;"	f	namespace:Catch::Internal
+convert	test/catch.hh	/^        static std::string convert( T const& ) { return unprintableString; }$/;"	f	struct:Catch::Detail::EnumStringMaker
+convert	test/catch.hh	/^        static std::string convert( T const& _value ) {$/;"	f	struct:Catch::Detail::StringMakerBase
+convert	test/catch.hh	/^        static std::string convert( T const& v )$/;"	f	struct:Catch::Detail::EnumStringMaker
+convert	test/catch.hh	/^        static std::string convert( T const& v )$/;"	f	struct:Catch::Detail::StringMakerBase
+convert	test/catch.hh	/^    static std::string convert( R C::* p ) {$/;"	f	struct:Catch::StringMaker
+convert	test/catch.hh	/^    static std::string convert( U* p ) {$/;"	f	struct:Catch::StringMaker
+create	log/file_entry.cpp	/^FileEntryPtr FileEntryFactory::create(const std::string& path, $/;"	f	class:sl::detail::FileEntryFactory
+create	test/file_utils.cpp	/^void TmpDir::create() {$/;"	f	class:futils::TmpDir
+createEntry	test/file_utils.h	/^  FileEntryPtr createEntry(size_t i) {$/;"	f	class:TestFileEntryFactory
+createTestEntry	test/file_entry_ut.cpp	/^FileEntryPtr createTestEntry(futils::TmpDir& tmpDir) {$/;"	f
+debug	log/log.h	/^  debug,$/;"	m	class:sl::Level
+deleteAll	test/catch.hh	/^    inline void deleteAll( ContainerT& container ) {$/;"	f	namespace:Catch
+deleteAllValues	test/catch.hh	/^    inline void deleteAllValues( AssociativeContainerT& container ) {$/;"	f	namespace:Catch
+description	test/catch.hh	/^    const char* description;$/;"	m	struct:Catch::NameAndDesc
+detail	log/exception.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/file_entry.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/file_entry.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/file_entry_catalog.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/file_entry_catalog.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/file_stream.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/file_stream.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/format.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/format.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/log.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/log.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/log_files_manager.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/log_files_manager.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/rotation_limit_watcher.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/rotation_limit_watcher.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/rotation_limit_watcher_handler.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/utils.cpp	/^namespace detail {$/;"	n	namespace:sl	file:
+detail	log/utils.h	/^namespace detail {$/;"	n	namespace:sl
+detail	log/utils.h	/^namespace detail {$/;"	n	namespace:sl::detail::str
+detail	test/file_utils.cpp	/^namespace detail {$/;"	n	namespace:futils	file:
+duplicateToStdout	log/log.h	/^    bool duplicateToStdout;$/;"	m	struct:sl::Logger::Sink
+empty	log/file_entry_catalog.cpp	/^bool FileEntryCatalog::empty() const {$/;"	f	class:sl::detail::FileEntryCatalog
+entries	log/file_entry_catalog.h	/^  const FileEntryList& entries() const { return m_entries; }$/;"	f	class:sl::detail::FileEntryCatalog
+entries	test/log_files_manager_ut.cpp	/^  const FileEntryList& entries() const { return FileEntryCatalog::entries(); }$/;"	f	class:TestFileEntryCatalog
+entryMatches	log/file_entry.cpp	/^  bool entryMatches(struct dirent* entry) {$/;"	f	class:sl::detail::FileEntriesPosix	file:
+errh	log/utils.h	/^namespace errh {$/;"	n	namespace:sl::detail
+error	log/log.h	/^  error,$/;"	m	class:sl::Level
+evaluate	test/catch.hh	/^        static bool evaluate( T1 const& lhs, T2 const& rhs ) {$/;"	f	struct:Catch::Internal::Evaluator
+evaluate	test/catch.hh	/^        static bool evaluate( T1 const& lhs, T2 const& rhs) {$/;"	f	struct:Catch::Internal::Evaluator
+exception.h	log/exception.h	1;"	F
+exists	log/file_entry.cpp	/^bool FileEntry::exists() const {$/;"	f	class:sl::detail::FileEntry
+expectedContent	test/file_utils.h	/^  std::vector<char>  expectedContent() const {$/;"	f	class:futils::TestWriter
+feature_tests.c	.build/CMakeFiles/feature_tests.c	1;"	F
+feature_tests.cxx	.build/CMakeFiles/feature_tests.cxx	1;"	F
+features	.build/CMakeFiles/feature_tests.c	/^  const char features[] = {"\\n"$/;"	v
+features	.build/CMakeFiles/feature_tests.cxx	/^  const char features[] = {"\\n"$/;"	v
+file	test/catch.hh	/^        std::string file;$/;"	m	struct:Catch::SourceLineInfo
+file	test/file_utils.h	/^  file,$/;"	m	class:futils::FileType
+fileContent	test/file_utils.cpp	/^std::vector<char> fileContent(const std::string& fileName) {$/;"	f	namespace:futils
+fileExists	test/file_utils.cpp	/^bool fileExists(const std::string& name) {$/;"	f	namespace:futils
+fileManager	log/log.h	/^    detail::LogFilesManagerPtr fileManager;$/;"	m	struct:sl::Logger::Sink
+fileSize	test/file_utils.cpp	/^int64_t fileSize(const std::string& fileName) {$/;"	f	namespace:futils
+fileSize	test/file_utils.h	/^  int64_t fileSize;$/;"	m	class:TestFileStream
+file_entry.cpp	log/file_entry.cpp	1;"	F
+file_entry.h	log/file_entry.h	1;"	F
+file_entry_catalog.cpp	log/file_entry_catalog.cpp	1;"	F
+file_entry_catalog.h	log/file_entry_catalog.h	1;"	F
+file_entry_catalog_ut.cpp	test/file_entry_catalog_ut.cpp	1;"	F
+file_entry_ut.cpp	test/file_entry_ut.cpp	1;"	F
+file_stream.cpp	log/file_stream.cpp	1;"	F
+file_stream.h	log/file_stream.h	1;"	F
+file_stream_ut.cpp	test/file_stream_ut.cpp	1;"	F
+file_utils.cpp	test/file_utils.cpp	1;"	F
+file_utils.h	test/file_utils.h	1;"	F
+fillResult	log/utils.h	/^inline void fillResult(std::string& result, $/;"	f	namespace:sl::detail::str::detail
+fillResult	log/utils.h	/^void fillResult(std::string& result, $/;"	f	namespace:sl::detail::str::detail
+fillResult	log/utils.h	/^void fillResult(std::string& result,$/;"	f	namespace:sl::detail::str::detail
+first	log/file_entry_catalog.cpp	/^IFileEntry& FileEntryCatalog::first() {$/;"	f	class:sl::detail::FileEntryCatalog
+fmt	log/format.cpp	/^std::string fmt(std::stringstream& out,$/;"	f	namespace:sl::detail
+fmt	log/format.h	/^std::string fmt(const char* formatString, Args&&... args) {$/;"	f	namespace:sl
+fmt	log/format.h	/^std::string fmt(std::stringstream& out,$/;"	f	namespace:sl::detail
+forEachEntry	log/utils.cpp	/^void PosixDir::forEachEntry(EntryHandler handler) {$/;"	f	class:sl::detail::fs::PosixDir
+forEachFile	test/file_utils.cpp	/^void TmpDir::forEachFile(FileHandler handler) {$/;"	f	class:futils::TmpDir
+forEachFile	test/file_utils.cpp	/^void TmpDir::forEachFile(const std::string& dirName, FileHandler handler) {$/;"	f	class:futils::TmpDir
+format.cpp	log/format.cpp	1;"	F
+format.h	log/format.h	1;"	F
+fs	log/utils.cpp	/^namespace fs {$/;"	n	namespace:sl::detail	file:
+fs	log/utils.h	/^namespace fs {$/;"	n	namespace:sl::detail
+futils	test/file_utils.cpp	/^namespace futils {$/;"	n	file:
+futils	test/file_utils.h	/^namespace futils {$/;"	n
+get	test/catch.hh	/^        T* get() const{ return m_p; }$/;"	f	class:Catch::Ptr
+get	test/file_utils.h	/^std::vector<IFileEntry*> get() const {$/;"	f	class:TestFileEntryFactory
+getDefaultFileNamePattern	log/log.cpp	/^std::string Logger::getDefaultFileNamePattern() const {$/;"	f	class:sl::Logger
+getDefaultFileNamePattern	test/log_ut.cpp	/^  std::string getDefaultFileNamePattern() const {$/;"	f	class:TestLogger
+getDefaultLevel	log/log.cpp	/^Level Logger::getDefaultLevel() const {$/;"	f	class:sl::Logger
+getExistent	log/file_entry.cpp	/^FileEntryList FileEntryFactory::getExistent(const std::string& path, $/;"	f	class:sl::detail::FileEntryFactory
+getFileEntriesUnix	log/file_entry.cpp	/^FileEntryList getFileEntriesUnix(const std::string& path, $/;"	f	namespace:sl::detail
+getFileNamePattern	log/log.cpp	/^std::string Logger::getFileNamePattern(int sinkId) const {$/;"	f	class:sl::Logger
+getFileNamePattern	test/log_ut.cpp	/^  std::string getFileNamePattern(int sinkId) const {$/;"	f	class:TestLogger
+getFileSizeUnix	log/file_entry.cpp	/^int64_t getFileSizeUnix(const std::string& fullPath) {$/;"	f	namespace:sl::detail
+getFullFileName	log/file_entry.cpp	/^std::string FileEntryFactory::getFullFileName(const std::string& path,$/;"	f	class:sl::detail::FileEntryFactory
+getLevel	log/log.cpp	/^Level Logger::getLevel(int sinkId) const {$/;"	f	class:sl::Logger
+getLogger	log/log.cpp	/^Logger& Logger::getLogger() {$/;"	f	class:sl::Logger
+getName	test/catch.hh	/^    template<> struct OperatorTraits<IsEqualTo>             { static const char* getName(){ return "=="; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getName	test/catch.hh	/^    template<> struct OperatorTraits<IsGreaterThan>         { static const char* getName(){ return ">"; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getName	test/catch.hh	/^    template<> struct OperatorTraits<IsGreaterThanOrEqualTo>{ static const char* getName(){ return ">="; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getName	test/catch.hh	/^    template<> struct OperatorTraits<IsLessThan>            { static const char* getName(){ return "<"; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getName	test/catch.hh	/^    template<> struct OperatorTraits<IsLessThanOrEqualTo>   { static const char* getName(){ return "<="; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getName	test/catch.hh	/^    template<> struct OperatorTraits<IsNotEqualTo>          { static const char* getName(){ return "!="; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getName	test/catch.hh	/^    template<Operator Op> struct OperatorTraits             { static const char* getName(){ return "*error*"; } };$/;"	f	struct:Catch::Internal::OperatorTraits
+getSinkById	log/log.cpp	/^Logger::SinkMapConstIterator Logger::getSinkById(int sinkId) const {$/;"	f	class:sl::Logger
+getSinkById	log/log.cpp	/^Logger::SinkMapIterator Logger::getSinkById(int sinkId) {$/;"	f	class:sl::Logger
+getTimeFormat	log/log.cpp	/^std::string Logger::getTimeFormat() const {$/;"	f	class:sl::Logger
+getTimeFormat	test/log_ut.cpp	/^  std::string getTimeFormat() const {$/;"	f	class:TestLogger
+globMatch	log/utils.cpp	/^bool globMatch(const char *pattern, const char *mask)$/;"	f	namespace:sl::detail::fs
+hasDefaultSink	log/log.cpp	/^bool Logger::hasDefaultSink() const {$/;"	f	class:sl::Logger
+hasSink	log/log.cpp	/^bool Logger::hasSink(int sinkId) const {$/;"	f	class:sl::Logger
+info	log/log.h	/^  info,$/;"	m	class:sl::Level
+info_arch	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_arch	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_arch = "INFO" ":" "arch[" ARCHITECTURE_ID "]";$/;"	v
+info_compiler	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_compiler	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_compiler = "INFO" ":" "compiler[" COMPILER_ID "]";$/;"	v
+info_cray	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const *info_cray = "INFO" ":" "compiler_wrapper[CrayPrgEnv]";$/;"	v
+info_cray	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const *info_cray = "INFO" ":" "compiler_wrapper[CrayPrgEnv]";$/;"	v
+info_language_dialect_default	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^const char* info_language_dialect_default = "INFO" ":" "dialect_default["$/;"	v
+info_language_dialect_default	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^const char* info_language_dialect_default = "INFO" ":" "dialect_default["$/;"	v
+info_platform	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_platform	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_platform = "INFO" ":" "platform[" PLATFORM_ID "]";$/;"	v
+info_simulate	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* info_simulate = "INFO" ":" "simulate[" SIMULATE_ID "]";$/;"	v
+info_simulate	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* info_simulate = "INFO" ":" "simulate[" SIMULATE_ID "]";$/;"	v
+info_simulate_version	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const info_simulate_version[] = {$/;"	v
+info_simulate_version	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const info_simulate_version[] = {$/;"	v
+info_version	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const info_version[] = {$/;"	v
+info_version	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const info_version[] = {$/;"	v
+invoke	test/catch.hh	/^    virtual void invoke() const {$/;"	f	class:Catch::MethodTestCase
+isFalseTest	test/catch.hh	/^    inline bool isFalseTest( int flags )                { return ( flags & ResultDisposition::FalseTest ) != 0; }$/;"	f	namespace:Catch
+isJustInfo	test/catch.hh	/^    inline bool isJustInfo( int flags ) {$/;"	f	namespace:Catch
+isOk	test/catch.hh	/^    inline bool isOk( ResultWas::OfType resultType ) {$/;"	f	namespace:Catch
+isOpened	log/file_stream.cpp	/^bool FileStream::isOpened() const {$/;"	f	class:sl::detail::FileStream
+isTrue	test/catch.hh	/^    inline bool isTrue( bool value ){ return value; }$/;"	f	namespace:Catch
+join	log/utils.cpp	/^std::string join(const std::string& subPath1, $/;"	f	namespace:sl::detail::fs
+join	log/utils.h	/^std::string join(const Args&... args) {$/;"	f	namespace:sl::detail::str
+kBaseName	test/file_utils.h	/^const std::string kBaseName = "test";$/;"	v
+kFileLimit	test/log_ut.cpp	/^const int64_t kFileLimit = 300;$/;"	v
+kLogFileExtension	log/file_entry.h	/^const std::string kLogFileExtension = ".log";$/;"	m	namespace:sl::detail
+kLogFilesManagerExtension	log/log_files_manager.h	/^  static const std::string kLogFilesManagerExtension;$/;"	m	class:sl::detail::LogFilesManager
+kPath	test/file_utils.h	/^const std::string kPath = "\/test\/path";$/;"	v
+kTotalLimit	test/log_ut.cpp	/^const int64_t kTotalLimit = 10000;$/;"	v
+level	log/log.h	/^    Level level;$/;"	m	struct:sl::Logger::Sink
+lhs	test/catch.hh	/^            std::string lhs, rhs, op;$/;"	m	struct:Catch::ResultBuilder::ExprComponents
+line	test/catch.hh	/^        std::size_t line;$/;"	m	struct:Catch::SourceLineInfo
+lineInfo	test/catch.hh	/^        SourceLineInfo lineInfo;$/;"	m	struct:Catch::AssertionInfo
+log	log/log.h	/^  void log(Level level, $/;"	f	class:sl::Logger
+log	log/log.h	/^  void log(int sinkId, Level level, $/;"	f	class:sl::Logger
+log.cpp	log/log.cpp	1;"	F
+log.h	log/log.h	1;"	F
+log_files_manager.cpp	log/log_files_manager.cpp	1;"	F
+log_files_manager.h	log/log_files_manager.h	1;"	F
+log_files_manager_ut.cpp	test/log_files_manager_ut.cpp	1;"	F
+log_ut.cpp	test/log_ut.cpp	1;"	F
+m_assertionInfo	test/catch.hh	/^        AssertionInfo m_assertionInfo;$/;"	m	class:Catch::ResultBuilder
+m_baseName	log/file_entry.cpp	/^  std::string m_baseName;$/;"	m	class:sl::detail::FileEntriesPosix	file:
+m_baseName	log/file_entry_catalog.h	/^  std::string m_baseName;$/;"	m	class:sl::detail::FileEntryCatalog
+m_caseSensitivity	test/catch.hh	/^            CaseSensitive::Choice m_caseSensitivity;$/;"	m	struct:Catch::Matchers::Impl::StdString::CasedString
+m_catalog	log/log_files_manager.h	/^  FileEntryCatalogPtr m_catalog;$/;"	m	class:sl::detail::LogFilesManager
+m_count	test/catch.hh	/^        std::size_t m_count;$/;"	m	struct:Catch::pluralise
+m_count	test/file_utils.h	/^  size_t m_count;$/;"	m	class:TestFileEntryFactory
+m_data	test/catch.hh	/^            CasedString m_data;$/;"	m	struct:Catch::Matchers::Impl::StdString::Contains
+m_data	test/catch.hh	/^            CasedString m_data;$/;"	m	struct:Catch::Matchers::Impl::StdString::EndsWith
+m_data	test/catch.hh	/^            CasedString m_data;$/;"	m	struct:Catch::Matchers::Impl::StdString::Equals
+m_data	test/catch.hh	/^            CasedString m_data;$/;"	m	struct:Catch::Matchers::Impl::StdString::StartsWith
+m_data	test/catch.hh	/^        AssertionResultData m_data;$/;"	m	class:Catch::ResultBuilder
+m_defaultSink	log/log.h	/^  Sink m_defaultSink;$/;"	m	class:sl::Logger
+m_defaultSinkMutex	log/log.h	/^  mutable sm::shared_mutex m_defaultSinkMutex;$/;"	m	class:sl::Logger
+m_device	test/random_utils.h	/^  std::random_device m_device;$/;"	m	class:RandomData
+m_dirHandle	log/utils.h	/^  DIR* m_dirHandle;$/;"	m	class:sl::detail::fs::PosixDir
+m_dirPath	test/file_utils.h	/^  std::string m_dirPath;$/;"	m	class:futils::TmpDir
+m_entries	log/file_entry_catalog.h	/^  FileEntryList m_entries;$/;"	m	class:sl::detail::FileEntryCatalog
+m_entries	test/file_utils.h	/^  std::vector<IFileEntry*> m_entries;$/;"	m	class:TestFileEntryFactory
+m_entrySize	test/file_utils.h	/^  int64_t m_entrySize;$/;"	m	class:TestFileEntryFactory
+m_expectedContent	test/file_utils.h	/^  std::vector<char> m_expectedContent;$/;"	m	class:futils::TestWriter
+m_exprComponents	test/catch.hh	/^        } m_exprComponents;$/;"	m	class:Catch::ResultBuilder	typeref:struct:Catch::ResultBuilder::ExprComponents
+m_factory	log/file_entry.cpp	/^  FileEntryFactory m_factory;$/;"	m	class:sl::detail::FileEntriesPosix	file:
+m_factory	log/file_entry_catalog.h	/^  IFileEntryFactory* m_factory;$/;"	m	class:sl::detail::FileEntryCatalog
+m_fileLimit	log/rotation_limit_watcher.h	/^  int64_t m_fileLimit;$/;"	m	class:sl::detail::RotationLimitWatcher
+m_fileName	log/file_stream.h	/^  std::string m_fileName;$/;"	m	class:sl::detail::FileStream
+m_fileSize	test/file_utils.h	/^  int64_t m_fileSize;$/;"	m	class:TestFileEntry
+m_fullPath	log/file_entry.h	/^  std::string m_fullPath;$/;"	m	class:sl::detail::FileEntry
+m_gen	test/random_utils.h	/^  std::mt19937 m_gen;$/;"	m	class:RandomData
+m_handler	log/rotation_limit_watcher.h	/^  RotationLimitWatcherHandler* m_handler;$/;"	m	class:sl::detail::RotationLimitWatcher
+m_info	test/catch.hh	/^        AssertionInfo m_info;$/;"	m	class:Catch::AssertionResult
+m_label	test/catch.hh	/^        std::string m_label;$/;"	m	struct:Catch::pluralise
+m_limitWatcher	log/log_files_manager.h	/^  RotationLimitWatcher m_limitWatcher;$/;"	m	class:sl::detail::LogFilesManager
+m_lineInfo	test/catch.hh	/^        SourceLineInfo m_lineInfo;$/;"	m	class:Catch::NotImplementedException
+m_matcher	test/catch.hh	/^            Ptr< Matcher<ExpressionT> > m_matcher;$/;"	m	class:Catch::Matchers::Impl::Generic::Not
+m_matchers	test/catch.hh	/^            std::vector<Ptr<Matcher<ExpressionT> > > m_matchers;$/;"	m	class:Catch::Matchers::Impl::Generic::AllOf
+m_matchers	test/catch.hh	/^            std::vector<Ptr<Matcher<ExpressionT> > > m_matchers;$/;"	m	class:Catch::Matchers::Impl::Generic::AnyOf
+m_maxSize	test/random_utils.h	/^  size_t m_maxSize;$/;"	m	class:RandomData
+m_method	test/catch.hh	/^    void (C::*m_method)();$/;"	m	class:Catch::MethodTestCase
+m_minSize	test/random_utils.h	/^  size_t m_minSize;$/;"	m	class:RandomData
+m_name	log/utils.h	/^  std::string m_name;$/;"	m	class:sl::detail::fs::PosixDir
+m_name	test/file_utils.h	/^  std::string m_name;$/;"	m	class:TestFileEntry
+m_p	test/catch.hh	/^        T* m_p;$/;"	m	class:Catch::Ptr
+m_path	log/file_entry_catalog.h	/^  std::string m_path;$/;"	m	class:sl::detail::FileEntryCatalog
+m_posixDir	log/file_entry.cpp	/^  fs::PosixDir m_posixDir;$/;"	m	class:sl::detail::FileEntriesPosix	file:
+m_randomData	test/file_utils.h	/^  RandomData m_randomData;$/;"	m	class:futils::TestWriter
+m_rc	test/catch.hh	/^        mutable unsigned int m_rc;$/;"	m	struct:Catch::SharedImpl
+m_removed	test/file_utils.h	/^  bool m_removed = false;$/;"	m	class:TestFileEntry
+m_resultData	test/catch.hh	/^        AssertionResultData m_resultData;$/;"	m	class:Catch::AssertionResult
+m_shouldDebugBreak	test/catch.hh	/^        bool m_shouldDebugBreak;$/;"	m	class:Catch::ResultBuilder
+m_shouldThrow	test/catch.hh	/^        bool m_shouldThrow;$/;"	m	class:Catch::ResultBuilder
+m_sinks	log/log.h	/^  std::unordered_map<int, Sink> m_sinks;$/;"	m	class:sl::Logger
+m_sinksMutex	log/log.h	/^  mutable sm::shared_mutex m_sinksMutex;$/;"	m	class:sl::Logger
+m_size	log/rotation_limit_watcher.h	/^  int64_t m_size;$/;"	m	class:sl::detail::RotationLimitWatcher
+m_str	test/catch.hh	/^            std::string m_str;$/;"	m	struct:Catch::Matchers::Impl::StdString::CasedString
+m_stream	log/file_stream.h	/^  FILE* m_stream;$/;"	m	class:sl::detail::FileStream
+m_stream	log/log_files_manager.h	/^  FileStreamPtr m_stream;$/;"	m	class:sl::detail::LogFilesManager
+m_stream	test/catch.hh	/^        CopyableStream m_stream;$/;"	m	class:Catch::ResultBuilder
+m_stream	test/file_utils.h	/^  IFileStream& m_stream;$/;"	m	class:futils::TestWriter
+m_timeFormat	log/log.h	/^  std::string m_timeFormat;$/;"	m	class:sl::Logger
+m_totalLimit	log/rotation_limit_watcher.h	/^  int64_t m_totalLimit;$/;"	m	class:sl::detail::RotationLimitWatcher
+m_what	test/catch.hh	/^        std::string m_what;$/;"	m	class:Catch::NotImplementedException
+macroName	test/catch.hh	/^        std::string macroName;$/;"	m	struct:Catch::AssertionInfo
+main	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^int main(int argc, char* argv[])$/;"	f
+main	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^void main() {}$/;"	f
+main	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^int main(int argc, char* argv[])$/;"	f
+main	.build/CMakeFiles/feature_tests.c	/^int main(int argc, char** argv) { (void)argv; return features[argc]; }$/;"	f
+main	.build/CMakeFiles/feature_tests.cxx	/^int main(int argc, char** argv) { (void)argv; return features[argc]; }$/;"	f
+main.cpp	test/main.cpp	1;"	F
+makeSafe	test/catch.hh	/^        static type makeSafe( bool value ) {$/;"	f	class:Catch::SafeBool
+makeString	test/catch.hh	/^        inline std::string makeString( const char* str ) { return str ? std::string( str ) : std::string(); }$/;"	f	namespace:Catch::Matchers::Impl::StdString
+makeString	test/catch.hh	/^        inline std::string makeString( std::string const& str ) { return str; }$/;"	f	namespace:Catch::Matchers::Impl::StdString
+match	test/catch.hh	/^            virtual bool match( ExpressionT const& expr ) const$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf
+match	test/catch.hh	/^            virtual bool match( ExpressionT const& expr ) const$/;"	f	class:Catch::Matchers::Impl::Generic::AnyOf
+match	test/catch.hh	/^            virtual bool match( std::string const& expr ) const {$/;"	f	struct:Catch::Matchers::Impl::StdString::Contains
+match	test/catch.hh	/^            virtual bool match( std::string const& expr ) const {$/;"	f	struct:Catch::Matchers::Impl::StdString::EndsWith
+match	test/catch.hh	/^            virtual bool match( std::string const& expr ) const {$/;"	f	struct:Catch::Matchers::Impl::StdString::Equals
+match	test/catch.hh	/^            virtual bool match( std::string const& expr ) const {$/;"	f	struct:Catch::Matchers::Impl::StdString::StartsWith
+message	test/catch.hh	/^        std::string message;$/;"	m	struct:Catch::AssertionResultData
+mutex	log/log.h	/^    std::unique_ptr<std::mutex> mutex;$/;"	m	struct:sl::Logger::Sink
+name	log/file_entry.cpp	/^std::string FileEntry::name() const  {$/;"	f	class:sl::detail::FileEntry
+name	log/utils.cpp	/^std::string PosixDir::name() const {$/;"	f	class:sl::detail::fs::PosixDir
+name	test/catch.hh	/^    const char* name;$/;"	m	struct:Catch::NameAndDesc
+nextFile	log/log_files_manager.cpp	/^void LogFilesManager::nextFile() {$/;"	f	class:sl::detail::LogFilesManager
+nextFileCalled	test/rotation_limit_watcher_ut.cpp	/^  bool nextFileCalled = false;$/;"	m	class:TestWatcherHandler	file:
+op	test/catch.hh	/^            std::string lhs, rhs, op;$/;"	m	struct:Catch::ResultBuilder::ExprComponents
+opCast	test/catch.hh	/^    inline T& opCast(T const& t) { return const_cast<T&>(t); }$/;"	f	namespace:Catch::Internal
+opCast	test/catch.hh	/^    inline std::nullptr_t opCast(std::nullptr_t) { return nullptr; }$/;"	f	namespace:Catch::Internal
+open	log/file_entry.cpp	/^FileStreamPtr FileEntry::open() {$/;"	f	class:sl::detail::FileEntry
+open	log/file_stream.cpp	/^void FileStream::open() {$/;"	f	class:sl::detail::FileStream
+open	log/utils.cpp	/^void PosixDir::open() {$/;"	f	class:sl::detail::fs::PosixDir
+opened	test/file_utils.h	/^  bool opened = true;$/;"	m	class:TestFileStream
+operator !	test/catch.hh	/^        bool operator !() const { return m_p == CATCH_NULL; }$/;"	f	class:Catch::Ptr
+operator !	test/catch.hh	/^    Generic::Not<ExpressionT> Matcher<ExpressionT>::operator ! () const {$/;"	f	class:Catch::Matchers::Impl::Matcher
+operator &&	test/catch.hh	/^            AllOf operator && ( Matcher<ExpressionT> const& other ) const {$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf
+operator &&	test/catch.hh	/^    Generic::AllOf<ExpressionT> Matcher<ExpressionT>::operator && ( Matcher<ExpressionT> const& other ) const {$/;"	f	class:Catch::Matchers::Impl::Matcher
+operator ()	log/file_entry.cpp	/^  FileEntryList operator()() {$/;"	f	class:sl::detail::FileEntriesPosix
+operator ()	test/random_utils.cpp	/^std::string RandomData::operator()() {$/;"	f	class:RandomData
+operator ()	test/random_utils.cpp	/^std::string RandomData::operator()(size_t fixedSize) {$/;"	f	class:RandomData
+operator *	test/catch.hh	/^        T& operator*() const { return *m_p; }$/;"	f	class:Catch::Ptr
+operator +	test/catch.hh	/^        std::string operator+() {$/;"	f	struct:Catch::StreamEndStop
+operator +	test/catch.hh	/^    T const& operator + ( T const& value, StreamEndStop ) {$/;"	f	namespace:Catch
+operator ->	test/catch.hh	/^        T* operator->() const { return m_p; }$/;"	f	class:Catch::Ptr
+operator <<	test/catch.hh	/^        ResultBuilder& operator << ( T const& value ) {$/;"	f	class:Catch::ResultBuilder
+operator =	test/catch.hh	/^        CopyableStream& operator=( CopyableStream const& other ) {$/;"	f	struct:Catch::CopyableStream
+operator =	test/catch.hh	/^        Ptr& operator = ( Ptr const& other ){$/;"	f	class:Catch::Ptr
+operator =	test/catch.hh	/^        Ptr& operator = ( T* p ){$/;"	f	class:Catch::Ptr
+operator SafeBool::type	test/catch.hh	/^        operator SafeBool::type() const { return SafeBool::makeSafe( m_p != CATCH_NULL ); }$/;"	f	class:Catch::Ptr
+operator |	test/catch.hh	/^    inline ResultDisposition::Flags operator | ( ResultDisposition::Flags lhs, ResultDisposition::Flags rhs ) {$/;"	f	namespace:Catch
+operator ||	test/catch.hh	/^            AnyOf operator || ( Matcher<ExpressionT> const& other ) const {$/;"	f	class:Catch::Matchers::Impl::Generic::AnyOf
+operator ||	test/catch.hh	/^    Generic::AnyOf<ExpressionT> Matcher<ExpressionT>::operator || ( Matcher<ExpressionT> const& other ) const {$/;"	f	class:Catch::Matchers::Impl::Matcher
+oss	test/catch.hh	/^        std::ostringstream oss;$/;"	m	struct:Catch::CopyableStream
+override	log/file_entry.h	/^                                    const std::string& baseName) override;$/;"	m	class:sl::detail::FileEntryFactory
+override	log/file_entry.h	/^                              size_t index = 0) override;$/;"	m	class:sl::detail::FileEntryFactory
+override	log/file_entry.h	/^  virtual FileStreamPtr open() override;$/;"	m	class:sl::detail::FileEntry
+override	log/file_entry.h	/^  virtual bool exists() const override;$/;"	m	class:sl::detail::FileEntry
+override	log/file_entry.h	/^  virtual int64_t size() const override;$/;"	m	class:sl::detail::FileEntry
+override	log/file_entry.h	/^  virtual std::string name() const override;$/;"	m	class:sl::detail::FileEntry
+override	log/file_entry.h	/^  virtual void remove() override;$/;"	m	class:sl::detail::FileEntry
+override	log/file_entry.h	/^  virtual void rename(const std::string& newName) override;$/;"	m	class:sl::detail::FileEntry
+override	log/file_stream.h	/^  virtual bool isOpened() const override;$/;"	m	class:sl::detail::FileStream
+override	log/file_stream.h	/^  virtual void close() override;$/;"	m	class:sl::detail::FileStream
+override	log/file_stream.h	/^  virtual void open() override;$/;"	m	class:sl::detail::FileStream
+override	log/file_stream.h	/^  virtual void write(const void* data, size_t size) override;$/;"	m	class:sl::detail::FileStream
+override	log/log_files_manager.h	/^  virtual int64_t clearNeeded() override;$/;"	m	class:sl::detail::LogFilesManager
+override	log/log_files_manager.h	/^  virtual void nextFile() override;$/;"	m	class:sl::detail::LogFilesManager
+path	test/file_utils.cpp	/^std::string TmpDir::path() const {$/;"	f	class:futils::TmpDir
+performOptionalSelector	test/catch.hh	/^inline id performOptionalSelector( id obj, SEL sel ) {$/;"	f
+pluralise	test/catch.hh	/^    struct pluralise {$/;"	s	namespace:Catch
+populate	test/file_utils.cpp	/^void TmpDir::populate(const std::string& fileNamePattern, size_t count) {$/;"	f	class:futils::TmpDir
+printTillSpecial	log/format.cpp	/^void printTillSpecial(std::stringstream& out, $/;"	f	namespace:sl::detail
+processEntry	log/utils.cpp	/^void PosixDir::processEntry(struct dirent* entry, EntryHandler handler) {$/;"	f	class:sl::detail::fs::PosixDir
+processFile	test/file_utils.cpp	/^void TmpDir::processFile(const std::string& name, FileHandler handler) {$/;"	f	class:futils::TmpDir
+qnxnto	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
+qnxnto	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
+randomLogCheck	test/log_ut.cpp	/^void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId, $/;"	f
+random_utils.cpp	test/random_utils.cpp	1;"	F
+random_utils.h	test/random_utils.h	1;"	F
+rawMemoryToString	test/catch.hh	/^    inline std::string rawMemoryToString( const T& object ) {$/;"	f	namespace:Catch::Detail
+readAll	test/file_utils.cpp	/^std::unordered_set<std::string> readAll(const std::string& path, const std::string& baseName) {$/;"	f	namespace:futils
+reconstructedExpression	test/catch.hh	/^        std::string reconstructedExpression;$/;"	m	struct:Catch::AssertionResultData
+release	test/catch.hh	/^        virtual void release() const {$/;"	f	struct:Catch::SharedImpl
+remove	log/file_entry.cpp	/^void FileEntry::remove() {$/;"	f	class:sl::detail::FileEntry
+remove	test/file_utils.cpp	/^void TmpDir::remove() {$/;"	f	class:futils::TmpDir
+removeHandler	test/file_utils.cpp	/^void TmpDir::removeHandler(const std::string& name, FileType type) {$/;"	f	class:futils::TmpDir
+removeLast	log/file_entry_catalog.cpp	/^int64_t FileEntryCatalog::removeLast() {$/;"	f	class:sl::detail::FileEntryCatalog
+rename	log/file_entry.cpp	/^void FileEntry::rename(const std::string& newName) {$/;"	f	class:sl::detail::FileEntry
+rename	log/file_entry_catalog.cpp	/^void FileEntryCatalog::rename(size_t index) {$/;"	f	class:sl::detail::FileEntryCatalog
+reset	test/catch.hh	/^        void reset() {$/;"	f	class:Catch::Ptr
+resultDisposition	test/catch.hh	/^        ResultDisposition::Flags resultDisposition;$/;"	m	struct:Catch::AssertionInfo
+resultType	test/catch.hh	/^        ResultWas::OfType resultType;$/;"	m	struct:Catch::AssertionResultData
+rhs	test/catch.hh	/^            std::string lhs, rhs, op;$/;"	m	struct:Catch::ResultBuilder::ExprComponents
+rotate	log/file_entry_catalog.cpp	/^void FileEntryCatalog::rotate() {$/;"	f	class:sl::detail::FileEntryCatalog
+rotation_limit_watcher.cpp	log/rotation_limit_watcher.cpp	1;"	F
+rotation_limit_watcher.h	log/rotation_limit_watcher.h	1;"	F
+rotation_limit_watcher_handler.h	log/rotation_limit_watcher_handler.h	1;"	F
+rotation_limit_watcher_ut.cpp	test/rotation_limit_watcher_ut.cpp	1;"	F
+s	test/catch.hh	/^        static std::ostream &s;$/;"	m	struct:Catch::Detail::IsStreamInsertable
+setDefaultLevel	log/log.cpp	/^void Logger::setDefaultLevel(Level level) {$/;"	f	class:sl::Logger
+setDefaultSink	log/log.cpp	/^  void Logger::setDefaultSink(const std::string& logDir, $/;"	f	class:sl::Logger
+setLevel	log/log.cpp	/^void Logger::setLevel(int sinkId, Level level) {$/;"	f	class:sl::Logger
+setSize	log/rotation_limit_watcher.cpp	/^void RotationLimitWatcher::setSize(int64_t size) {$/;"	f	class:sl::detail::RotationLimitWatcher
+setTimeFormat	log/log.cpp	/^void Logger::setTimeFormat(const std::string& timeFormatStr) {$/;"	f	class:sl::Logger
+shouldContinueOnFailure	test/catch.hh	/^    inline bool shouldContinueOnFailure( int flags )    { return ( flags & ResultDisposition::ContinueOnFailure ) != 0; }$/;"	f	namespace:Catch
+shouldSuppressFailure	test/catch.hh	/^    inline bool shouldSuppressFailure( int flags )      { return ( flags & ResultDisposition::SuppressFail ) != 0; }$/;"	f	namespace:Catch
+size	log/file_entry.cpp	/^int64_t FileEntry::size() const {$/;"	f	class:sl::detail::FileEntry
+size	log/file_entry_catalog.cpp	/^size_t FileEntryCatalog::size() const {$/;"	f	class:sl::detail::FileEntryCatalog
+size	test/random_utils.cpp	/^size_t RandomData::size() {$/;"	f	class:RandomData
+sizer	test/catch.hh	/^    struct FalseType { char sizer[2]; };$/;"	m	struct:Catch::Detail::FalseType
+sizer	test/catch.hh	/^    struct TrueType { char sizer[1]; };$/;"	m	struct:Catch::Detail::TrueType
+sl	log/exception.h	/^namespace sl {$/;"	n
+sl	log/file_entry.cpp	/^namespace sl {$/;"	n	file:
+sl	log/file_entry.h	/^namespace sl {$/;"	n
+sl	log/file_entry_catalog.cpp	/^namespace sl {$/;"	n	file:
+sl	log/file_entry_catalog.h	/^namespace sl {$/;"	n
+sl	log/file_stream.cpp	/^namespace sl {$/;"	n	file:
+sl	log/file_stream.h	/^namespace sl {$/;"	n
+sl	log/format.cpp	/^namespace sl {$/;"	n	file:
+sl	log/format.h	/^namespace sl {$/;"	n
+sl	log/log.cpp	/^namespace sl {$/;"	n	file:
+sl	log/log.h	/^namespace sl {$/;"	n
+sl	log/log_files_manager.cpp	/^namespace sl {$/;"	n	file:
+sl	log/log_files_manager.h	/^namespace sl {$/;"	n
+sl	log/rotation_limit_watcher.cpp	/^namespace sl {$/;"	n	file:
+sl	log/rotation_limit_watcher.h	/^namespace sl {$/;"	n
+sl	log/rotation_limit_watcher_handler.h	/^namespace sl {$/;"	n
+sl	log/utils.cpp	/^namespace sl {$/;"	n	file:
+sl	log/utils.h	/^namespace sl {$/;"	n
+sortEntries	log/file_entry_catalog.cpp	/^void FileEntryCatalog::sortEntries() {$/;"	f	class:sl::detail::FileEntryCatalog
+splitBy	test/log_ut.cpp	/^std::vector<std::string> splitBy(const Source& source, char delim) {$/;"	f
+str	log/utils.h	/^namespace str {$/;"	n	namespace:sl::detail
+stream	log/log_files_manager.h	/^  const FileStreamPtr& stream() const { return m_stream; }$/;"	f	class:sl::detail::LogFilesManager
+stream	test/log_files_manager_ut.cpp	/^  const FileStreamPtr& stream() const { return LogFilesManager::stream(); }$/;"	f	class:TestLogFilesManager
+swap	test/catch.hh	/^        void swap( Ptr& other ) { std::swap( m_p, other.m_p ); }$/;"	f	class:Catch::Ptr
+t	test/catch.hh	/^        static T  const&t;$/;"	m	struct:Catch::Detail::IsStreamInsertable
+testFalse	test/catch.hh	/^            bool testFalse;$/;"	m	struct:Catch::ResultBuilder::ExprComponents
+throwIfNot	log/exception.h	/^void throwIfNot(bool value, const std::string& message) {$/;"	f	namespace:sl::detail
+throwLoggerExceptionIfNot	log/exception.h	/^inline void throwLoggerExceptionIfNot(bool value, const std::string& message) {$/;"	f	namespace:sl::detail
+toString	test/catch.hh	/^            virtual std::string toString() const {$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf
+toString	test/catch.hh	/^            virtual std::string toString() const {$/;"	f	class:Catch::Matchers::Impl::Generic::AnyOf
+toString	test/catch.hh	/^            virtual std::string toString() const {$/;"	f	struct:Catch::Matchers::Impl::StdString::Contains
+toString	test/catch.hh	/^            virtual std::string toString() const {$/;"	f	struct:Catch::Matchers::Impl::StdString::EndsWith
+toString	test/catch.hh	/^            virtual std::string toString() const {$/;"	f	struct:Catch::Matchers::Impl::StdString::Equals
+toString	test/catch.hh	/^            virtual std::string toString() const {$/;"	f	struct:Catch::Matchers::Impl::StdString::StartsWith
+toString	test/catch.hh	/^std::string toString( std::vector<T,Allocator> const& v ) {$/;"	f	namespace:Catch
+toStringSuffix	test/catch.hh	/^            std::string toStringSuffix() const$/;"	f	struct:Catch::Matchers::Impl::StdString::CasedString
+totalBytes	log/file_entry_catalog.cpp	/^int64_t FileEntryCatalog::totalBytes() const {$/;"	f	class:sl::detail::FileEntryCatalog
+trueValue	test/catch.hh	/^        void trueValue() const {}$/;"	f	class:Catch::SafeBool
+utils.cpp	log/utils.cpp	1;"	F
+utils.h	log/utils.h	1;"	F
+utils_ut.cpp	test/utils_ut.cpp	1;"	F
+value	test/catch.hh	/^        enum { value = sizeof( testStreamable(s << t) ) == sizeof( TrueType ) };$/;"	e	enum:Catch::Detail::IsStreamInsertable::__anon1
+warning	log/log.h	/^  warning,$/;"	m	class:sl::Level
+write	log/file_stream.cpp	/^void FileStream::write(const void* data, size_t size) {$/;"	f	class:sl::detail::FileStream
+write	log/log_files_manager.cpp	/^void LogFilesManager::write(const void* data, size_t size) {$/;"	f	class:sl::detail::LogFilesManager
+writeLevel	log/log.cpp	/^void writeLevel(std::stringstream& messageStream, Level level) {$/;"	f	namespace:sl::detail
+writeLogData	log/log.cpp	/^void writeLogData(std::stringstream& messageStream, $/;"	f	namespace:sl::detail
+writeRandomData	test/file_utils.h	/^  void writeRandomData(size_t iterations = 500) {$/;"	f	class:futils::TestWriter
+writeThreadId	log/log.cpp	/^void writeThreadId(std::stringstream& messageStream) {$/;"	f	namespace:sl::detail
+writeTime	log/log.cpp	/^void writeTime(std::stringstream& messageStream, $/;"	f	namespace:sl::detail
+writeToSink	log/log.h	/^  void writeToSink(Sink& sink, $/;"	f	class:sl::Logger
+written	test/file_utils.h	/^  int64_t written = 0;$/;"	m	class:TestFileStream
+~FileStream	log/file_stream.cpp	/^FileStream::~FileStream() {$/;"	f	class:sl::detail::FileStream
+~IFileEntry	log/file_entry.h	/^  virtual ~IFileEntry() {}$/;"	f	class:sl::detail::IFileEntry
+~IFileStream	log/file_stream.h	/^  virtual ~IFileStream() {}$/;"	f	class:sl::detail::IFileStream
+~Matcher	test/catch.hh	/^        virtual ~Matcher() {}$/;"	f	struct:Catch::Matchers::Impl::Matcher
+~MethodTestCase	test/catch.hh	/^    virtual ~MethodTestCase() {}$/;"	f	class:Catch::MethodTestCase
+~PosixDir	log/utils.cpp	/^PosixDir::~PosixDir() {$/;"	f	class:sl::detail::fs::PosixDir
+~Ptr	test/catch.hh	/^        ~Ptr(){$/;"	f	class:Catch::Ptr
+~TmpDir	test/file_utils.cpp	/^TmpDir::~TmpDir() {$/;"	f	class:futils::TmpDir
