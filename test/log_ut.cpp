@@ -33,7 +33,7 @@ void randomLogCheck(int threadCount, int messageCount,
 {
   auto& logger = TestLogger::getLogger();
 
-  /* Rand data, threads, log in-memory data */
+  /* Rand data, threads, log in-memory data initialization */
   RandomData randomDataGen(20, 100);
   std::random_device levelRandDevice;
   std::mt19937 levelRandGen(levelRandDevice());
