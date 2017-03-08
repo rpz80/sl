@@ -124,6 +124,9 @@ std::vector<std::string> splitBy(const Source& source, char delim) {
     }
   }
 
+  if (!tmp.empty())
+    result.push_back(tmp);
+
   return result;
 }
 

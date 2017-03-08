@@ -877,11 +877,11 @@ processEntry	log/utils.cpp	/^void PosixDir::processEntry(struct dirent* entry, E
 processFile	test/file_utils.cpp	/^void TmpDir::processFile(const std::string& name, FileHandler handler) {$/;"	f	class:futils::TmpDir
 qnxnto	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
-randomLogCheck	test/log_ut.cpp	/^void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId, $/;"	f
+randomLogCheck	test/log_ut.cpp	/^void randomLogCheck(int messageCount, int sinkId, $/;"	f
 random_utils.cpp	test/random_utils.cpp	1;"	F
 random_utils.h	test/random_utils.h	1;"	F
 rawMemoryToString	test/catch.hh	/^    inline std::string rawMemoryToString( const T& object ) {$/;"	f	namespace:Catch::Detail
-readAll	test/file_utils.cpp	/^std::unordered_set<std::string> readAll(const std::string& path, const std::string& baseName) {$/;"	f	namespace:futils
+readAll	test/file_utils.cpp	/^std::unordered_set<std::string> readAll(const std::string& path, $/;"	f	namespace:futils
 reconstructedExpression	test/catch.hh	/^        std::string reconstructedExpression;$/;"	m	struct:Catch::AssertionResultData
 release	test/catch.hh	/^        virtual void release() const {$/;"	f	struct:Catch::SharedImpl
 remove	log/file_entry.cpp	/^void FileEntry::remove() {$/;"	f	class:sl::detail::FileEntry
@@ -931,7 +931,7 @@ sl	log/rotation_limit_watcher_handler.h	/^namespace sl {$/;"	n
 sl	log/utils.cpp	/^namespace sl {$/;"	n	file:
 sl	log/utils.h	/^namespace sl {$/;"	n
 sortEntries	log/file_entry_catalog.cpp	/^void FileEntryCatalog::sortEntries() {$/;"	f	class:sl::detail::FileEntryCatalog
-splitBy	test/log_ut.cpp	/^std::vector<std::string> splitBy(const Source& source, char delim) {$/;"	f
+splitBy	test/file_utils.h	/^std::vector<std::string> splitBy(const Source& source, char delim) {$/;"	f	namespace:futils
 str	log/utils.h	/^namespace str {$/;"	n	namespace:sl::detail
 stream	log/log_files_manager.h	/^  const FileStreamPtr& stream() const { return m_stream; }$/;"	f	class:sl::detail::LogFilesManager
 stream	test/log_files_manager_ut.cpp	/^  const FileStreamPtr& stream() const { return LogFilesManager::stream(); }$/;"	f	class:TestLogFilesManager

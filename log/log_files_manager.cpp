@@ -37,8 +37,8 @@ int64_t LogFilesManager::clearNeeded() {
 }
 
 void LogFilesManager::nextFile() {
-  m_catalog->rotate();
   m_stream->close();
+  m_catalog->rotate();
   m_stream = m_catalog->first().open();
 }
 

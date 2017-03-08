@@ -42,7 +42,7 @@ IFileEntry& FileEntryCatalog::first() {
 }
 
 void FileEntryCatalog::rotate() {
-  for (int i = 0; i < m_entries.size(); ++i) {
+  for (int i = m_entries.size() - 1; i >= 0 ; --i) {
     this->rename(i);
   }
 

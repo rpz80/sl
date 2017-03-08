@@ -25,19 +25,19 @@ public:
 
 using LogDataMap = std::unordered_map<std::string, bool>;
 
-void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId, 
+void randomLogCheck(int messageCount, int sinkId, 
                     const std::string& dirPath, const std::string& baseName, 
                     sl::Level level, int64_t fileLimit, int64_t totalLimit)
 {
   /* SetUp sink */
+  auto& logger = TestLogger::getLogger();
   if (sinkId == -1) {
     logger.setDefaultSink(dirPath, baseName, level,
                           totalLimit, fileLimit, true);
-    return;
+  } else {
+    logger.addSink(sinkId, dirPath, baseName, 
+                  level, totalLimit, fileLimit, true);
   }
-
-  logger.addSink(sinkId, dirPath, baseName, 
-                 level, totalLimit, fileLimit, true);
 
   /* Init random generators and logData structure*/
   RandomData randomDataGen(10, 50);
@@ -66,10 +66,15 @@ void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId,
   }
 
   /* Compare results */
-  auto actualLoggedData = futils::readAll(dirPath, baseName);
+  auto actualLoggedData= futils::readAll(dirPath, baseName);
+  std::set<std::string> strippedLogData;
+  for (auto& logDataString: actualLoggedData) {
+    auto logStringSplits = futils::splitBy(logDataString, ' ');
+    strippedLogData.emplace(logStringSplits[4]);
+  }
 
   /* all actual logged messages should be found in memory data */
-  for (auto it = actualLoggedData.cbegin(); it != actualLoggedData.cend(); ++it) {
+  for (auto it = strippedLogData.cbegin(); it != strippedLogData.cend(); ++it) {
     auto memoryDataIt = memoryData.find(*it);
     REQUIRE(memoryDataIt != memoryData.cend());
     REQUIRE(memoryDataIt->second == true);
@@ -78,10 +83,12 @@ void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId,
 
   /* but not all memory messages should have been actually logged */
   for (auto it = memoryData.cbegin(); it != memoryData.cend(); ++it) {
-    auto actualDataIt = actualLoggedData.find(it->first);
+    auto strippedDataIt = strippedLogData.find(it->first);
     if (it->second) {
-      REQUIRE(actualDataIt != actualLoggedData.cend());
-      REQUIRE(*actualDataIt == it->first);
+      REQUIRE(strippedDataIt != strippedLogData.cend());
+      REQUIRE(*strippedDataIt == it->first);
+    } else {
+      REQUIRE(strippedDataIt == strippedLogData.cend());
     }
   }
 
@@ -206,5 +213,7 @@ TEST_CASE("Logger") {
   }
 
   SECTION("Contents check") {
+    randomLogCheck(10000, -1, tmpDir.path(), "log_file", 
+                   sl::Level::debug, 5000, 1000000);
   }
 }
