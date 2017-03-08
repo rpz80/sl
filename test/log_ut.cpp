@@ -3,6 +3,8 @@
 #include <log/log.h>
 #include <log/utils.h>
 #include <unordered_map>
+#include <thread>
+#include <mutex>
 #include "random_utils.h"
 
 const int64_t kTotalLimit = 10000;
@@ -25,54 +27,73 @@ public:
 
 using LogDataMap = std::unordered_map<std::string, bool>;
 
-void randomLogCheck(int messageCount, int sinkId, 
+void randomLogCheck(int threadCount, int messageCount, 
                     const std::string& dirPath, const std::string& baseName, 
                     sl::Level level, int64_t fileLimit, int64_t totalLimit)
 {
-  /* SetUp sink */
   auto& logger = TestLogger::getLogger();
-  if (sinkId == -1) {
-    logger.setDefaultSink(dirPath, baseName, level,
-                          totalLimit, fileLimit, true);
-  } else {
-    logger.addSink(sinkId, dirPath, baseName, 
-                  level, totalLimit, fileLimit, true);
-  }
 
-  /* Init random generators and logData structure*/
-  RandomData randomDataGen(10, 50);
+  /* Rand data, threads, log in-memory data */
+  RandomData randomDataGen(20, 100);
   std::random_device levelRandDevice;
   std::mt19937 levelRandGen(levelRandDevice());
   std::uniform_int_distribution<> levelDist((int)sl::Level::debug, (int)sl::Level::critical);
   LogDataMap memoryData;
+  std::mutex mutex;
+  std::vector<std::thread> threads;
+  std::set<std::string> strippedLogData;
 
-  /* write random messages to log and to the logData */
-  for (int i = 0; i < messageCount; ++i) {
-    auto writeLogLevel = levelDist(levelRandGen);
-    auto logMessage = randomDataGen();
+  for (int i = 0; i < threadCount; ++i) {
+    threads.emplace_back(std::thread([&, sinkId=i] {
+      /* init sinks */
+      std::string sinkBaseName = baseName;
+      if (sinkId != 0) {
+        sinkBaseName = baseName + "_" + std::to_string(sinkId);
+        logger.addSink(sinkId, dirPath, sinkBaseName, 
+                      level, totalLimit, fileLimit, false);
+      } else {
+        logger.setDefaultSink(dirPath, sinkBaseName, level,
+                              totalLimit, fileLimit, false);
+      }
 
-    /* not all messages should be logged (based on the sink log level) */
-    if ((int)level <= writeLogLevel) {
-      memoryData.emplace(logMessage, true);
-    } else {
-      memoryData.emplace(logMessage, false);
-    }
+      /* write random messages to log and to the logData */
+      for (int i = 0; i < messageCount; ++i) {
+        auto writeLogLevel = levelDist(levelRandGen);
+        auto logMessage = randomDataGen();
+        {
+          std::lock_guard<std::mutex> lock(mutex);
+          /* not all messages should be logged (based on the sink log level) */
+          if ((int)level <= writeLogLevel) {
+            memoryData.emplace(logMessage, true);
+          } else {
+            memoryData.emplace(logMessage, false);
+          }
+        }
 
-    if (sinkId == -1) {
-      LOG((sl::Level)writeLogLevel, "%", logMessage);
-    } else {
-      LOG_S(sinkId, (sl::Level)writeLogLevel, "%", logMessage);
-    }
+        if (sinkId == 0) {
+          LOG((sl::Level)writeLogLevel, "%", logMessage);
+        } else {
+          LOG_S(sinkId, (sl::Level)writeLogLevel, "%", logMessage);
+        }
+      }
+
+      /* read logged data */
+      auto actualLoggedData = futils::readAll(dirPath, sinkBaseName);
+      {
+        std::lock_guard<std::mutex> lock(mutex);
+        for (auto& logDataString: actualLoggedData) {
+          auto logStringSplits = futils::splitBy(logDataString, ' ');
+          strippedLogData.emplace(logStringSplits[4]);
+        }
+      }
+    }));
+  }
+
+  for (int i = 0; i < threadCount; ++i) {
+    threads[i].join();
   }
 
   /* Compare results */
-  auto actualLoggedData= futils::readAll(dirPath, baseName);
-  std::set<std::string> strippedLogData;
-  for (auto& logDataString: actualLoggedData) {
-    auto logStringSplits = futils::splitBy(logDataString, ' ');
-    strippedLogData.emplace(logStringSplits[4]);
-  }
-
   /* all actual logged messages should be found in memory data */
   for (auto it = strippedLogData.cbegin(); it != strippedLogData.cend(); ++it) {
     auto memoryDataIt = memoryData.find(*it);
@@ -91,7 +112,6 @@ void randomLogCheck(int messageCount, int sinkId,
       REQUIRE(strippedDataIt == strippedLogData.cend());
     }
   }
-
 }
 
 void checkLogLevel(sl::Level level, const std::string& levelLine) {
@@ -212,8 +232,13 @@ TEST_CASE("Logger") {
 
   }
 
-  SECTION("Contents check") {
-    randomLogCheck(10000, -1, tmpDir.path(), "log_file", 
-                   sl::Level::debug, 5000, 1000000);
+  SECTION("Contents check default sink") {
+    randomLogCheck(1, 1000, tmpDir.path(), "log_file", 
+                   sl::Level::debug, 5000, 1000 * 1000);
+  }
+
+  SECTION("Contents check multiple sinks, multiple threads") {
+    randomLogCheck(3, 1000, tmpDir.path(), "log_file", 
+                   sl::Level::debug, 5000, 1000 * 1000);
   }
 }
