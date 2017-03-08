@@ -877,7 +877,7 @@ processEntry	log/utils.cpp	/^void PosixDir::processEntry(struct dirent* entry, E
 processFile	test/file_utils.cpp	/^void TmpDir::processFile(const std::string& name, FileHandler handler) {$/;"	f	class:futils::TmpDir
 qnxnto	.build/CMakeFiles/3.5.2/CompilerIdC/CMakeCCompilerId.c	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
 qnxnto	.build/CMakeFiles/3.5.2/CompilerIdCXX/CMakeCXXCompilerId.cpp	/^char const* qnxnto = "INFO" ":" "qnxnto[]";$/;"	v
-randomLogCheck	test/log_ut.cpp	/^void randomLogCheck(int messageCount, int sinkId, $/;"	f
+randomLogCheck	test/log_ut.cpp	/^void randomLogCheck(int threadCount, int messageCount, $/;"	f
 random_utils.cpp	test/random_utils.cpp	1;"	F
 random_utils.h	test/random_utils.h	1;"	F
 rawMemoryToString	test/catch.hh	/^    inline std::string rawMemoryToString( const T& object ) {$/;"	f	namespace:Catch::Detail
