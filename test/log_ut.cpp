@@ -23,25 +23,6 @@ public:
   }
 };
 
-template<typename Source>
-std::vector<std::string> splitBy(const Source& source, char delim) {
-  std::vector<std::string> result;
-  std::string tmp;
-
-  for (size_t i = 0; i < source.size(); ++i) {
-    if (source[i] == delim) {
-      if (!tmp.empty()) { 
-        result.push_back(tmp);
-        tmp.clear();
-      }
-    } else {
-      tmp.push_back(source[i]);
-    }
-  }
-
-  return result;
-}
-
 using LogDataMap = std::unordered_map<std::string, bool>;
 
 void randomLogCheck(int messageCount, sl::Logger& logger, int sinkId, 
@@ -133,7 +114,7 @@ void checkMessage(const std::vector<std::string>& logParts, const std::string& m
 }
 
 void checkLogOutput(const std::string& logLine, sl::Level level, const std::string& message) {
-  auto logLineParts = splitBy(logLine, ' ');
+  auto logLineParts = futils::splitBy(logLine, ' ');
   REQUIRE(logLineParts.size() >= 5);
   checkLogLevel(level, logLineParts[2]);
   checkMessage(logLineParts, message);
@@ -202,7 +183,7 @@ TEST_CASE("Logger") {
     REQUIRE(futils::fileExists(filePath));
 
     auto content = futils::fileContent(filePath);
-    auto fileStrings = splitBy(content, '\n');
+    auto fileStrings = futils::splitBy(content, '\n');
     REQUIRE(!fileStrings.empty());
     checkLogOutput(fileStrings[0], sl::Level::info, "hello world");
   }

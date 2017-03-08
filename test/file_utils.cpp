@@ -10,8 +10,9 @@
 #include <log/utils.h>
 #include "file_utils.h"
 
-namespace futils {
+using namespace sl::detail;
 
+namespace futils {
 namespace detail {
 
 template<typename Stream>
@@ -48,8 +49,21 @@ int64_t fileSize(const std::string& fileName) {
   return st.st_size;
 }
 
-std::unordered_set<std::string> readAll(const std::string& path, const std::string& baseName) {
+std::unordered_set<std::string> readAll(const std::string& path, 
+                                        const std::string& baseName) {
   std::unordered_set<std::string> result;
+  fs::PosixDir dir(path);
+  auto mask= baseName + '*';
+
+  dir.forEachEntry([&result, &mask, &path](struct dirent* entry) {
+    if (fs::globMatch(entry->d_name, mask.c_str())) {
+      auto fullFileName = fs::join(path, entry->d_name);
+      for (const auto& s: splitBy(fileContent(fullFileName), '\n')) {
+        result.insert(s);
+      }
+    }
+  });
+
   return result;
 }
 

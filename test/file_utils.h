@@ -108,6 +108,25 @@ private:
 
 namespace futils {
 
+template<typename Source>
+std::vector<std::string> splitBy(const Source& source, char delim) {
+  std::vector<std::string> result;
+  std::string tmp;
+
+  for (size_t i = 0; i < source.size(); ++i) {
+    if (source[i] == delim) {
+      if (!tmp.empty()) { 
+        result.push_back(tmp);
+        tmp.clear();
+      }
+    } else {
+      tmp.push_back(source[i]);
+    }
+  }
+
+  return result;
+}
+
 bool fileExists(const std::string& name);
 int64_t fileSize(const std::string& fileName);
 std::vector<char> fileContent(const std::string& fileName);
