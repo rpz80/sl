@@ -131,7 +131,7 @@ private:
                 formatString, 
                 std::forward<Args>(args)...);
     messageStream << std::endl << std::endl;
-    std::lock_guard<std::mutex>(*sink.mutex);
+    std::lock_guard<std::mutex> lock(*sink.mutex);
     auto outString = messageStream.str();
     sink.fileManager->write(outString.data(), outString.size());
     if (sink.duplicateToStdout) {

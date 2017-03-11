@@ -44,7 +44,7 @@ void LogFilesManager::nextFile() {
 
 void LogFilesManager::write(const void* data, size_t size) {
   if (!m_stream || !m_stream->isOpened()) 
-    throw std::runtime_error(sl::fmt("% no stream", __FUNCTION__));
+    throw std::runtime_error(sl::fmt("%: no stream", __FUNCTION__));
 
   m_stream->write(data, size);
   m_limitWatcher.addWritten(size);
