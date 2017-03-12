@@ -1,7 +1,23 @@
 cmake_minimum_required(VERSION 2.8)
 project("log_root")
 
-set(SM_INCLUDE_PATH "../sm")
+include(ExternalProject)
+
+ExternalProject_Add(
+  sm
+
+  GIT_REPOSITORY "https://github.com/rpz80/sm.git"
+  GIT_TAG "master"
+  
+  UPDATE_COMMAND ""
+  PATCH_COMMAND ""
+  
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/../sm"
+  
+  TEST_COMMAND ""
+)
+
+set(SM_INCLUDE_PATH "sm")
 set(INCLUDES "${CMAKE_SOURCE_DIR}" "${SM_INCLUDE_PATH}")
 
 include_directories(${INCLUDES})
