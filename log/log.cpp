@@ -28,25 +28,14 @@ Logger::SinkMapIterator Logger::getSinkById(int sinkId) {
   return sinkIt;
 }
 
-  void Logger::setDefaultSink(const std::string& logDir, 
-                      const std::string& fileNamePattern, 
-                      Level level, 
-                      int64_t totalLimit, 
-                      int64_t fileLimit,
-                      bool duplicateToStdout) {
-  std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
-  checkSinkWithPattern(fileNamePattern);
-  m_defaultSink = 
-    Sink(level, 
-         detail::LogFilesManagerPtr( 
-              new detail::LogFilesManager( 
-                  totalLimit, 
-                  fileLimit, 
-                  FileEntryCatalogPtr(new FileEntryCatalog(
-                      new FileEntryFactory(),
-                      logDir,
-                      fileNamePattern)))), 
-         duplicateToStdout);
+void Logger::setDefaultSink(const std::string& logDir, 
+                    const std::string& fileNamePattern, 
+                    Level level, 
+                    int64_t totalLimit, 
+                    int64_t fileLimit,
+                    bool duplicateToStdout) {
+  addSink(kDefaultSinkId, logDir, fileNamePattern, level, 
+    totalLimit, fileLimit, duplicateToStdout);
 }
 
 void Logger::addSink(int sinkId, 
@@ -102,11 +91,7 @@ void Logger::setLevel(int sinkId, Level level) {
 }
 
 void Logger::setDefaultLevel(Level level) {
-  std::lock_guard<sm::shared_mutex> lock(m_defaultSinkMutex);
-  detail::throwLoggerExceptionIfNot(
-      static_cast<bool>(m_defaultSink.fileManager), 
-      "Default sink not set");
-  m_defaultSink.level = level;
+  setLevel(kDefaultSinkId, level);
 }
 
 Level Logger::getLevel(int sinkId) const {
@@ -116,11 +101,7 @@ Level Logger::getLevel(int sinkId) const {
 }
 
 Level Logger::getDefaultLevel() const {
-  sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  detail::throwLoggerExceptionIfNot(
-      static_cast<bool>(m_defaultSink.fileManager), 
-      "Default sink not set");
-  return m_defaultSink.level;
+  return getLevel(kDefaultSinkId);
 }
 
 std::string Logger::getFileNamePattern(int sinkId) const {
@@ -130,11 +111,7 @@ std::string Logger::getFileNamePattern(int sinkId) const {
 }
 
 std::string Logger::getDefaultFileNamePattern() const {
-  sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  detail::throwLoggerExceptionIfNot(
-      static_cast<bool>(m_defaultSink.fileManager), 
-      "Default sink not set");
-  return m_defaultSink.fileManager->baseName();
+  return getFileNamePattern(kDefaultSinkId);
 }
 
 bool Logger::hasSink(int sinkId) const {
@@ -143,22 +120,16 @@ bool Logger::hasSink(int sinkId) const {
 }
 
 bool Logger::hasDefaultSink() const {
-  sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-  return static_cast<bool>(m_defaultSink.fileManager);
+  return hasSink(kDefaultSinkId);
 }
 
 void Logger::setTimeFormat(const std::string& timeFormatStr) {
-  std::unique_lock<sm::shared_mutex> defaultLock(m_defaultSinkMutex, 
-                                                 std::adopt_lock);
-  std::unique_lock<sm::shared_mutex> sinksLock(m_sinksMutex, 
-                                               std::adopt_lock);
-  std::lock(defaultLock, sinksLock);
+  std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
   m_timeFormat = timeFormatStr;
 }
 
 std::string Logger::getTimeFormat() const {
-  sm::shared_lock<sm::shared_mutex> defaultLock(m_defaultSinkMutex);
-  sm::shared_lock<sm::shared_mutex> sinksLock(m_sinksMutex);
+  std::lock_guard<sm::shared_mutex> lock(m_sinksMutex);
   return m_timeFormat;
 }
 

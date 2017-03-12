@@ -25,6 +25,8 @@ enum class Level {
 
 namespace detail {
 
+const int kDefaultSinkId = -10001;
+
 void writeLogData(std::stringstream& messageStream, 
                   Level level,
                   const std::string& timeFormat);
@@ -97,14 +99,7 @@ public:
   void log(Level level, 
            const char* formatString, 
            Args&&... args) {
-    sm::shared_lock<sm::shared_mutex> lock(m_defaultSinkMutex);
-    detail::throwLoggerExceptionIfNot(
-        static_cast<bool>(m_defaultSink.fileManager), 
-        fmt("% No default sink", __FUNCTION__));
-    writeToSink(m_defaultSink, 
-                level, 
-                formatString,
-                std::forward<Args>(args)...);
+    log(detail::kDefaultSinkId, level, formatString, std::forward<Args>(args)...);
   }
 
   void setTimeFormat(const std::string& timeFormatStr);
@@ -140,9 +135,7 @@ private:
   }
 
 private:
-  Sink m_defaultSink;
   std::unordered_map<int, Sink> m_sinks;
-  mutable sm::shared_mutex m_defaultSinkMutex;
   mutable sm::shared_mutex m_sinksMutex;
   std::string m_timeFormat;
 };

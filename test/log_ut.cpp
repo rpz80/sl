@@ -42,10 +42,10 @@ void randomLogCheck(int threadCount, int messageCount,
 
   /* init sinks */
   for (int i = 0; i < threadCount; ++i) {
-    if (i != 0) {
+    if (i != 0 && !logger.hasSink(i)) {
       logger.addSink(i, dirPath, sinkBaseName(i), 
                     level, totalLimit, fileLimit, false);
-    } else {
+    } else if (!logger.hasDefaultSink()){
       logger.setDefaultSink(dirPath, sinkBaseName(i), level,
                             totalLimit, fileLimit, false);
     }
@@ -240,15 +240,9 @@ TEST_CASE("Logger") {
 TEST_CASE("LogMacros") {
   futils::TmpDir tmpDir;
 
-  SECTION("Contents check default sink") {
-    randomLogCheck(1, 1000, tmpDir.path(), "log_file", 
-                   sl::Level::debug, 5000, 1000 * 1000);
-  }
-
-  SECTION("Contents check multiple sinks, multiple threads") {
-    randomLogCheck(3, 1000, tmpDir.path(), "log_file", 
-                   sl::Level::debug, 5000, 1000 * 1000);
-  }
+  /* multiple threads, multiple sinks, random sink selection */
+  randomLogCheck(5, 10000, tmpDir.path(), "log_file", 
+                 sl::Level::debug, 5000, 1000 * 10000ll);
 }
 
 
