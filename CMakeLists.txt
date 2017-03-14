@@ -5,19 +5,13 @@ include(ExternalProject)
 
 ExternalProject_Add(
   sm
-
   GIT_REPOSITORY "https://github.com/rpz80/sm.git"
   GIT_TAG "master"
-  
-  UPDATE_COMMAND ""
-  PATCH_COMMAND ""
-  
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/../sm"
-  
-  TEST_COMMAND ""
+  INSTALL_COMMAND cmake -E echo "Skipping install step"
 )
 
-set(SM_INCLUDE_PATH "sm")
+set(SM_INCLUDE_PATH "../sm")
 set(INCLUDES "${CMAKE_SOURCE_DIR}" "${SM_INCLUDE_PATH}")
 
 include_directories(${INCLUDES})
