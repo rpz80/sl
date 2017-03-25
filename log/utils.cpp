@@ -103,9 +103,9 @@ std::string join(const std::string& subPath1,
 #include <dirent.h>
 #include <sys/stat.h>
 
-PosixDir::PosixDir(const std::string& name) : m_name(name) {}
+Dir::Dir(const std::string& name) : m_name(name) {}
 
-void PosixDir::forEachEntry(EntryHandler handler) {
+void Dir::forEachEntry(EntryHandler handler) {
   struct dirent* entry;
 
   open();
@@ -115,35 +115,55 @@ void PosixDir::forEachEntry(EntryHandler handler) {
   close();
 }
 
-PosixDir::~PosixDir() {
+Dir::~Dir() {
   close();
 }
 
-std::string PosixDir::name() const {
+std::string Dir::name() const {
   return m_name;
 }
 
-void PosixDir::open() {
+void Dir::open() {
   m_dirHandle = opendir(m_name.c_str());
   if (!m_dirHandle)
     throw std::runtime_error(sl::fmt("%: open dir % failed",
                                      __FUNCTION__, m_name));
 }
 
-void PosixDir::close() {
+void Dir::close() {
   if (m_dirHandle) {
     closedir(m_dirHandle);
     m_dirHandle = nullptr;
   }
 }
 
-void PosixDir::processEntry(struct dirent* entry, EntryHandler handler) {
+void Dir::processEntry(struct dirent* entry, EntryHandler handler) {
   if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
     return;
   }
 
   handler(entry);
 }
+
+#elif defined(_WIN32)
+Dir::Dir(const std::string& name) : m_name(name)
+{
+  TCHAR* szDir = nullptr;
+#if defined (_UNICODE)
+  TCHAR buf[2048];
+  MultiByteToWideChar(CP_UTF8, 0, name.c_str(), -1, buf, 2048);
+  szDir = buf;
+#else 
+  szDir = (TCHAR*)name.c_str();
+#endif
+
+  WIN32_FIND_DATA ffd;
+  m_dirHandle
+}
+~Dir();
+
+void forEachEntry(EntryHandler handler);
+std::string name() const;
 
 #endif
 

@@ -2,9 +2,11 @@
 #include <iterator>
 #include <cstring>
 
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+  #include <sys/stat.h>
+  #include <unistd.h>
+  #include <dirent.h>
+#endif
 
 #include <log/format.h>
 #include <log/utils.h>
@@ -52,7 +54,7 @@ int64_t fileSize(const std::string& fileName) {
 std::unordered_set<std::string> readAll(const std::string& path, 
                                         const std::string& baseName) {
   std::unordered_set<std::string> result;
-  fs::PosixDir dir(path);
+  fs::Dir dir(path);
   auto mask= baseName + '*';
 
   dir.forEachEntry([&result, &mask, &path](struct dirent* entry) {
@@ -103,7 +105,7 @@ void TmpDir::forEachFile(FileHandler handler) {
 
 void TmpDir::forEachFile(const std::string& dirName, FileHandler handler) {
   using namespace sl::detail;
-  fs::PosixDir dir(dirName);
+  fs::Dir dir(dirName);
 
   dir.forEachEntry([this, &dirName, handler](struct dirent* entry) {
     auto fullName = fs::join(dirName, entry->d_name);

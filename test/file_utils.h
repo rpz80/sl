@@ -2,6 +2,7 @@
 #include <vector>
 #include <functional>
 #include <unordered_set>
+#include <iterator>
 #include <log/file_stream.h>
 #include <log/file_entry.h>
 #include <log/utils.h>

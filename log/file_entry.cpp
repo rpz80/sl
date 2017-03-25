@@ -8,6 +8,9 @@
 #include <log/file_entry.h>
 #include <log/utils.h>
 
+#if defined (_WIN32)
+  #include <windows.h>
+#endif
 namespace sl {
 namespace detail {
 
@@ -16,13 +19,13 @@ namespace detail {
 class FileEntriesPosix {
 public:
   FileEntriesPosix(const std::string& path, const std::string& baseName)
-    : m_posixDir(path),
+    : m_Dir(path),
       m_baseName(baseName) {}
 
   FileEntryList operator()() {
     FileEntryList result;
 
-    m_posixDir.forEachEntry([&result, this](struct ::dirent* entry){
+    m_Dir.forEachEntry([&result, this](struct ::dirent* entry){
       addIfMatches(entry, result);
     });
 
@@ -34,7 +37,7 @@ private:
     if (!entryMatches(entry))
       return;
 
-    auto newEntry = m_factory.create(m_posixDir.name(), m_baseName);
+    auto newEntry = m_factory.create(m_Dir.name(), m_baseName);
     result.push_back(std::move(newEntry));
   }
 
@@ -44,7 +47,7 @@ private:
   }
 
 private:
-  fs::PosixDir m_posixDir;
+  fs::Dir m_Dir;
   std::string m_baseName;
   FileEntryFactory m_factory;
 };
@@ -65,10 +68,23 @@ int64_t getFileSizeUnix(const std::string& fullPath) {
 #elif defined (_WIN32)
 FileEntryList getFileEntriesWin(const std::string& path, 
                                 const std::string& baseName) {
+  FileEntryList result;
+
+  return result;
 }
 
 int64_t getFileSizeWin(const std::string& fullPath) {
+  HANDLE hFile = CreateFile(fullPath.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING,
+                            FILE_ATTRIBUTE_NORMAL, NULL);
+  if (hFile == nullptr)
+    throw std::runtime_error(sl::fmt("Get file size failed for the file %", 
+                                     fullPath));
+  LARGE_INTEGER result;
+  if (!GetFileSizeEx(hFile, &result))
+    throw std::runtime_error(sl::fmt("Get file size failed for the file %",
+                                     fullPath));
 
+  return result.QuadPart;
 }
 #endif
 

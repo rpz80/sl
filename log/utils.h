@@ -25,11 +25,11 @@ bool globMatch(const char *pattern, const char *mask);
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 
-class PosixDir {
+class Dir {
   using EntryHandler = std::function<void(struct dirent*)>;
 public:
-  PosixDir(const std::string& name);
-  ~PosixDir();
+  Dir(const std::string& name);
+  ~Dir();
 
   void forEachEntry(EntryHandler handler);
   std::string name() const;
@@ -44,6 +44,28 @@ private:
   std::string m_name;
   DIR* m_dirHandle;
 };
+
+#elif defined (_WIN32)
+#include <windows.h>
+
+class Dir {
+  Dir(const std::string& name);
+  ~Dir();
+
+  void forEachEntry(EntryHandler handler);
+  std::string name() const;
+
+private:
+  void open(); 
+  void close(); 
+
+  void processEntry(struct dirent* entry, EntryHandler handler);
+
+private:
+  HANDLE m_dirHandle;
+  std::string m_name;
+};
+
 #endif
 
 }
