@@ -33,10 +33,13 @@ int64_t getFileSizeWin(const std::string& fullPath) {
     throw std::runtime_error(sl::fmt("Get file size failed for the file %", 
                                      fullPath));
   LARGE_INTEGER result;
-  if (!GetFileSizeEx(hFile, &result))
+  if (!GetFileSizeEx(hFile, &result)) {
+    CloseHandle(hFile);
     throw std::runtime_error(sl::fmt("Get file size failed for the file %",
                                      fullPath));
+  }
 
+  CloseHandle(hFile);
   return result.QuadPart;
 }
 #endif
