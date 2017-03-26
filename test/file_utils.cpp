@@ -8,6 +8,8 @@
   #include <dirent.h>
 #elif defined(_WIN32)
   #include <windows.h>
+  #include <tchar.h>
+  #pragma comment(lib, "Rpcrt4.lib")
 #endif
 
 #include <log/format.h>
@@ -75,7 +77,17 @@ std::unordered_set<std::string> readAll(const std::string& path,
 TmpDir::TmpDir() : BaseType(create()) {
 }
 
-TmpDir::~TmpDir() {}
+TmpDir::~TmpDir() {
+  std::function<void(const Dir::Entry&)> removeHandler = [this, &removeHandler] (const Dir::Entry& entry) {
+    if (entry.type == Dir::Type::dir && entry.name != "." && entry.name != "..") {
+      fs::Dir(fs::join(BaseType::name(), entry.name)).forEachEntry(removeHandler);
+    } else if (entry.type == Dir::Type::file) {
+      std::remove(fs::join(BaseType::name(), entry.name).c_str());
+    }
+  };
+  BaseType::forEachEntry(removeHandler);
+  std::remove(BaseType::name().c_str());
+}
 
 TmpDir::TmpDir(const std::string& fileNamePattern, size_t count)
   : BaseType(create())
@@ -85,17 +97,41 @@ TmpDir::TmpDir(const std::string& fileNamePattern, size_t count)
 
 std::string TmpDir::create() {
   std::string result;
+
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   char dirTemplate[] = "/tmp/sl.XXXXXX";
   result.assign(mkdtemp(dirTemplate));
+
 #elif defined (_WIN32)
-  TCHAR buf[MAX_PATH + 1];
-  int bufLen = GetTempPath(MAX_PATH, buf);
-  result.resize(bufLen);
-  #if defined(_UNICODE)
-    WideCharToMultiByte(CP_UTF8, 0, buf, MAX_PATH, bufLen, m_dirPath.data(), 0, 0);
+  TCHAR pathBuf[MAX_PATH*2 + 1];
+  int pathLen = GetTempPath(MAX_PATH, pathBuf);
+  if (pathLen == 0)
+    throw std::runtime_error("GetTempPath failed");
+
+  UUID subdirUuid;
+  auto createUuidResult = UuidCreate(&subdirUuid);
+  if (createUuidResult == RPC_S_UUID_NO_ADDRESS)
+    throw std::runtime_error("UuidCreate failed");
+
+  TCHAR* startUuidPtr;
+  #if defined (_UNICODE)
+    if (UuidToString(&subdirUuid, (RPC_WSTR*)&startUuidPtr) != RPC_S_OK)
+      throw std::runtime_error("UuidToString failed");
   #else
-    result.assign(buf);
+    if (UuidToString(&subdirUuid, (RPC_CSTR*)&startUuidPtr) != RPC_S_OK)
+      throw std::runtime_error("UuidToString failed");
+  #endif
+
+  _tcscat(pathBuf, startUuidPtr);
+  pathLen = _tcslen(pathBuf);
+
+  if (!CreateDirectory(pathBuf, NULL))
+    throw std::runtime_error("CreateDirectory failed");
+
+  #if defined(_UNICODE)
+    WideCharToMultiByte(CP_UTF8, 0, pathBuf, MAX_PATH, pathLen, result.data(), 0, 0);
+  #else
+    result.assign(pathBuf);
   #endif
 #endif
   if (result.empty())

@@ -171,42 +171,57 @@ void Dir::processEntry(struct dirent* entry, EntryHandler handler) {
 
 class DirImpl {
 public:
-  DirImpl(const std::string& name) : m_name(name) {
-    TCHAR* szDir = nullptr;
-#if defined (_UNICODE)
-    TCHAR buf[2048];
-    MultiByteToWideChar(CP_UTF8, 0, name.c_str(), -1, buf, 2048);
-    szDir = buf;
-#else
-    szDir = (TCHAR*)name.c_str();
-#endif
-
-    m_dirHandle = FindFirstFile(szDir, &m_ffd);
-    if (m_dirHandle == INVALID_HANDLE_VALUE) {
-      throw std::runtime_error(sl::fmt("% Failed to open dir %", __FUNCTION__, name));
-    }
+  DirImpl(const std::string& name)
+    : m_dirHandle(INVALID_HANDLE_VALUE),
+      m_name(name)
+  {
+    open();
   }
 
   ~DirImpl() {
-    CloseHandle(m_dirHandle);
+    close();
   }
 
   void forEachEntry(Dir::EntryHandler handler) {
-    if (m_dirHandle == INVALID_HANDLE_VALUE)
-      return;
-
-    do {
+    open();
+    while (FindNextFile(m_dirHandle, &m_ffd) != 0) {
       Dir::Entry entry(
         m_ffd.cFileName,
         m_ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ? Dir::dir : Dir::file);
       handler(entry);
-    } while (FindNextFile(m_dirHandle, &m_ffd) != 0);
-
-    CloseHandle(m_dirHandle);
-    m_dirHandle = INVALID_HANDLE_VALUE;
+    }
+    close();
   }
 
   std::string name() const { return m_name; }
+
+private:
+  void open()  {
+    close();
+
+    std::string findMask = fs::join(m_name, "/*");
+    TCHAR* szDir = nullptr;
+
+#if defined (_UNICODE)
+    TCHAR buf[2048];
+    MultiByteToWideChar(CP_UTF8, 0, findMask.c_str(), -1, buf, 2048);
+    szDir = buf;
+#else
+    szDir = (TCHAR*)findMask.c_str();
+#endif
+
+    m_dirHandle = FindFirstFile(szDir, &m_ffd);
+    if (m_dirHandle == INVALID_HANDLE_VALUE) {
+      throw std::runtime_error(sl::fmt("% Failed to open dir %", __FUNCTION__, m_name));
+    }
+  }
+
+  void close() {
+    if (m_dirHandle != INVALID_HANDLE_VALUE) {
+      FindClose(m_dirHandle);
+      m_dirHandle = INVALID_HANDLE_VALUE;
+    }
+  }
 
 private:
   WIN32_FIND_DATA m_ffd;
