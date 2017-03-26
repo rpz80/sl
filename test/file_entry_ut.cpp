@@ -11,7 +11,7 @@
 using namespace sl::detail;
 
 FileEntryPtr createTestEntry(futils::TmpDir& tmpDir) {
-  const std::string kFileName = fs::join(tmpDir.path(), "log_file");
+  const std::string kFileName = fs::join(tmpDir.name(), "log_file");
 
   REQUIRE(futils::fileExists(kFileName) == false);
   FileEntryPtr result(new FileEntry(kFileName));
@@ -44,7 +44,7 @@ TEST_CASE("FileEntryFactoryGetEntriesTest", "[FileEntry, getEntries]") {
 
   futils::TmpDir td(kFilePattern, kFileCount);
   FileEntryFactory factory;
-  auto entries = factory.getExistent(td.path(), kFilePattern);
+  auto entries = factory.getExistent(td.name(), kFilePattern);
 
   REQUIRE(entries.size() == kFileCount);
 }

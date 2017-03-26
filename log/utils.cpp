@@ -100,6 +100,27 @@ std::string join(const std::string& subPath1,
 }
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+class PosixDir {
+  using EntryHandler = std::function<void(struct dirent*)>;
+public:
+  Dir(const std::string& name);
+  ~Dir();
+
+  void forEachEntry(EntryHandler handler);
+  std::string name() const;
+
+private:
+  void open();
+  void close();
+
+  void processEntry(struct dirent* entry, EntryHandler handler);
+
+private:
+  std::string m_name;
+  DIR* m_dirHandle;
+};
+
+
 #include <dirent.h>
 #include <sys/stat.h>
 
@@ -146,26 +167,63 @@ void Dir::processEntry(struct dirent* entry, EntryHandler handler) {
 }
 
 #elif defined(_WIN32)
-Dir::Dir(const std::string& name) : m_name(name)
-{
-  TCHAR* szDir = nullptr;
+#include <windows.h>
+
+class DirImpl {
+public:
+  DirImpl(const std::string& name) : m_name(name) {
+    TCHAR* szDir = nullptr;
 #if defined (_UNICODE)
-  TCHAR buf[2048];
-  MultiByteToWideChar(CP_UTF8, 0, name.c_str(), -1, buf, 2048);
-  szDir = buf;
-#else 
-  szDir = (TCHAR*)name.c_str();
+    TCHAR buf[2048];
+    MultiByteToWideChar(CP_UTF8, 0, name.c_str(), -1, buf, 2048);
+    szDir = buf;
+#else
+    szDir = (TCHAR*)name.c_str();
 #endif
 
-  WIN32_FIND_DATA ffd;
-  m_dirHandle
+    m_dirHandle = FindFirstFile(szDir, &m_ffd);
+    if (m_dirHandle == INVALID_HANDLE_VALUE) {
+      throw std::runtime_error(sl::fmt("% Failed to open dir %", __FUNCTION__, name));
+    }
+  }
+
+  ~DirImpl() {
+    CloseHandle(m_dirHandle);
+  }
+
+  void forEachEntry(Dir::EntryHandler handler) {
+    if (m_dirHandle == INVALID_HANDLE_VALUE)
+      return;
+
+    do {
+      Dir::Entry entry(
+        m_ffd.cFileName,
+        m_ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ? Dir::dir : Dir::file);
+      handler(entry);
+    } while (FindNextFile(m_dirHandle, &m_ffd) != 0);
+
+    CloseHandle(m_dirHandle);
+    m_dirHandle = INVALID_HANDLE_VALUE;
+  }
+
+  std::string name() const { return m_name; }
+
+private:
+  WIN32_FIND_DATA m_ffd;
+  HANDLE m_dirHandle;
+  std::string m_name;
+};
+
+#endif
+
+Dir::Dir(const std::string& name) : m_impl(new DirImpl(name)) {}
+Dir::~Dir() {}
+
+void Dir::forEachEntry(EntryHandler handler) {
+  m_impl->forEachEntry(handler);
 }
-~Dir();
 
-void forEachEntry(EntryHandler handler);
-std::string name() const;
-
-#endif
+std::string Dir::name() const { return m_impl->name(); }
 
 }
 

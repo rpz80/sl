@@ -10,7 +10,7 @@ using namespace sl::detail;
 TEST_CASE("FileStreamTest") {
 
   futils::TmpDir tmpDir;
-  auto fname = fs::join(tmpDir.path(), "log_file");
+  auto fname = fs::join(tmpDir.name(), "log_file");
   FileStream stream(fname);
 
   REQUIRE(futils::fileExists(fname));

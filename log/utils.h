@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <functional>
+#include <memory>
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 # include <dirent.h>
@@ -23,10 +24,24 @@ std::string join(const std::string& subPath1,
 
 bool globMatch(const char *pattern, const char *mask);
 
-#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+class DirImpl;
 
 class Dir {
-  using EntryHandler = std::function<void(struct dirent*)>;
+public:
+  enum Type {
+    file,
+    dir
+  };
+
+  struct Entry {
+    std::string name;
+    Type type;
+
+    Entry(const std::string& name, Type type) : name(name), type(type) {}
+  };
+
+  using EntryHandler = std::function<void(const Entry&)>;
+
 public:
   Dir(const std::string& name);
   ~Dir();
@@ -35,39 +50,8 @@ public:
   std::string name() const;
 
 private:
-  void open(); 
-  void close(); 
-
-  void processEntry(struct dirent* entry, EntryHandler handler);
-
-private:
-  std::string m_name;
-  DIR* m_dirHandle;
+  std::unique_ptr<DirImpl> m_impl;
 };
-
-#elif defined (_WIN32)
-#include <windows.h>
-
-class Dir {
-  Dir(const std::string& name);
-  ~Dir();
-
-  void forEachEntry(EntryHandler handler);
-  std::string name() const;
-
-private:
-  void open(); 
-  void close(); 
-
-  void processEntry(struct dirent* entry, EntryHandler handler);
-
-private:
-  HANDLE m_dirHandle;
-  std::string m_name;
-};
-
-#endif
-
 }
 
 namespace str {

@@ -203,12 +203,12 @@ TEST_CASE("Logger") {
     assertUninitializedState(logger);
 
     const std::string kFileName("someFileName");
-    logger.setDefaultSink(tmpDir.path().c_str(), kFileName,sl::Level::debug,
+    logger.setDefaultSink(tmpDir.name().c_str(), kFileName,sl::Level::debug,
                           kTotalLimit, kFileLimit, true);
 
     assertDefaultSinkState(logger, kFileName, sl::Level::debug);
 
-    const auto filePath = fs::join(tmpDir.path(), str::join(kFileName, ".log"));
+    const auto filePath = fs::join(tmpDir.name(), str::join(kFileName, ".log"));
     logger.log(sl::Level::info, "% %", "hello", "world");
 
     REQUIRE(futils::fileExists(filePath));
@@ -227,11 +227,11 @@ TEST_CASE("Logger") {
     const sl::Level kSinkLevel = sl::Level::debug;
 
     for (size_t i = 0; i < kSinksCount; ++i) {
-      logger.addSink(i, tmpDir.path(), kFileNamePattern + std::to_string(i), 
+      logger.addSink(i, tmpDir.name(), kFileNamePattern + std::to_string(i),
                      kSinkLevel, kTotalLimit, kFileLimit, false);
     }
 
-    assertSinksState(logger, tmpDir.path().c_str(), kSinksCount, 
+    assertSinksState(logger, tmpDir.name().c_str(), kSinksCount,
                      kFileNamePattern, kSinkLevel);
 
   }
@@ -241,7 +241,7 @@ TEST_CASE("LogMacros") {
   futils::TmpDir tmpDir;
 
   /* multiple threads, multiple sinks, random sink selection */
-  randomLogCheck(5, 10000, tmpDir.path(), "log_file", 
+  randomLogCheck(5, 10000, tmpDir.name(), "log_file",
                  sl::Level::debug, 5000, 1000 * 10000ll);
 }
 

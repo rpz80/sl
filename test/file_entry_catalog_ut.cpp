@@ -2,6 +2,7 @@
 #include <log/file_entry_catalog.h>
 #include <log/utils.h>
 #include "file_utils.h"
+#include "test_common.h"
 
 using namespace sl::detail;
 

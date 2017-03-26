@@ -6,6 +6,8 @@
   #include <sys/stat.h>
   #include <unistd.h>
   #include <dirent.h>
+#elif defined(_WIN32)
+  #include <windows.h>
 #endif
 
 #include <log/format.h>
@@ -57,9 +59,9 @@ std::unordered_set<std::string> readAll(const std::string& path,
   fs::Dir dir(path);
   auto mask= baseName + '*';
 
-  dir.forEachEntry([&result, &mask, &path](struct dirent* entry) {
-    if (fs::globMatch(entry->d_name, mask.c_str())) {
-      auto fullFileName = fs::join(path, entry->d_name);
+  dir.forEachEntry([&result, &mask, &path](const fs::Dir::Entry& entry) {
+    if (fs::globMatch(entry.name.c_str(), mask.c_str())) {
+      auto fullFileName = fs::join(path, entry.name);
       for (const auto& s: splitBy(fileContent(fullFileName), '\n')) {
         result.insert(s);
       }
@@ -70,86 +72,47 @@ std::unordered_set<std::string> readAll(const std::string& path,
 }
 
 
-TmpDir::TmpDir() {
-  create();
+TmpDir::TmpDir() : BaseType(create()) {
 }
 
-TmpDir::TmpDir(const std::string& fileNamePattern, size_t count) 
+TmpDir::~TmpDir() {}
+
+TmpDir::TmpDir(const std::string& fileNamePattern, size_t count)
+  : BaseType(create())
 {
-  create();
   populate(fileNamePattern, count);
 }
 
-void TmpDir::create() {
+std::string TmpDir::create() {
+  std::string result;
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   char dirTemplate[] = "/tmp/sl.XXXXXX";
-  m_dirPath = mkdtemp(dirTemplate);
-  if (m_dirPath.empty())
+  result.assign(mkdtemp(dirTemplate));
+#elif defined (_WIN32)
+  TCHAR buf[MAX_PATH + 1];
+  int bufLen = GetTempPath(MAX_PATH, buf);
+  result.resize(bufLen);
+  #if defined(_UNICODE)
+    WideCharToMultiByte(CP_UTF8, 0, buf, MAX_PATH, bufLen, m_dirPath.data(), 0, 0);
+  #else
+    result.assign(buf);
+  #endif
+#endif
+  if (result.empty())
     throw std::runtime_error(sl::fmt("%: failed to create temporary dir",
                                      __FUNCTION__));
+  return result;
 }
 
 void TmpDir::populate(const std::string& fileNamePattern, size_t count) {
   using namespace sl::detail;
 
   for (size_t i = 0; i < count; ++i) {
-    auto fullFileName = str::join(fs::join(m_dirPath, fileNamePattern), 
+    auto fullFileName = str::join(fs::join(BaseType::name(), fileNamePattern),
                                   std::to_string(i));
     std::ofstream ofs(fullFileName);
     detail::checkIfOpened(fullFileName, ofs);
   }
 }
 
-void TmpDir::forEachFile(FileHandler handler) {
-  forEachFile(m_dirPath, handler);
-}
-
-void TmpDir::forEachFile(const std::string& dirName, FileHandler handler) {
-  using namespace sl::detail;
-  fs::Dir dir(dirName);
-
-  dir.forEachEntry([this, &dirName, handler](struct dirent* entry) {
-    auto fullName = fs::join(dirName, entry->d_name);
-
-    processFile(fullName, handler);
-  });
-}
-
-void TmpDir::processFile(const std::string& name, FileHandler handler) {
-  struct stat st;
-  if (stat(name.c_str(), &st) != 0) {
-    return;
-  }
-
-  handler(name, S_ISDIR(st.st_mode) ? FileType::dir : FileType::file);
-}
-
-void TmpDir::removeHandler(const std::string& name, FileType type) {
-  if (type == FileType::dir) {
-    return forEachFile(name, [this](const std::string& name, FileType type) {
-      removeHandler(name, type);
-    });
-  }
-
-  if (std::remove(name.c_str()) != 0)
-    throw std::runtime_error(sl::fmt("%: remove of % failed",
-                                     __FUNCTION__, name));
-}
-
-TmpDir::~TmpDir() {
-  TmpDir::remove();
-}
-
-void TmpDir::remove() {
-  forEachFile([this](const std::string& name, FileType type) {
-    removeHandler(name, type);
-  });
-
-  if (rmdir(m_dirPath.c_str()) != 0)
-    throw std::runtime_error(sl::fmt("%: failed to remove dir %",
-                                     __FUNCTION__, m_dirPath));
-}
-
-std::string TmpDir::path() const {
-  return m_dirPath;
-}
 }

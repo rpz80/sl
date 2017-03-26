@@ -4,6 +4,7 @@
 #include <log/log_files_manager.h>
 #include <log/file_entry.h>
 #include "file_utils.h"
+#include "test_common.h"
 
 using namespace sl::detail;
 
