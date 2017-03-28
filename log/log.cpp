@@ -5,6 +5,35 @@
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
 #include <sys/time.h>
+#elif defined (_WIN32)
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <stdint.h> 
+
+typedef struct timeval {
+	long tv_sec;
+	long tv_usec;
+} timeval;
+
+int gettimeofday(struct timeval * tp, struct timezone * tzp)
+{
+	static const uint64_t EPOCH = ((uint64_t)116444736000000000ULL);
+
+	SYSTEMTIME  system_time;
+	FILETIME    file_time;
+	uint64_t    time;
+
+	GetSystemTime(&system_time);
+	SystemTimeToFileTime(&system_time, &file_time);
+	time = ((uint64_t)file_time.dwLowDateTime);
+	time += ((uint64_t)file_time.dwHighDateTime) << 32;
+
+	tp->tv_sec = (long)((time - EPOCH) / 10000000L);
+	tp->tv_usec = (long)(system_time.wMilliseconds * 1000);
+	return 0;
+}
+
 #endif
 
 #include "log.h"
@@ -159,7 +188,6 @@ void writeLevel(std::stringstream& messageStream, Level level) {
 
 void writeTime(std::stringstream& messageStream, 
                const std::string& timeFormat) {
-#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
   struct timeval tv;
   time_t timeNowSec;
   struct tm *timeLocal;
@@ -171,8 +199,6 @@ void writeTime(std::stringstream& messageStream,
   strftime(buf, sizeof(buf), timeFormat.c_str(), timeLocal);
   messageStream << buf << "." << std::setw(3) << std::setfill('0')
                 << (tv.tv_usec / 1000) << " ";
-#elif defined (_WIN32)
-#endif
 }
 
 void writeLogData(std::stringstream& messageStream, 
