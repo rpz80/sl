@@ -5,7 +5,7 @@ add_executable(${PROJECT_NAME} ${SRC})
 
 if (UNIX)
   target_link_libraries(${PROJECT_NAME} log -pthread)
-elseif(WIN32)
+elseif (WIN32)
   target_link_libraries(${PROJECT_NAME} log)
 endif()
 

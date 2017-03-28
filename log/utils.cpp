@@ -100,71 +100,65 @@ std::string join(const std::string& subPath1,
 }
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-class PosixDir {
-  using EntryHandler = std::function<void(struct dirent*)>;
+
+#include <dirent.h>
+#include <sys/stat.h>
+
+class DirImpl {
 public:
-  Dir(const std::string& name);
-  ~Dir();
+  DirImpl(const std::string& name)
+    : m_name(name),
+      m_dirHandle(nullptr)
+  {
+    open();
+  }
 
-  void forEachEntry(EntryHandler handler);
-  std::string name() const;
+  void forEachEntry(Dir::EntryHandler handler) {
+    struct dirent* entry;
 
-private:
-  void open();
-  void close();
+    open();
+    while ((entry = readdir(m_dirHandle)) != nullptr) {
+      processEntry(entry, handler);
+    }
+    close();
+  }
 
-  void processEntry(struct dirent* entry, EntryHandler handler);
+  ~DirImpl() {
+    close();
+  }
+
+  std::string name() const {
+    return m_name;
+  }
+
+  void open() {
+    m_dirHandle = opendir(m_name.c_str());
+    if (!m_dirHandle)
+      throw std::runtime_error(sl::fmt("%: open dir % failed",
+                                       __FUNCTION__, m_name));
+  }
+
+  void close() {
+    if (m_dirHandle) {
+      closedir(m_dirHandle);
+      m_dirHandle = nullptr;
+    }
+  }
+
+  void processEntry(struct dirent* entry, Dir::EntryHandler handler) {
+    if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
+      return;
+    }
+
+    Dir::Entry dirEntry(entry->d_name,
+                        S_ISDIR(entry->d_type) ? Dir::Type::dir : Dir::Type::file);
+    handler(dirEntry);
+  }
 
 private:
   std::string m_name;
   DIR* m_dirHandle;
 };
-
-
-#include <dirent.h>
-#include <sys/stat.h>
-
-Dir::Dir(const std::string& name) : m_name(name) {}
-
-void Dir::forEachEntry(EntryHandler handler) {
-  struct dirent* entry;
-
-  open();
-  while ((entry = readdir(m_dirHandle)) != nullptr) {
-    processEntry(entry, handler);
-  }
-  close();
-}
-
-Dir::~Dir() {
-  close();
-}
-
-std::string Dir::name() const {
-  return m_name;
-}
-
-void Dir::open() {
-  m_dirHandle = opendir(m_name.c_str());
-  if (!m_dirHandle)
-    throw std::runtime_error(sl::fmt("%: open dir % failed",
-                                     __FUNCTION__, m_name));
-}
-
-void Dir::close() {
-  if (m_dirHandle) {
-    closedir(m_dirHandle);
-    m_dirHandle = nullptr;
-  }
-}
-
-void Dir::processEntry(struct dirent* entry, EntryHandler handler) {
-  if (strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".") == 0) {
-    return;
-  }
-
-  handler(entry);
-}
 
 #elif defined(_WIN32)
 #include <windows.h>
